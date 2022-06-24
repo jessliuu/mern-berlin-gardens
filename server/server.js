@@ -1,9 +1,11 @@
 import express from "express";
 import cors from "cors";
 import gardensRoute from "./routes/gardensRoute.js";
+import usersRoute from "./routes/usersRoute.js";
 import * as dotenv from "dotenv";
 dotenv.config();
 import mongoose from "mongoose";
+import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
 
 // 0. Define app and port
 const app = express();
@@ -18,6 +20,7 @@ const startServer = () => {
 // 2. Load routes
 const loadRoutes = () => {
   app.use("/api/garden", gardensRoute);
+  app.use("/api/user", usersRoute);
 };
 // 3. Add middleware
 const addMiddleware = () => {
@@ -28,6 +31,7 @@ const addMiddleware = () => {
     })
   );
   app.use(cors());
+  cloudinaryConfig();
 };
 // 4. Connect to Mongodb
 const connectToMongoDB = async () => {

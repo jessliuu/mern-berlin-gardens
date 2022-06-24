@@ -1,5 +1,8 @@
 import express from "express";
-import { getAllGardens } from "../controller/gardensController.js";
+import {
+  getAllGardens,
+  getGardensByID,
+} from "../controller/gardensController.js";
 
 const router = express.Router();
 
@@ -7,6 +10,8 @@ router.get("/test", (req, res) => {
   res.send({ msg: "Test route." });
 });
 
-router.get("/all", getAllGardens);
+router.get("/browse", getAllGardens);
+
+router.get("/browse/:id", getGardensByID);
 
 export default router;

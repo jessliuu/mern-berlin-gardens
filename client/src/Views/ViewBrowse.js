@@ -2,6 +2,9 @@ import React, { useContext, useEffect } from "react";
 import { GardensContext } from "../Contexts/GardensContext";
 import { Grid } from "@mui/material";
 import GardenCard from "../Components/GardenCard";
+import Header from "../Components/Header";
+import MainPic from "../Components/MainPic";
+import NavBar from "../Components/NavBar";
 
 const ViewBrowse = () => {
   const { gardens, loader, fetchGardens } = useContext(GardensContext);
@@ -11,10 +14,18 @@ const ViewBrowse = () => {
 
   return (
     <div>
-      <h1>This is my Client</h1>
-      {/* {gardens && console.log(gardens)} */}
-      <Grid container>
-        <GardenCard info={gardens} />
+      <Header />
+      <NavBar />
+      <Grid
+        container
+        spacing={4}
+        justifyContent="center"
+        style={{ padding: "20px" }}
+      >
+        {gardens &&
+          gardens.allGardens.map((garden) => {
+            return <GardenCard info={garden} />;
+          })}
       </Grid>
     </div>
   );
