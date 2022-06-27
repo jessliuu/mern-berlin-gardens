@@ -1,7 +1,35 @@
 import usersModel from "../models/usersModel.js";
 import { v2 as cloudinary } from "cloudinary";
-import encryptPassword from "../utils/encryptPassword.js";
+import { encryptPassword, verifyPassword } from "../utils/bcrypt.js";
+import { issueToken } from "../utils/jwt.js";
 
+const logIn = async (req, res) => {
+  const existingUser = await usersModel.findOne({ email: req.body.email });
+  if (!existingUser) {
+    res.status(401).json({ msg: "You have to register first" });
+  } else {
+    const verified = await verifyPassword(
+      req.body.password,
+      existingUser.password
+    );
+    if (!verified) {
+      res.status(401).json({ msg: "Incorrect password" });
+    } else {
+      const token = issueToken(existingUser._id);
+      res.status(200).json({
+        msg: "You have successfully logged in",
+        user: {
+          name: existingUser.name,
+          email: existingUser.email,
+          id: existingUser._id,
+          picture: existingUser.picture,
+          role: existingUser.role,
+        },
+        token,
+      });
+    }
+  }
+};
 const signUp = async (req, res) => {
   try {
     console.log(req.body);
@@ -74,4 +102,4 @@ const uploadUserPicture = async (req, res) => {
   }
 };
 
-export { getOneUser, uploadUserPicture, signUp };
+export { getOneUser, uploadUserPicture, signUp, logIn };

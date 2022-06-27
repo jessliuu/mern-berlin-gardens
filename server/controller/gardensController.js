@@ -1,6 +1,7 @@
 import gardensModel from "../models/gardensModel.js";
 
 const getAllGardens = async (req, res) => {
+  // console.log("req", req);
   const neighborhood = req.query.neighborhood;
   console.log("neighborhood", neighborhood);
   if (neighborhood) {

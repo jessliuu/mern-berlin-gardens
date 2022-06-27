@@ -11,9 +11,10 @@ export const GardensContextProvider = (props) => {
   const fetchGardens = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5001/api/garden/all",
+        "http://localhost:5001/api/garden/browse",
         options
       );
+      console.log("response", response);
       const data = await response.json();
       console.log("data", data);
       setGardens(data);
