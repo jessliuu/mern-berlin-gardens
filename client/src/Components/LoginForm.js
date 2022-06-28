@@ -20,7 +20,7 @@ function LoginForm() {
   };
 
   const logIn = async (e) => {
-    console.log(logInUser.email, logInUser.password);
+    // console.log(logInUser.email, logInUser.password);
     e.preventDefault();
     let urlencoded = new URLSearchParams({
       email: logInUser.email,

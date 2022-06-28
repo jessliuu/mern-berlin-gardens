@@ -1,7 +1,52 @@
 import usersModel from "../models/usersModel.js";
+import gardensModel from "../models/gardensModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import { encryptPassword, verifyPassword } from "../utils/bcrypt.js";
 import { issueToken } from "../utils/jwt.js";
+
+const addGarden = async (req, res) => {
+  const newGarden = new gardensModel({
+    farmName: req.body.farmName,
+    hostName: req.body.hostName,
+    availableOn: req.body.availableOn,
+    description: req.body.description,
+    groupSize: req.body.groupSize,
+    task: req.body.task,
+    neighborhood: req.body.neighborhood,
+    experienceRequired: req.body.experienceRequired,
+    childrenWelcome: req.body.childrenWelcome,
+  });
+  try {
+    const savedGarden = await newGarden.save();
+    res.status(201).json({
+      farmName: savedGarden.farmName,
+      hostName: savedGarden.hostName,
+      availableOn: savedGarden.availableOn,
+      description: savedGarden.description,
+      groupSize: savedGarden.groupSize,
+      task: savedGarden.task,
+      neighborhood: savedGarden.neighborhood,
+      experienceRequired: savedGarden.experienceRequired,
+      childrenWelcome: savedGarden.childrenWelcome,
+      message: "garden successfully added",
+    });
+  } catch (error) {
+    res.status(409).json({
+      message: "error with adding garden",
+      error: error,
+    });
+  }
+};
+
+const getProfile = (req, res) => {
+  console.log("backend get profile displaying req.user", req.user);
+  res.status(200).json({
+    name: req.user.name,
+    email: req.user.email,
+    picture: req.user.picture,
+    role: req.user.role,
+  });
+};
 
 const logIn = async (req, res) => {
   const existingUser = await usersModel.findOne({ email: req.body.email });
@@ -102,4 +147,4 @@ const uploadUserPicture = async (req, res) => {
   }
 };
 
-export { getOneUser, uploadUserPicture, signUp, logIn };
+export { getOneUser, uploadUserPicture, signUp, logIn, getProfile, addGarden };

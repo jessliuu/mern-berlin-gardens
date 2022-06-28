@@ -4,14 +4,21 @@ import {
   uploadUserPicture,
   signUp,
   logIn,
+  getProfile,
+  addGarden,
 } from "../controller/usersController.js";
+import jwtAuth from "../middlewares/jwtAuth.js";
 import { multerUploads } from "../middlewares/multer.js";
 
 const router = express.Router();
 
-router.get("/:user", getOneUser);
+// router.get("/:user", getOneUser);
 router.post("/imageUpload", multerUploads.single("image"), uploadUserPicture);
 
 router.post("/signup", signUp);
 router.post("/login", logIn);
+router.get("/profile", jwtAuth, getProfile);
+
+router.post("/addgarden", jwtAuth, addGarden);
+
 export default router;

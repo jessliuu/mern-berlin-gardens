@@ -21,7 +21,7 @@ const gardenSchema = new mongoose.Schema({
   },
   task: {
     type: Array,
-    required: true,
+    // required: true,
   },
   neighborhood: {
     type: String,

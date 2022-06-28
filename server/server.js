@@ -6,6 +6,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import mongoose from "mongoose";
 import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
+import passport from "passport";
+import passportConfig from "./config/passportConfig.js";
 
 // 0. Define app and port
 const app = express();
@@ -32,6 +34,8 @@ const addMiddleware = () => {
   );
   app.use(cors());
   cloudinaryConfig();
+  app.use(passport.initialize());
+  passportConfig(passport);
 };
 // 4. Connect to Mongodb
 const connectToMongoDB = async () => {
