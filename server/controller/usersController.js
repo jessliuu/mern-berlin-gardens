@@ -4,10 +4,21 @@ import { v2 as cloudinary } from "cloudinary";
 import { encryptPassword, verifyPassword } from "../utils/bcrypt.js";
 import { issueToken } from "../utils/jwt.js";
 
+const getGardensByUserId = async (req, res) => {
+  try {
+    const selectedGardenByUserId = await gardensModel
+      .find({ userid: req.user._id })
+      .exec();
+    res.status(200).json({ selectedGardenByUserId });
+  } catch (err) {
+    res.status(400).json({ message: "This user has not posted any garden." });
+  }
+};
+
 const addGarden = async (req, res) => {
+  console.log("addGarden req.body", req.body);
   const newGarden = new gardensModel({
     farmName: req.body.farmName,
-    hostName: req.body.hostName,
     availableOn: req.body.availableOn,
     description: req.body.description,
     groupSize: req.body.groupSize,
@@ -15,12 +26,14 @@ const addGarden = async (req, res) => {
     neighborhood: req.body.neighborhood,
     experienceRequired: req.body.experienceRequired,
     childrenWelcome: req.body.childrenWelcome,
+    image: req.body.image,
+    userid: req.user._id,
   });
   try {
     const savedGarden = await newGarden.save();
     res.status(201).json({
+      userid: savedGarden.userid,
       farmName: savedGarden.farmName,
-      hostName: savedGarden.hostName,
       availableOn: savedGarden.availableOn,
       description: savedGarden.description,
       groupSize: savedGarden.groupSize,
@@ -28,8 +41,15 @@ const addGarden = async (req, res) => {
       neighborhood: savedGarden.neighborhood,
       experienceRequired: savedGarden.experienceRequired,
       childrenWelcome: savedGarden.childrenWelcome,
+      image: savedGarden.image,
       message: "garden successfully added",
     });
+    // const idToFind = savedGarden.userid;
+    // const gardenid = savedGarden._id;
+    // let doc = await usersModel.findByIdAndUpdate({
+    //   idToFind,
+    //   garden: gardenid,
+    // });
   } catch (error) {
     res.status(409).json({
       message: "error with adding garden",
@@ -69,6 +89,7 @@ const logIn = async (req, res) => {
           id: existingUser._id,
           picture: existingUser.picture,
           role: existingUser.role,
+          gardens: existingUser.garden,
         },
         token,
       });
@@ -90,6 +111,7 @@ const signUp = async (req, res) => {
         name: req.body.name,
         role: req.body.role,
         picture: req.body.picture,
+        gardens: req.body.gardens,
       });
       try {
         const savedUser = await newUser.save();
@@ -98,6 +120,7 @@ const signUp = async (req, res) => {
           name: savedUser.name,
           role: savedUser.role,
           picture: savedUser.picture,
+          gardens: savedUser.gardens,
           message: "user successfully registered",
         });
       } catch (error) {
@@ -147,4 +170,12 @@ const uploadUserPicture = async (req, res) => {
   }
 };
 
-export { getOneUser, uploadUserPicture, signUp, logIn, getProfile, addGarden };
+export {
+  getOneUser,
+  uploadUserPicture,
+  signUp,
+  logIn,
+  getProfile,
+  addGarden,
+  getGardensByUserId,
+};

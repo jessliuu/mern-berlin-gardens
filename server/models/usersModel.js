@@ -21,6 +21,12 @@ const usersSchema = new mongoose.Schema({
   picture: {
     type: String,
   },
+  gardens: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "garden",
+    },
+  ],
 });
 
 const usersModel = mongoose.model("User", usersSchema);

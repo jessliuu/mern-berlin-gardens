@@ -5,10 +5,6 @@ const gardenSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  hostName: {
-    type: String,
-    required: true,
-  },
   availableOn: {
     type: Date,
     required: true,
@@ -31,6 +27,14 @@ const gardenSchema = new mongoose.Schema({
   },
   childrenWelcome: {
     type: Boolean,
+  },
+  image: {
+    type: String,
+  },
+  userid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    required: true,
   },
 });
 

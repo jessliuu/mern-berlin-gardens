@@ -6,6 +6,7 @@ import {
   logIn,
   getProfile,
   addGarden,
+  getGardensByUserId,
 } from "../controller/usersController.js";
 import jwtAuth from "../middlewares/jwtAuth.js";
 import { multerUploads } from "../middlewares/multer.js";
@@ -20,5 +21,6 @@ router.post("/login", logIn);
 router.get("/profile", jwtAuth, getProfile);
 
 router.post("/addgarden", jwtAuth, addGarden);
+router.get("/getgardens", jwtAuth, getGardensByUserId);
 
 export default router;
