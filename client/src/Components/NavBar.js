@@ -3,11 +3,11 @@ import React, { useContext } from "react";
 import { Navbar, NavDropdown, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../Styles/NavBar.css";
-// import { AuthContext } from "../../Contexts/AuthContext";
+import { AuthContext } from "../Contexts/AuthContext";
 // import logo from "./logo.svg";
 
 function NavBar() {
-  //   const { user, logout } = useContext(AuthContext);
+  const { loginStatus, logOut } = useContext(AuthContext);
   return (
     <div>
       <Navbar
@@ -34,12 +34,19 @@ function NavBar() {
             <Link to="/browse" className="p-2">
               Browse
             </Link>
-            <Link to="/login" className="p-2">
-              Login
-            </Link>
+            {loginStatus === false && (
+              <Link to="/login" className="p-2">
+                Login
+              </Link>
+            )}
             <Link to="/profile" className="p-2">
               Profile
             </Link>
+            {loginStatus && (
+              <Button variant="outline-dark" onClick={logOut}>
+                Log Out
+              </Button>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

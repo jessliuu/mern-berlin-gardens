@@ -1,12 +1,12 @@
 import express from "express";
 import {
-  getOneUser,
+  // getOneUser,
   uploadUserPicture,
   signUp,
   logIn,
-  getProfile,
+  // getProfile,
   addGarden,
-  getGardensByUserId,
+  getProfileByUserId,
 } from "../controller/usersController.js";
 import jwtAuth from "../middlewares/jwtAuth.js";
 import { multerUploads } from "../middlewares/multer.js";
@@ -18,9 +18,9 @@ router.post("/imageUpload", multerUploads.single("image"), uploadUserPicture);
 
 router.post("/signup", signUp);
 router.post("/login", logIn);
-router.get("/profile", jwtAuth, getProfile);
+router.get("/profile", jwtAuth, getProfileByUserId);
 
 router.post("/addgarden", jwtAuth, addGarden);
-router.get("/getgardens", jwtAuth, getGardensByUserId);
+router.get("/getgardens", jwtAuth, getProfileByUserId);
 
 export default router;

@@ -1,10 +1,12 @@
 import React, { useState, useEffect, createContext } from "react";
+import { useNavigate } from "react-router-dom";
 // import getToken from "../Utils/getToken.js";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = (props) => {
   const [loginStatus, setLoginStatus] = useState(false);
+  const redirectTo = useNavigate();
 
   const getToken = () => {
     const token = localStorage.getItem("token");
@@ -30,11 +32,12 @@ export const AuthContextProvider = (props) => {
 
   useEffect(() => {
     isUserLoggedIn();
-  }, [loginStatus]);
+  }, []);
 
   const logOut = () => {
     localStorage.removeItem("token");
     setLoginStatus(false);
+    redirectTo("/login");
   };
 
   return (

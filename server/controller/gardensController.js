@@ -7,6 +7,7 @@ const getAllGardens = async (req, res) => {
   if (neighborhood) {
     const selectedGardensByNeighborhood = await gardensModel
       .find({ neighborhood: neighborhood })
+      .populate({ path: "userid", select: ["name", "email"] })
       .exec();
     if (selectedGardensByNeighborhood.length === 0) {
       res.status(201).json({
@@ -17,7 +18,10 @@ const getAllGardens = async (req, res) => {
     }
   } else {
     try {
-      const allGardens = await gardensModel.find({});
+      const allGardens = await gardensModel
+        .find({})
+        .populate({ path: "userid", select: ["name", "email"] })
+        .exec();
       console.log(allGardens);
       res.status(200).json({ allGardens });
     } catch (err) {

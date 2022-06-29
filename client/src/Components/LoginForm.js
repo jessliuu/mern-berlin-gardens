@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import { Form, Row, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const [logInUser, setLogInUser] = useState("");
@@ -14,6 +14,7 @@ function LoginForm() {
   // useEffect(() => {
   //   isUserLoggedIn();
   // }, [loginStatus]);
+  const redirectTo = useNavigate();
 
   const handleChangeHandler = (e) => {
     setLogInUser({ ...logInUser, [e.target.name]: e.target.value });
@@ -45,7 +46,10 @@ function LoginForm() {
       console.log(user);
       if (token) {
         localStorage.setItem("token", token);
+        redirectTo("/profile");
+        isUserLoggedIn();
       } else {
+        isUserLoggedIn();
         console.log("error setting token");
       }
     } catch (err) {

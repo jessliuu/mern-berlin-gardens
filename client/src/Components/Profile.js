@@ -26,10 +26,10 @@ const Profile = () => {
       const result = await response.json();
       console.log(result);
       setUserProfile({
-        name: result.name,
-        email: result.email,
-        picture: result.picture,
-        role: result.role,
+        name: result.user.name,
+        email: result.user.email,
+        picture: result.user.picture,
+        role: result.user.role,
       });
       setUserProfileError(null);
     } catch (err) {
@@ -46,7 +46,8 @@ const Profile = () => {
     <div>
       {userProfile && (
         <p>
-          Dear {userProfile.name}, you are logged in as a{" "}
+          Dear <span style={{ color: "green" }}>{userProfile.name}</span>, you
+          are logged in as a{" "}
           <span style={{ color: "green" }}>{userProfile.role}</span>.
         </p>
       )}

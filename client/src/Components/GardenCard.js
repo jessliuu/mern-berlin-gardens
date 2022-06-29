@@ -16,11 +16,13 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "../Styles/GardenCard.css";
 
 function GardenCard(props) {
+  console.log("props", props);
   const info = props.info;
   const farmName = info.farmName;
   const neighborhood = info.neighborhood;
-  const hostName = info.hostName;
-  const hostInitial = hostName[0];
+  const hostName = info.userid.name;
+  console.log("hostName", hostName);
+  // const hostInitial = hostName[0];
   const description = info.description;
   const image = info.image;
 
@@ -30,7 +32,7 @@ function GardenCard(props) {
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: purple[500] }} aria-label="hostName">
-              {hostInitial}
+              {hostName ? hostName[0] : "H"}
             </Avatar>
           }
           action={

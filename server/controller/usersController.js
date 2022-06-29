@@ -4,15 +4,30 @@ import { v2 as cloudinary } from "cloudinary";
 import { encryptPassword, verifyPassword } from "../utils/bcrypt.js";
 import { issueToken } from "../utils/jwt.js";
 
-const getGardensByUserId = async (req, res) => {
+const getProfileByUserId = async (req, res) => {
   try {
-    const selectedGardenByUserId = await gardensModel
-      .find({ userid: req.user._id })
+    console.log("req.user", req.user);
+    const user = await usersModel
+      .findOne({ _id: req.user._id })
+      .populate({
+        path: "gardens",
+        select: ["neighborhood", "farmName", "image"],
+      })
       .exec();
-    res.status(200).json({ selectedGardenByUserId });
+    console.log("user", user);
+    res.status(200).json({ user });
   } catch (err) {
+    console.log("err", err);
     res.status(400).json({ message: "This user has not posted any garden." });
   }
+  // try {
+  //   const selectedGardenByUserId = await gardensModel
+  //     .find({ userid: req.user._id })
+  //     .exec();
+  //   res.status(200).json({ selectedGardenByUserId });
+  // } catch (err) {
+  //   res.status(400).json({ message: "This user has not posted any garden." });
+  // }
 };
 
 const addGarden = async (req, res) => {
@@ -29,8 +44,19 @@ const addGarden = async (req, res) => {
     image: req.body.image,
     userid: req.user._id,
   });
+  console.log("newGarden", newGarden);
   try {
     const savedGarden = await newGarden.save();
+    console.log("savedGarden", savedGarden);
+
+    const idToFind = req.user._id;
+    const gardenid = savedGarden._id;
+    let doc = await usersModel.findByIdAndUpdate(idToFind, {
+      // new:true
+      $push: { gardens: gardenid },
+    });
+    console.log("doc", doc);
+
     res.status(201).json({
       userid: savedGarden.userid,
       farmName: savedGarden.farmName,
@@ -44,12 +70,6 @@ const addGarden = async (req, res) => {
       image: savedGarden.image,
       message: "garden successfully added",
     });
-    // const idToFind = savedGarden.userid;
-    // const gardenid = savedGarden._id;
-    // let doc = await usersModel.findByIdAndUpdate({
-    //   idToFind,
-    //   garden: gardenid,
-    // });
   } catch (error) {
     res.status(409).json({
       message: "error with adding garden",
@@ -58,15 +78,15 @@ const addGarden = async (req, res) => {
   }
 };
 
-const getProfile = (req, res) => {
-  console.log("backend get profile displaying req.user", req.user);
-  res.status(200).json({
-    name: req.user.name,
-    email: req.user.email,
-    picture: req.user.picture,
-    role: req.user.role,
-  });
-};
+// const getProfile = (req, res) => {
+//   console.log("backend get profile displaying req.user", req.user);
+//   res.status(200).json({
+//     name: req.user.name,
+//     email: req.user.email,
+//     picture: req.user.picture,
+//     role: req.user.role,
+//   });
+// };
 
 const logIn = async (req, res) => {
   const existingUser = await usersModel.findOne({ email: req.body.email });
@@ -175,7 +195,7 @@ export {
   uploadUserPicture,
   signUp,
   logIn,
-  getProfile,
+  // getProfile,
   addGarden,
-  getGardensByUserId,
+  getProfileByUserId,
 };

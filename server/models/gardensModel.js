@@ -34,9 +34,9 @@ const gardenSchema = new mongoose.Schema({
   userid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
-    required: true,
+    // required: true,
   },
 });
 
-const gardensModel = mongoose.model("Garden", gardenSchema);
+const gardensModel = mongoose.model("garden", gardenSchema);
 export default gardensModel;
