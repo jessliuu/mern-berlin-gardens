@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 
-const GardensPosted = () => {
+const GardensVolunteered = () => {
   const [myGardens, setMyGardens] = useState([]);
   const { getToken, loginStatus } = useContext(AuthContext);
 
@@ -16,12 +16,12 @@ const GardensPosted = () => {
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/user/getpostedgardens",
+        "http://localhost:5001/api/user/getvolunteeredgardens",
         requestOptions
       );
       const result = await response.json();
       console.log(result);
-      setMyGardens(result.user.gardens);
+      setMyGardens(result.user.volunteeredgardens);
     } catch (err) {
       console.log("error getting gardens", err);
     }
@@ -33,7 +33,7 @@ const GardensPosted = () => {
 
   return (
     <div>
-      <h3>Gardens posted:</h3>
+      <h3>Gardens volunteered:</h3>
       {myGardens &&
         myGardens.map((g) => {
           return (
@@ -47,4 +47,4 @@ const GardensPosted = () => {
   );
 };
 
-export default GardensPosted;
+export default GardensVolunteered;

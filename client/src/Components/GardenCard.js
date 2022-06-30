@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { styled } from "@mui/material/styles";
 import { Grid } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -15,6 +15,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "../Styles/GardenCard.css";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../Contexts/AuthContext";
 
 function GardenCard(props) {
   console.log("props", props);
@@ -25,6 +26,31 @@ function GardenCard(props) {
   const description = info.description;
   const image = info.image;
   const gardenid = info._id;
+
+  const { getToken } = useContext(AuthContext);
+  const token = getToken();
+
+  const handleFavorite = async () => {
+    let urlencoded = new URLSearchParams({ _id: gardenid });
+    var requestOptions = {
+      method: "POST",
+      body: urlencoded,
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/user/volunteerforgarden",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log(result);
+      // redirectTo("/profile");
+      // isUserLoggedIn();
+    } catch (err) {
+      console.log("Error with signing up to volunteer for this garden", err);
+    }
+  };
 
   return (
     <Grid item xs={12} md={4}>
@@ -58,7 +84,7 @@ function GardenCard(props) {
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
+            <FavoriteIcon onClick={handleFavorite} />
           </IconButton>
           <IconButton aria-label="share">
             <ShareIcon />

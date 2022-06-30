@@ -13,12 +13,16 @@ const getProfileByUserId = async (req, res) => {
         path: "gardens",
         select: ["neighborhood", "farmName", "image"],
       })
+      .populate({
+        path: "volunteeredgardens",
+        select: ["neighborhood", "farmName", "image"],
+      })
       .exec();
     console.log("user", user);
     res.status(200).json({ user });
   } catch (err) {
     console.log("err", err);
-    res.status(400).json({ message: "This user has not posted any garden." });
+    res.status(400).json({ message: "No user is found." });
   }
   // try {
   //   const selectedGardenByUserId = await gardensModel
@@ -78,15 +82,15 @@ const addGarden = async (req, res) => {
   }
 };
 
-// const getProfile = (req, res) => {
-//   console.log("backend get profile displaying req.user", req.user);
-//   res.status(200).json({
-//     name: req.user.name,
-//     email: req.user.email,
-//     picture: req.user.picture,
-//     role: req.user.role,
-//   });
-// };
+const volunteerForGarden = async (req, res) => {
+  const idToFind = req.user._id;
+  const gardenid = req.body._id;
+  let doc = await usersModel.findByIdAndUpdate(idToFind, {
+    // new:true
+    $push: { volunteeredgardens: gardenid },
+  });
+  // console.log("volunteerforgarden doc", doc);
+};
 
 const logIn = async (req, res) => {
   const existingUser = await usersModel.findOne({ email: req.body.email });
@@ -198,4 +202,5 @@ export {
   // getProfile,
   addGarden,
   getProfileByUserId,
+  volunteerForGarden,
 };

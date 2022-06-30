@@ -27,6 +27,12 @@ const usersSchema = new mongoose.Schema({
       ref: "garden",
     },
   ],
+  volunteeredgardens: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "garden",
+    },
+  ],
 });
 
 const usersModel = mongoose.model("user", usersSchema);

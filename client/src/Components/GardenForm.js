@@ -9,6 +9,7 @@ import Radio from "@mui/material/Radio";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { border, borderColor } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
@@ -22,6 +23,9 @@ const GardenForm = () => {
     neighborhood: "",
     experienceRequired: false,
   });
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const redirectTo = useNavigate();
   const { getToken, loginStatus, isUserLoggedIn } = useContext(AuthContext);
   const token = getToken();
@@ -68,6 +72,39 @@ const GardenForm = () => {
       console.log("Error with adding garden", err);
     }
   };
+
+  const attachFileHandler = async (e) => {
+    // console.log(e.target.files);
+    setSelectedFile(e.target.files[0]);
+    // console.log(selectedFile);
+    console.log("submit working");
+  };
+
+  const uploadPicture = async () => {
+    // call  FormData object constructor to populate with pairs of key/values (in this case {image: "our file"} )
+    const formData = new FormData();
+    console.log("selectedFile", selectedFile);
+    formData.append("image", selectedFile);
+    console.log("formData", formData);
+    // compose the object with the options to be sent with our request, including the type of method, and use the body of the request to attach data
+    const requestOptions = {
+      method: "POST",
+      body: formData,
+    };
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/user/imageUpload",
+        requestOptions
+      );
+      console.log("response", response);
+      const result = await response.json();
+      console.log("result", result);
+      setFormValues({ ...formValues, image: result.imageUrL }); // imageURL is how the field is defined in usersController
+    } catch (error) {
+      console.log('"error submiting picture"', error);
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -181,6 +218,26 @@ const GardenForm = () => {
             </Select>
           </FormControl>
         </Grid>
+
+        <Grid item xs={12} style={{ padding: 20 }}>
+          <FormControl>
+            <div style={{ alignContent: "center" }}>
+              <input type="file" onChange={attachFileHandler} />
+              <Button
+                onClick={uploadPicture}
+                variant="contained"
+                color="inherit"
+              >
+                <AttachFileIcon />
+              </Button>
+            </div>
+          </FormControl>
+        </Grid>
+
+        {/* <Button variant="contained" component="label">
+          Upload File
+          <input type="file" />
+        </Button> */}
 
         <Button variant="contained" color="primary" type="submit" item xs={12}>
           Submit
