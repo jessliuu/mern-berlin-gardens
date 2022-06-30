@@ -14,6 +14,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "../Styles/GardenCard.css";
+import { Link } from "react-router-dom";
 
 function GardenCard(props) {
   console.log("props", props);
@@ -21,10 +22,9 @@ function GardenCard(props) {
   const farmName = info.farmName;
   const neighborhood = info.neighborhood;
   const hostName = info.userid.name;
-  console.log("hostName", hostName);
-  // const hostInitial = hostName[0];
   const description = info.description;
   const image = info.image;
+  const gardenid = info._id;
 
   return (
     <Grid item xs={12} md={4}>
@@ -37,7 +37,9 @@ function GardenCard(props) {
           }
           action={
             <IconButton aria-label="settings">
-              <MoreVertIcon />
+              <Link to={`/browse/${gardenid}`}>
+                <MoreVertIcon />
+              </Link>
             </IconButton>
           }
           title={farmName}

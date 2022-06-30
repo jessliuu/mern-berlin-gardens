@@ -16,8 +16,9 @@ export const GardensContextProvider = (props) => {
       );
       console.log("response", response);
       const data = await response.json();
+      const cleandata = data.allGardens;
       console.log("data", data);
-      setGardens(data);
+      setGardens(cleandata);
       setLoader(false);
     } catch (error) {
       console.log(error);

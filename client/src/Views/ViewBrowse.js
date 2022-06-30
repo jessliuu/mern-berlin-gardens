@@ -8,6 +8,7 @@ import NavBar from "../Components/NavBar";
 
 const ViewBrowse = () => {
   const { gardens, loader, fetchGardens } = useContext(GardensContext);
+
   useEffect(() => {
     fetchGardens();
   }, []);
@@ -23,9 +24,13 @@ const ViewBrowse = () => {
         style={{ padding: "20px" }}
       >
         {gardens &&
-          gardens.allGardens.map((garden) => {
+          gardens.map((garden) => {
             return <GardenCard info={garden} key={garden._id} />;
           })}
+        {/* {gardens &&
+          gardens.allGardens.map((garden) => {
+            return <GardenCard info={garden} key={garden._id} />;
+          })} */}
       </Grid>
     </div>
   );

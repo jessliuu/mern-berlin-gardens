@@ -3,7 +3,7 @@ import "./App.css";
 import { AuthContextProvider } from "./Contexts/AuthContext";
 import { GardensContextProvider } from "./Contexts/GardensContext";
 import ViewBrowse from "./Views/ViewBrowse";
-import ViewDetail from "./Views/ViewDetail";
+import ViewDetails from "./Views/ViewDetails";
 import ViewHome from "./Views/ViewHome";
 import ViewLogin from "./Views/ViewLogin";
 import ViewProfile from "./Views/ViewProfile";
@@ -25,7 +25,7 @@ function App() {
               }
             />
             <Route path="/browse" element={<ViewBrowse />} />
-            <Route path="/browse/:title" element={<ViewDetail />} />
+            <Route path="/browse/:gardenid" element={<ViewDetails />} />
             <Route path="/login" element={<ViewLogin />} />
             <Route path="/register" element={<ViewRegister />} />
             {/* <Route path="*" element={<ViewNoMatch />} /> */}
