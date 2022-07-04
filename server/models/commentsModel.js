@@ -11,15 +11,15 @@ const commentSchema = new mongoose.Schema({
     ref: "garden",
     required: true,
   },
-  messageText: {
+  commentText: {
     type: String,
     required: true,
   },
-  messageDate: {
+  commentDate: {
     type: Date,
     required: true,
   },
 });
 
-const gardensModel = mongoose.model("garden", gardenSchema);
-export default gardensModel;
+const commentsModel = mongoose.model("comment", commentSchema);
+export default commentsModel;

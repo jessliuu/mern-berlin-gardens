@@ -21,7 +21,7 @@ const GardensVolunteered = () => {
       );
       const result = await response.json();
       console.log(result);
-      setMyGardens(result.user.volunteeredgardens);
+      setMyGardens(result.volunteeredgardens);
     } catch (err) {
       console.log("error getting gardens", err);
     }

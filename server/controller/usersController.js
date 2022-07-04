@@ -19,7 +19,15 @@ const getProfileByUserId = async (req, res) => {
       })
       .exec();
     console.log("user", user);
-    res.status(200).json({ user });
+    // res.status(200).json({ user });
+    console.log("user.gardens", user.gardens);
+    res.status(200).json({
+      role: user.role,
+      name: user.name,
+      email: user.email,
+      gardens: user.gardens,
+      volunteeredgardens: user.volunteeredgardens,
+    });
   } catch (err) {
     console.log("err", err);
     res.status(400).json({ message: "No user is found." });
@@ -37,9 +45,10 @@ const getProfileByUserId = async (req, res) => {
 const addGarden = async (req, res) => {
   console.log("addGarden req.body", req.body);
   const imageURL = await uploadUserPicture(req, res);
+  // to make new gardensModel shorter, use deconstructuring:
   // const {farmName, availableOn} = req.body
+  // const newGarden = new gardensModel({farmName, availbleOne})
   const newGarden = new gardensModel({
-    // farmName
     farmName: req.body.farmName,
     availableOn: req.body.availableOn,
     description: req.body.description,

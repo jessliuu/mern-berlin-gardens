@@ -10,7 +10,7 @@ export const AuthContextProvider = (props) => {
 
   const getToken = () => {
     const token = localStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     if (token) {
       return token;
     } else {
@@ -26,7 +26,7 @@ export const AuthContextProvider = (props) => {
     } else {
       setLoginStatus(false);
       console.log("User is not logged in");
-      console.log(loginStatus);
+      // console.log(loginStatus);
     }
   };
 

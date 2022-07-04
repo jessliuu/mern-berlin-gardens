@@ -9,14 +9,30 @@ import Radio from "@mui/material/Radio";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { border, borderColor } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 const GardenForm = (props) => {
-  const role = props.userProfile.role;
-  console.log("role", role);
+  // const role = props.userProfile.role;
+  // console.log("role", role);
+
+  const [isFormShown, setIsFormShown] = useState(false);
+  const handleShowForm = () => {
+    if (!isFormShown) {
+      setIsFormShown(true);
+    } else {
+      setIsFormShown(false);
+    }
+  };
+
+  const handleCloseForm = () => {
+    setIsFormShown(false);
+  };
 
   const [formValues, setFormValues] = useState({
     farmName: "",
@@ -69,10 +85,13 @@ const GardenForm = (props) => {
     // });
 
     let formdata = new FormData();
-
     formdata.append("image", selectedFile);
     formdata.append("farmName", formValues.farmName);
     formdata.append("availableOn", formValues.availableOn);
+    formdata.append("neighborhood", formValues.neighborhood);
+    formdata.append("experienceRequired", formValues.experienceRequired);
+    formdata.append("description", formValues.description);
+    formdata.append("groupSize", formValues.groupSize);
 
     var requestOptions = {
       method: "POST",
@@ -89,6 +108,7 @@ const GardenForm = (props) => {
       console.log(result);
       redirectTo("/profile");
       isUserLoggedIn();
+      setIsFormShown(false);
     } catch (err) {
       console.log("Error with adding garden", err);
     }
@@ -128,11 +148,19 @@ const GardenForm = (props) => {
 
   return (
     <div>
-      {loginStatus && (
+      {!isFormShown ? (
+        <IconButton aria-label="show garden form" onClick={handleShowForm}>
+          <AddCircleOutline />
+        </IconButton>
+      ) : (
         <form
           onSubmit={handleSubmit}
           style={{ backgroundColor: "lightgreen", padding: 20, margin: 20 }}
         >
+          <IconButton aria-label="show garden form" onClick={handleCloseForm}>
+            <RemoveCircleOutlineIcon />
+          </IconButton>
+
           <Grid
             container
             alignItems="flex-start"
@@ -140,6 +168,14 @@ const GardenForm = (props) => {
             direction="row"
             spacing={3}
           >
+            {/* <Grid item xs={12}>
+              <IconButton
+                aria-label="show garden form"
+                onClick={handleCloseForm}
+              >
+                <RemoveCircleOutline />
+              </IconButton>
+            </Grid> */}
             <Grid item xs={6}>
               <FormLabel>Farm Name</FormLabel>
               <TextField

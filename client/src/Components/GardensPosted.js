@@ -21,7 +21,8 @@ const GardensPosted = () => {
       );
       const result = await response.json();
       console.log(result);
-      setMyGardens(result.user.gardens);
+
+      setMyGardens(result.gardens);
     } catch (err) {
       console.log("error getting gardens", err);
     }

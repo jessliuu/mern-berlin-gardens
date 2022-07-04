@@ -14,7 +14,7 @@ const ViewProfile = () => {
       <Profile />
       {/* <GardensPosted /> */}
       {/* <GardenForm /> */}
-      <GardensVolunteered />
+      {/* <GardensVolunteered /> */}
     </div>
   );
 };

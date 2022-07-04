@@ -2,8 +2,10 @@ import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import { Container } from "@mui/material";
 import { Button } from "react-bootstrap";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import GardenForm from "./GardenForm";
 import GardensPosted from "./GardensPosted";
+import GardensVolunteered from "./GardensVolunteered";
 
 const Profile = () => {
   const [userProfile, setUserProfile] = useState({});
@@ -13,6 +15,7 @@ const Profile = () => {
   const { getToken } = useContext(AuthContext);
 
   const getProfile = async () => {
+    console.log("getProflie");
     const token = getToken();
     const myHeader = new Headers({
       Authorization: `Bearer ${token}`,
@@ -28,23 +31,27 @@ const Profile = () => {
         requestOptions
       );
       const result = await response.json();
-      console.log(result);
-      console.log("result.user.role", result.user.role);
-      setUserProfile(result.user);
+      console.log("results", result);
+
+      setUserProfile({
+        name: result.name,
+        role: result.role,
+      });
+
+      console.log("userProfile2", userProfile);
       setUserProfileError(null);
-      console.log("userProfile", userProfile);
 
       // showGardenForm();
       // showGardensPosted();
     } catch (err) {
-      console.log("error getting profile", err);
+      console.log("error getting profile", err.message);
       setUserProfileError("Please log in first");
     }
   };
 
-  // useEffect(() => {
-  //   getProfile();
-  // }, []);
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   // console.log("userProfile", userProfile);
   // console.log("userProfile.role", userProfile.role);
@@ -67,7 +74,6 @@ const Profile = () => {
 
   return (
     <Container maxWidth="sm" style={{ marginTop: "5%" }}>
-      <button onClick={getProfile}>getProfile</button>
       {userProfile && (
         <h2
           style={{
@@ -84,15 +90,11 @@ const Profile = () => {
       )}
 
       {/* {showGardenForm()} */}
-      {/* {userProfile && userProfile.role === "host" ? <GardenForm /> : null} */}
+      {userProfile.role === "host" ? <GardenForm /> : null}
+      {userProfile.role === "host" ? <GardensPosted /> : null}
+      <GardensVolunteered />
 
-      {/* 
-      {userProfile.role === "host" ? (
-        <Button variant="primary">Add a garden </Button>
-      ) : (
-        <p>View gardens you have volunteered for below</p>
-      )}
-      {userProfileError && <p>{userProfileError}</p>} */}
+      {userProfileError && <p>{userProfileError}</p>}
     </Container>
   );
 };
