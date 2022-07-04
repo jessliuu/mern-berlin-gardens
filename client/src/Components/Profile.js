@@ -1,8 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
+import { Container } from "@mui/material";
+import { Button } from "react-bootstrap";
+import GardenForm from "./GardenForm";
+import GardensPosted from "./GardensPosted";
 
 const Profile = () => {
-  const [userProfile, setUserProfile] = useState(null);
+  const [userProfile, setUserProfile] = useState({});
   const [userProfileError, setUserProfileError] = useState(
     "Please log in first"
   );
@@ -25,34 +29,71 @@ const Profile = () => {
       );
       const result = await response.json();
       console.log(result);
-      setUserProfile({
-        name: result.user.name,
-        email: result.user.email,
-        picture: result.user.picture,
-        role: result.user.role,
-      });
+      console.log("result.user.role", result.user.role);
+      setUserProfile(result.user);
       setUserProfileError(null);
+      console.log("userProfile", userProfile);
+
+      // showGardenForm();
+      // showGardensPosted();
     } catch (err) {
       console.log("error getting profile", err);
       setUserProfileError("Please log in first");
     }
   };
 
-  useEffect(() => {
-    getProfile();
-  }, []);
+  // useEffect(() => {
+  //   getProfile();
+  // }, []);
+
+  // console.log("userProfile", userProfile);
+  // console.log("userProfile.role", userProfile.role);
+
+  // const showGardenForm = () => {
+  //   if (userProfile.role === "host") {
+  //     return <GardenForm />;
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   showGardenForm();
+  // }, [userProfile]);
+
+  // const showGardensPosted = () => {
+  //   if (userProfile.role === "host") {
+  //     return <GardensPosted />;
+  //   }
+  // };
 
   return (
-    <div>
+    <Container maxWidth="sm" style={{ marginTop: "5%" }}>
+      <button onClick={getProfile}>getProfile</button>
       {userProfile && (
-        <p>
-          Dear <span style={{ color: "green" }}>{userProfile.name}</span>, you
-          are logged in as a{" "}
-          <span style={{ color: "green" }}>{userProfile.role}</span>.
-        </p>
+        <h2
+          style={{
+            backgroundColor: "lightpink",
+            borderRadius: "16px",
+            color: "grey",
+          }}
+        >
+          Dear{" "}
+          <h2 style={{ color: "green", margin: "2%" }}>{userProfile.name},</h2>
+          you are logged in as a{" "}
+          <h2 style={{ color: "green" }}>{userProfile.role}.</h2>
+        </h2>
       )}
-      {userProfileError && <p>{userProfileError}</p>}
-    </div>
+
+      {/* {showGardenForm()} */}
+      {/* {userProfile && userProfile.role === "host" ? <GardenForm /> : null} */}
+
+      {/* 
+      {userProfile.role === "host" ? (
+        <Button variant="primary">Add a garden </Button>
+      ) : (
+        <p>View gardens you have volunteered for below</p>
+      )}
+      {userProfileError && <p>{userProfileError}</p>} */}
+    </Container>
   );
 };
 

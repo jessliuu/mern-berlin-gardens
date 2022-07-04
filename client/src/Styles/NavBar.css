@@ -1,5 +1,6 @@
-/* nav {
-  display: flex;
+* {
+  font-family: Roboto Slab, serif !important;
+  /* display: flex;
   align-items: flex-start;
-  justify-content: space-evenly !important;
-} */
+  justify-content: space-evenly !important; */
+}

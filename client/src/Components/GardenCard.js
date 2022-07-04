@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { styled } from "@mui/material/styles";
 import { Grid } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -26,9 +26,19 @@ function GardenCard(props) {
   const description = info.description;
   const image = info.image;
   const gardenid = info._id;
+  // const volunteers = info.volunteers;
 
   const { getToken } = useContext(AuthContext);
   const token = getToken();
+  const [isLiked, setIsLiked] = useState(false);
+
+  // const initialIsFav = () => {
+  //   if (isLiked) {
+  //     setIsFav(true);
+  //   } else {
+  //     setIsFav(false);
+  //   }
+  // };
 
   const handleFavorite = async () => {
     let urlencoded = new URLSearchParams({ _id: gardenid });
@@ -83,8 +93,8 @@ function GardenCard(props) {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon onClick={handleFavorite} />
+          <IconButton aria-label="add to favorites" onClick={handleFavorite}>
+            <FavoriteIcon />
           </IconButton>
           <IconButton aria-label="share">
             <ShareIcon />

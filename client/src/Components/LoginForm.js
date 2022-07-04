@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 function LoginForm() {
   const [logInUser, setLogInUser] = useState("");
   //   const [password, setPassword] = useState("");
-  //   const [error, setError] = useState(null);
+  const [error, setError] = useState(null);
   //   const { errorfromLogin } = useContext(AuthContext);
 
   const { loginStatus, isUserLoggedIn, logOut } = useContext(AuthContext);
@@ -50,10 +50,13 @@ function LoginForm() {
         isUserLoggedIn();
       } else {
         isUserLoggedIn();
-        console.log("error setting token");
+        console.log("Error setting token");
+        // return <p>Error setting token</p>
+        setError("Error setting token");
       }
     } catch (err) {
       console.log("Error with logging in", err);
+      setError("Error with logging in");
     }
   };
 
@@ -93,10 +96,10 @@ function LoginForm() {
           </Form.Group>
         </Form>
 
-        {/* <div>
-          {error && <p>{error}</p>}
-          {errorfromLogin && <p>{errorfromLogin}</p>}
-        </div> */}
+        <div>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {/* {errorfromLogin && <p>{errorfromLogin}</p>} */}
+        </div>
         <div>
           <p>
             Don't have an account? Register <Link to="/register">here</Link>

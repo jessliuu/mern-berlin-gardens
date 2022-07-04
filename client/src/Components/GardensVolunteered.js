@@ -33,16 +33,20 @@ const GardensVolunteered = () => {
 
   return (
     <div>
-      <h3>Gardens volunteered:</h3>
-      {myGardens &&
-        myGardens.map((g) => {
-          return (
-            <div>
-              <p>{g.farmName}</p>
-              <img src={g.image} style={{ maxHeight: "200px" }} />;
-            </div>
-          );
-        })}
+      {loginStatus && (
+        <div>
+          <h3>Gardens volunteered:</h3>
+
+          {myGardens.map((g) => {
+            return (
+              <div>
+                <p>{g.farmName}</p>
+                <img src={g.image} style={{ maxHeight: "200px" }} />;
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

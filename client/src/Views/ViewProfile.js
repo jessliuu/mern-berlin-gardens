@@ -12,8 +12,8 @@ const ViewProfile = () => {
       <Header />
       <NavBar />
       <Profile />
-      <GardensPosted />
-      <GardenForm />
+      {/* <GardensPosted /> */}
+      {/* <GardenForm /> */}
       <GardensVolunteered />
     </div>
   );

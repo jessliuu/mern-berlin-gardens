@@ -36,7 +36,10 @@ const getProfileByUserId = async (req, res) => {
 
 const addGarden = async (req, res) => {
   console.log("addGarden req.body", req.body);
+  const imageURL = await uploadUserPicture(req, res);
+  // const {farmName, availableOn} = req.body
   const newGarden = new gardensModel({
+    // farmName
     farmName: req.body.farmName,
     availableOn: req.body.availableOn,
     description: req.body.description,
@@ -45,8 +48,9 @@ const addGarden = async (req, res) => {
     neighborhood: req.body.neighborhood,
     experienceRequired: req.body.experienceRequired,
     childrenWelcome: req.body.childrenWelcome,
-    image: req.body.image,
+    image: imageURL,
     userid: req.user._id,
+    // volunteers: req.body.volunteers,
   });
   console.log("newGarden", newGarden);
   try {
@@ -72,6 +76,7 @@ const addGarden = async (req, res) => {
       experienceRequired: savedGarden.experienceRequired,
       childrenWelcome: savedGarden.childrenWelcome,
       image: savedGarden.image,
+      // volunteers: savedGarden.volunteers,
       message: "garden successfully added",
     });
   } catch (error) {
@@ -88,6 +93,9 @@ const volunteerForGarden = async (req, res) => {
   let doc = await usersModel.findByIdAndUpdate(idToFind, {
     // new:true
     $push: { volunteeredgardens: gardenid },
+  });
+  let gardendoc = await gardensModel.findByIdAndUpdate(gardenid, {
+    $push: { volunteers: idToFind },
   });
   // console.log("volunteerforgarden doc", doc);
 };
@@ -183,10 +191,9 @@ const uploadUserPicture = async (req, res) => {
       folder: "garden-users",
     });
     console.log("result", uploadResult); //this show us the object with all the information about the upload, including the public URL in result.url
-    res.status(200).json({
-      message: "image succesfully uploaded",
-      imageUrL: uploadResult.url,
-    });
+    return uploadResult.url;
+    // message: "image succesfully uploaded",
+    // imageUrL: uploadResult.url
   } catch (error) {
     res
       .status(500)

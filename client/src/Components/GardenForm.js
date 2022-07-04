@@ -14,7 +14,10 @@ import { border, borderColor } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
 
-const GardenForm = () => {
+const GardenForm = (props) => {
+  const role = props.userProfile.role;
+  console.log("role", role);
+
   const [formValues, setFormValues] = useState({
     farmName: "",
     availableOn: "",
@@ -44,18 +47,36 @@ const GardenForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    let urlencoded = new URLSearchParams({
-      farmName: formValues.farmName,
-      availableOn: formValues.availableOn,
-      description: formValues.description,
-      groupSize: formValues.groupSize,
-      neighborhood: formValues.neighborhood,
-      experienceRequired: formValues.experienceRequired,
-    });
+    // let urlencoded = new URLSearchParams({
+    //   farmName: formValues.farmName,
+    //   availableOn: formValues.availableOn,
+    //   description: formValues.description,
+    //   groupSize: formValues.groupSize,
+    //   neighborhood: formValues.neighborhood,
+    //   experienceRequired: formValues.experienceRequired,
+
+    // });
+
+    // let formdata = new FormData({
+
+    //   farmName: formValues.farmName,
+    //   availableOn: formValues.availableOn,
+    //   description: formValues.description,
+    //   groupSize: formValues.groupSize,
+    //   neighborhood: formValues.neighborhood,
+    //   experienceRequired: formValues.experienceRequired,
+    //   image: selectedFile,
+    // });
+
+    let formdata = new FormData();
+
+    formdata.append("image", selectedFile);
+    formdata.append("farmName", formValues.farmName);
+    formdata.append("availableOn", formValues.availableOn);
 
     var requestOptions = {
       method: "POST",
-      body: urlencoded,
+      body: formdata,
       headers: { Authorization: `Bearer ${token}` },
     };
 
@@ -80,170 +101,182 @@ const GardenForm = () => {
     console.log("submit working");
   };
 
-  const uploadPicture = async () => {
-    // call  FormData object constructor to populate with pairs of key/values (in this case {image: "our file"} )
-    const formData = new FormData();
-    console.log("selectedFile", selectedFile);
-    formData.append("image", selectedFile);
-    console.log("formData", formData);
-    // compose the object with the options to be sent with our request, including the type of method, and use the body of the request to attach data
-    const requestOptions = {
-      method: "POST",
-      body: formData,
-    };
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/user/imageUpload",
-        requestOptions
-      );
-      console.log("response", response);
-      const result = await response.json();
-      console.log("result", result);
-      setFormValues({ ...formValues, image: result.imageUrL }); // imageURL is how the field is defined in usersController
-    } catch (error) {
-      console.log('"error submiting picture"', error);
-    }
-  };
+  // const uploadPicture = async () => {
+  //   // call  FormData object constructor to populate with pairs of key/values (in this case {image: "our file"} )
+  //   const formData = new FormData();
+  //   console.log("selectedFile", selectedFile);
+  //   formData.append("image", selectedFile);
+  //   console.log("formData", formData);
+  //   // compose the object with the options to be sent with our request, including the type of method, and use the body of the request to attach data
+  //   const requestOptions = {
+  //     method: "POST",
+  //     body: formData,
+  //   };
+  //   try {
+  //     const response = await fetch(
+  //       "http://localhost:5001/api/user/imageUpload",
+  //       requestOptions
+  //     );
+  //     console.log("response", response);
+  //     const result = await response.json();
+  //     console.log("result", result);
+  //     setFormValues({ ...formValues, image: result.imageUrL }); // imageURL is how the field is defined in usersController
+  //   } catch (error) {
+  //     console.log('"error submiting picture"', error);
+  //   }
+  // };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{ backgroundColor: "lightgreen", padding: 20, margin: 20 }}
-    >
-      <Grid
-        container
-        alignItems="flex-start"
-        justifyContent="space-evenly"
-        direction="row"
-        spacing={3}
-      >
-        <Grid item xs={6}>
-          <FormLabel>Farm Name</FormLabel>
-          <TextField
-            style={{ width: "50%" }}
-            id="farmname-input"
-            name="farmName"
-            // label="Farm Name"
-            type="text"
-            value={formValues.farmName}
-            onChange={handleInputChange}
-            variant="standard"
-            required
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <FormLabel>Available on</FormLabel>
-          <TextField
-            id="availableon-input"
-            name="availableOn"
-            // label="Available On"
-            type="date"
-            value={formValues.availableOn}
-            onChange={handleInputChange}
-            variant="standard"
-            required
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          <FormLabel>Description</FormLabel>
-          <TextField
-            style={{ width: "80%" }}
-            id="description-input"
-            name="description"
-            // label="Description"
-            type="text"
-            value={formValues.description}
-            onChange={handleInputChange}
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <FormLabel>Group Size</FormLabel>
-          <TextField
-            id="groupsize-input"
-            name="groupSize"
-            // label="Group Size"
-            type="number"
-            value={formValues.groupSize}
-            onChange={handleInputChange}
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <FormControl>
-            <FormLabel>Experience</FormLabel>
-            <RadioGroup
-              name="experienceRequired"
-              defaultValue={false}
-              value={formValues.experienceRequired}
-              onChange={handleInputChange}
-              row
-            >
-              <FormControlLabel
-                key="true"
-                value={true}
-                control={<Radio size="small" />}
-                label="Required"
+    <div>
+      {loginStatus && (
+        <form
+          onSubmit={handleSubmit}
+          style={{ backgroundColor: "lightgreen", padding: 20, margin: 20 }}
+        >
+          <Grid
+            container
+            alignItems="flex-start"
+            justifyContent="space-evenly"
+            direction="row"
+            spacing={3}
+          >
+            <Grid item xs={6}>
+              <FormLabel>Farm Name</FormLabel>
+              <TextField
+                style={{ width: "50%" }}
+                id="farmname-input"
+                name="farmName"
+                // label="Farm Name"
+                type="text"
+                value={formValues.farmName}
+                onChange={handleInputChange}
+                variant="standard"
+                required
               />
-              <FormControlLabel
-                key="false"
-                value={false}
-                control={<Radio size="small" />}
-                label="Not Required"
+            </Grid>
+
+            <Grid item xs={6}>
+              <FormLabel>Available on</FormLabel>
+              <TextField
+                id="availableon-input"
+                name="availableOn"
+                // label="Available On"
+                type="date"
+                value={formValues.availableOn}
+                onChange={handleInputChange}
+                variant="standard"
+                required
               />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-        <Grid item xs={4}>
-          <FormControl>
-            <FormLabel id="neighborhood-select-label">Neighborhood</FormLabel>
-            <Select
-              labelId="neighborhood-select-label"
-              name="neighborhood"
-              value={formValues.neighborhood}
-              onChange={handleInputChange}
-              variant="outlined"
-            >
-              <MenuItem key="mitte" value="mitte">
-                Mitte
-              </MenuItem>
-              <MenuItem key="spandau" value="spandau">
-                Spandau
-              </MenuItem>
-              <MenuItem key="pankow " value="pankow">
-                Pankow
-              </MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
+            </Grid>
 
-        <Grid item xs={12} style={{ padding: 20 }}>
-          <FormControl>
-            <div style={{ alignContent: "center" }}>
-              <input type="file" onChange={attachFileHandler} />
-              <Button
-                onClick={uploadPicture}
-                variant="contained"
-                color="inherit"
-              >
-                <AttachFileIcon />
-              </Button>
-            </div>
-          </FormControl>
-        </Grid>
+            <Grid item xs={12}>
+              <FormLabel>Description</FormLabel>
+              <TextField
+                style={{ width: "80%" }}
+                id="description-input"
+                name="description"
+                // label="Description"
+                type="text"
+                value={formValues.description}
+                onChange={handleInputChange}
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormLabel>Group Size</FormLabel>
+              <TextField
+                id="groupsize-input"
+                name="groupSize"
+                // label="Group Size"
+                type="number"
+                value={formValues.groupSize}
+                onChange={handleInputChange}
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl>
+                <FormLabel>Experience</FormLabel>
+                <RadioGroup
+                  name="experienceRequired"
+                  defaultValue={false}
+                  value={formValues.experienceRequired}
+                  onChange={handleInputChange}
+                  row
+                >
+                  <FormControlLabel
+                    key="true"
+                    value={true}
+                    control={<Radio size="small" />}
+                    label="Required"
+                  />
+                  <FormControlLabel
+                    key="false"
+                    value={false}
+                    control={<Radio size="small" />}
+                    label="Not Required"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl>
+                <FormLabel id="neighborhood-select-label">
+                  Neighborhood
+                </FormLabel>
+                <Select
+                  labelId="neighborhood-select-label"
+                  name="neighborhood"
+                  value={formValues.neighborhood}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                >
+                  <MenuItem key="mitte" value="mitte">
+                    Mitte
+                  </MenuItem>
+                  <MenuItem key="spandau" value="spandau">
+                    Spandau
+                  </MenuItem>
+                  <MenuItem key="pankow " value="pankow">
+                    Pankow
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
 
-        {/* <Button variant="contained" component="label">
+            <Grid item xs={12} style={{ padding: 20 }}>
+              <FormControl>
+                <div style={{ alignContent: "center" }}>
+                  <input type="file" onChange={attachFileHandler} />
+                  {/* <Button
+                    onClick={uploadPicture}
+                    variant="contained"
+                    color="inherit"
+                  >
+                    <AttachFileIcon />
+                  </Button> */}
+                </div>
+              </FormControl>
+            </Grid>
+
+            {/* <Button variant="contained" component="label">
           Upload File
           <input type="file" />
         </Button> */}
 
-        <Button variant="contained" color="primary" type="submit" item xs={12}>
-          Submit
-        </Button>
-      </Grid>
-    </form>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              item
+              xs={12}
+            >
+              Submit
+            </Button>
+          </Grid>
+        </form>
+      )}
+    </div>
   );
 };
 
