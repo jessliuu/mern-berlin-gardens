@@ -27,10 +27,6 @@ const ViewBrowse = () => {
           gardens.map((garden) => {
             return <GardenCard info={garden} key={garden._id} />;
           })}
-        {/* {gardens &&
-          gardens.allGardens.map((garden) => {
-            return <GardenCard info={garden} key={garden._id} />;
-          })} */}
       </Grid>
     </div>
   );

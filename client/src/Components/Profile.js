@@ -8,50 +8,54 @@ import GardensPosted from "./GardensPosted";
 import GardensVolunteered from "./GardensVolunteered";
 
 const Profile = () => {
-  const [userProfile, setUserProfile] = useState({});
-  const [userProfileError, setUserProfileError] = useState(
-    "Please log in first"
-  );
-  const { getToken } = useContext(AuthContext);
+  // const [userProfile, setUserProfile] = useState({});
+  // const [userProfileError, setUserProfileError] = useState(
+  //   "Please log in first"
+  // );
+  const { getToken, userProfile, userProfileError } = useContext(AuthContext);
 
-  const getProfile = async () => {
-    console.log("getProflie");
-    const token = getToken();
-    const myHeader = new Headers({
-      Authorization: `Bearer ${token}`,
-    });
-    var requestOptions = {
-      method: "GET",
-      headers: myHeader,
-    };
+  // const getProfile = async () => {
+  //   console.log("getProflie");
+  //   const token = getToken();
+  //   const myHeader = new Headers({
+  //     Authorization: `Bearer ${token}`,
+  //   });
+  //   var requestOptions = {
+  //     method: "GET",
+  //     headers: myHeader,
+  //   };
 
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/user/profile",
-        requestOptions
-      );
-      const result = await response.json();
-      console.log("results", result);
+  //   try {
+  //     const response = await fetch(
+  //       "http://localhost:5001/api/user/profile",
+  //       requestOptions
+  //     );
+  //     const result = await response.json();
+  //     console.log("results", result);
 
-      setUserProfile({
-        name: result.name,
-        role: result.role,
-      });
+  //     setUserProfile({
+  //       name: result.name,
+  //       role: result.role,
+  //       id: result.id,
+  //       email: result.email,
+  //       gardens: result.gardens,
+  //       volunteeredgardens: result.volunteeredgardens,
+  //     });
 
-      console.log("userProfile2", userProfile);
-      setUserProfileError(null);
+  //     console.log("userProfile2", userProfile);
+  //     setUserProfileError(null);
 
-      // showGardenForm();
-      // showGardensPosted();
-    } catch (err) {
-      console.log("error getting profile", err.message);
-      setUserProfileError("Please log in first");
-    }
-  };
+  //     // showGardenForm();
+  //     // showGardensPosted();
+  //   } catch (err) {
+  //     console.log("error getting profile", err.message);
+  //     setUserProfileError("Please log in first");
+  //   }
+  // };
 
-  useEffect(() => {
-    getProfile();
-  }, []);
+  // useEffect(() => {
+  //   getProfile();
+  // }, []);
 
   // console.log("userProfile", userProfile);
   // console.log("userProfile.role", userProfile.role);

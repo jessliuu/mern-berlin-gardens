@@ -8,9 +8,11 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
+import Chat from "./Chat";
 
 const GardenDetails = () => {
   const params = useParams();
+  console.log("params", params);
   const paramsNumber = params.gardenid;
 
   const { gardens } = useContext(GardensContext);
@@ -78,28 +80,7 @@ const GardenDetails = () => {
         Back to browse
       </Button>
 
-      <div>
-        <h1 className="fs-1 fw-bold pt-5 text-center">Chat</h1>
-        <p className="text-center">Write a message</p>
-        {/* <ol className="messages">
-          <ChatList />
-        </ol> */}
-
-        <InputGroup className="p-3">
-          <FormControl
-            placeholder="Enter your message..."
-            aria-label="Enter your message..."
-            aria-describedby="basic-addon1"
-            // value={chatMsg}
-            // onChange={handleMessageChange}
-            // onKeyDown={(e) => e.key === "Enter" && handleChatMessageSubmit()}
-          />
-          {/* <Button variant="danger" onClick={handleChatMessageSubmit}> */}
-          <Button variant="danger">Send</Button>
-        </InputGroup>
-      </div>
-
-      {/* <MyButton message="Back to browse" onClick={redirectTo("/browse")} /> */}
+      <Chat params={params} />
     </Container>
   );
 };

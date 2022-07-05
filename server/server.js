@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import gardensRoute from "./routes/gardensRoute.js";
 import usersRoute from "./routes/usersRoute.js";
+import commentsRoute from "./routes/commentsRoute.js";
 import * as dotenv from "dotenv";
 dotenv.config();
 import mongoose from "mongoose";
@@ -22,6 +23,7 @@ const startServer = () => {
 // 2. Load routes
 const loadRoutes = () => {
   app.use("/api/garden", gardensRoute);
+  app.use("/api/comment", commentsRoute);
   app.use("/api/user", usersRoute);
 };
 // 3. Add middleware

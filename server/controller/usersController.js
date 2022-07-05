@@ -27,6 +27,7 @@ const getProfileByUserId = async (req, res) => {
       email: user.email,
       gardens: user.gardens,
       volunteeredgardens: user.volunteeredgardens,
+      id: user._id,
     });
   } catch (err) {
     console.log("err", err);
@@ -110,6 +111,7 @@ const volunteerForGarden = async (req, res) => {
 };
 
 const logIn = async (req, res) => {
+  console.log("req.body", req.body);
   const existingUser = await usersModel.findOne({ email: req.body.email });
   if (!existingUser) {
     res.status(401).json({ msg: "You have to register first" });

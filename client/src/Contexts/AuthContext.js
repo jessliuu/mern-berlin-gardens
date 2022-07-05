@@ -40,9 +40,61 @@ export const AuthContextProvider = (props) => {
     redirectTo("/login");
   };
 
+  const [userProfile, setUserProfile] = useState({});
+  const [userProfileError, setUserProfileError] = useState(
+    "Please log in first"
+  );
+
+  const getProfile = async () => {
+    console.log("getProflie");
+    const token = getToken();
+    const myHeader = new Headers({
+      Authorization: `Bearer ${token}`,
+    });
+    var requestOptions = {
+      method: "GET",
+      headers: myHeader,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/user/profile",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("results", result);
+
+      setUserProfile({
+        name: result.name,
+        role: result.role,
+        id: result.id,
+        email: result.email,
+        gardens: result.gardens,
+        volunteeredgardens: result.volunteeredgardens,
+      });
+
+      console.log("userProfile2", userProfile);
+      setUserProfileError(null);
+    } catch (err) {
+      console.log("error getting profile", err.message);
+      setUserProfileError("Please log in first");
+    }
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
   return (
     <AuthContext.Provider
-      value={{ loginStatus, isUserLoggedIn, logOut, getToken }}
+      value={{
+        loginStatus,
+        isUserLoggedIn,
+        logOut,
+        getToken,
+        userProfile,
+        userProfileError,
+      }}
     >
       {props.children}
     </AuthContext.Provider>
