@@ -60,7 +60,7 @@ const addGarden = async (req, res) => {
     childrenWelcome: req.body.childrenWelcome,
     image: imageURL,
     userid: req.user._id,
-    // volunteers: req.body.volunteers,
+    volunteers: [],
   });
   console.log("newGarden", newGarden);
   try {
@@ -86,7 +86,7 @@ const addGarden = async (req, res) => {
       experienceRequired: savedGarden.experienceRequired,
       childrenWelcome: savedGarden.childrenWelcome,
       image: savedGarden.image,
-      // volunteers: savedGarden.volunteers,
+      volunteers: savedGarden.volunteers,
       message: "garden successfully added",
     });
   } catch (error) {

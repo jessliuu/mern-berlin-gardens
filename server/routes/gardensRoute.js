@@ -12,6 +12,7 @@ router.get("/test", (req, res) => {
 
 router.get("/browse", getAllGardens);
 
+// URL parameter
 router.get("/browse/:id", getGardensByID);
 
 export default router;

@@ -15,7 +15,7 @@ import commentsModel from "../models/commentsModel.js";
 // }
 
 const getComments = async (req, res) => {
-  console.log("req...", req.query);
+  // console.log("req...", req.query);
   try {
     const comments = await commentsModel
       .find({ gardenid: req.query.myGardenID })
@@ -27,7 +27,28 @@ const getComments = async (req, res) => {
     res.status(200).json({ comments });
   } catch (error) {
     console.log("error with getting comments", error);
+    res.status(400).json({
+      error: error,
+      message: "error with getting comments",
+    });
   }
 };
 
-export { getComments };
+const deleteComment = async (req, res) => {
+  console.log("req body in delete comment");
+  try {
+    const commentToDelete = await commentsModel
+      .findByIdAndDelete({ _id: req.params.commentID })
+      .exec();
+    console.log(commentToDelete);
+    res.status(200).json({ commentToDelete });
+  } catch (error) {
+    console.log("error with deleting this comment", error);
+    res.status(400).json({
+      error: error,
+      message: "error with deleting this comment",
+    });
+  }
+};
+
+export { getComments, deleteComment };

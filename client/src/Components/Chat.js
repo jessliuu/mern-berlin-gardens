@@ -1,8 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate, useParams } from "react-router-dom";
-import { GardensContext } from "../Contexts/GardensContext";
 import {
   Container,
   Card,
@@ -12,6 +8,7 @@ import {
 } from "react-bootstrap";
 import "../Styles/Chat.css";
 import { AuthContext } from "../Contexts/AuthContext";
+import ChatIndividual from "./ChatIndividual";
 
 const Chat = (props) => {
   const params = props.params;
@@ -19,7 +16,7 @@ const Chat = (props) => {
   console.log(paramsNumber);
   const [comments, setComments] = useState([]);
 
-  const { userProfile } = useContext(AuthContext);
+  // const { userProfile } = useContext(AuthContext);
   const options = {
     method: "GET",
   };
@@ -34,14 +31,7 @@ const Chat = (props) => {
       const data = await response.json();
       const cleandata = data.comments;
       console.log("comment data", cleandata);
-      setComments(
-        cleandata
-
-        // author: cleandata.authorid.name,
-        // commentText: cleandata.commentText,
-        // commentDate: cleandata.commentDate,
-        // garden: cleandata.gardenid._id,
-      );
+      setComments(cleandata);
     } catch (error) {
       console.log(error);
     }
@@ -51,39 +41,46 @@ const Chat = (props) => {
     fetchComments();
   }, []);
 
-  const messageDate = (date) => {
-    return new Date(date).toLocaleTimeString();
-  };
+  // const messageDate = (date) => {
+  //   return new Date(date).toLocaleTimeString();
+  // };
 
   return (
     <div>
       <h1 className="fs-1 fw-bold pt-5 text-center">Chat</h1>
-      <p className="text-center">Write a message</p>
-      {/* <ol className="messages">
-          <ChatList />
-        </ol> */}
       <ol className="messages">
         {comments &&
           comments.map((c) => {
             return (
-              <li>
-                <div classname="message">
-                  {c.authorid._id === userProfile.id ? (
-                    <p>You wrote on {messageDate(c.commentDate)}:</p>
-                  ) : (
-                    <p>
-                      {c.authorid.name} wrote on {messageDate(c.commentDate)}:
-                    </p>
-                  )}
-                  <p>{c.commentText}</p>
-                  {c.authorid._id === userProfile.id ? (
-                    <div style={{ justifySelf: "flex-end" }}>
-                      <EditIcon />
-                      <DeleteIcon />
-                    </div>
-                  ) : null}
-                </div>
-              </li>
+              <ChatIndividual info={c} />
+              // <li>
+              //   <div classname="message">
+              //     {c.authorid._id === userProfile.id ? (
+              //       <p>You wrote on {messageDate(c.commentDate)}:</p>
+              //     ) : (
+              //       <p>
+              //         {c.authorid.name} wrote on {messageDate(c.commentDate)}:
+              //       </p>
+              //     )}
+              //     <p>{c.commentText}</p>
+              //     {c.authorid._id === userProfile.id ? (
+              //       <div style={{ justifySelf: "flex-end" }}>
+              //         <IconButton
+              //           aria-label="edit comment"
+              //           onClick={handleEditComment}
+              //         >
+              //           <EditIcon />
+              //         </IconButton>
+              //            <IconButton
+              //           aria-label="delete comment"
+              //           onClick={handleDeleteComment}
+              //         >
+              //         <DeleteIcon />
+              //         </IconButton>
+              //       </div>
+              //     ) : null}
+              //   </div>
+              // </li>
             );
           })}
       </ol>

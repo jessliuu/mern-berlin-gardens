@@ -93,7 +93,6 @@ const Profile = () => {
         </h2>
       )}
 
-      {/* {showGardenForm()} */}
       {userProfile.role === "host" ? <GardenForm /> : null}
       {userProfile.role === "host" ? <GardensPosted /> : null}
       <GardensVolunteered />
