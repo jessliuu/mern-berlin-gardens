@@ -28,11 +28,11 @@ function GardenCard(props) {
 
   const farmName = props.farmName;
   const neighborhood = props.neighborhood;
-  const hostName = props.name;
   const description = props.description;
   const image = props.image;
   const gardenid = props.gardenid;
   const volunteers = props.volunteers;
+  const hostName = props.hostName;
 
   // console.log(volunteers);
   const didIVolunteer = (volunteers) => {

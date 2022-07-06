@@ -25,9 +25,6 @@ const ViewBrowse = () => {
       >
         {gardens &&
           gardens.map((garden) => {
-            {
-              console.log("my gardens>>>", garden.volunteers);
-            }
             return (
               <GardenCard
                 volunteers={garden.volunteers}
