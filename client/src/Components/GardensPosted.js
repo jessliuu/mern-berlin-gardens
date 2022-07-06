@@ -23,7 +23,6 @@ const GardensPosted = () => {
       );
       const result = await response.json();
       console.log(result);
-
       setMyGardens(result.gardens);
     } catch (err) {
       console.log("error getting gardens", err);
@@ -39,10 +38,11 @@ const GardensPosted = () => {
     const myHeader = new Headers({
       Authorization: `Bearer ${token}`,
     });
+
     var requestOptions = {
       method: "DELETE",
       headers: myHeader,
-      body: { gardenid: gardenid },
+      body: new URLSearchParams({ gardenid: gardenid }),
     };
     try {
       const response = await fetch(
@@ -51,16 +51,11 @@ const GardensPosted = () => {
       );
       const result = await response.json();
       console.log("deletedgarden", result);
+      getMyGardens();
     } catch (err) {
       console.log("error deleting this garden", err);
     }
   };
-  // const getPostedGardenIds = (myGardens) => {
-  //   const arrayOfIds = myGardens.forEach((garden) => garden._id);
-  //   console.log(arrayOfIds);
-  //   return arrayOfIds;
-  // };
-  // console.log(getPostedGardenIds(myGardens));
 
   return (
     <div>
