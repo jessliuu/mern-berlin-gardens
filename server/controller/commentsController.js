@@ -1,18 +1,30 @@
 import commentsModel from "../models/commentsModel.js";
 
-// const postComment = async (req, res) => {
-//     const newComment = new commentsModel({
-//         authorid: req.user._id,
-//         gardenid: req.body.gardenid,
-//         commentText: req.body.commentText,
-//         commentDate: req.body.commentDate
-//     });
-//     console.log("newComment", newComment);
-//     try {
-//         const savedComment = await newComment.save();
-//         console.log("savedComment", savedComment);
-//     }
-// }
+const postComment = async (req, res) => {
+  const newComment = new commentsModel({
+    authorid: req.user._id,
+    gardenid: req.body.gardenid,
+    commentText: req.body.commentText,
+    commentDate: req.body.commentDate,
+  });
+  console.log("newComment", newComment);
+  try {
+    const savedComment = await newComment.save();
+    console.log("savedComment", savedComment);
+    res.status(201).json({
+      authorid: savedComment.authorid,
+      gardenid: savedComment.gardenid,
+      commentText: savedComment.commentText,
+      commentDate: savedComment.commentDate,
+      message: "Comment successfully added",
+    });
+  } catch (error) {
+    console.log("Error saving the comment");
+    res
+      .status(400)
+      .json({ error: error, message: "Comment successfully added" });
+  }
+};
 
 const getComments = async (req, res) => {
   // console.log("req...", req.query);
@@ -35,7 +47,7 @@ const getComments = async (req, res) => {
 };
 
 const deleteComment = async (req, res) => {
-  console.log("req body in delete comment");
+  console.log("req in delete comment");
   try {
     const commentToDelete = await commentsModel
       .findByIdAndDelete({ _id: req.params.commentID })
@@ -51,4 +63,4 @@ const deleteComment = async (req, res) => {
   }
 };
 
-export { getComments, deleteComment };
+export { getComments, deleteComment, postComment };

@@ -13,7 +13,6 @@ const ChatIndividual = (props) => {
 
   const handleDeleteComment = async () => {
     console.log("message is deleted");
-
     // const urlencoded = new URLSearchParams();
     // urlencoded.append("commentID", _id);
     const options = {
