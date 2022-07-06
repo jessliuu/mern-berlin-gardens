@@ -23,42 +23,6 @@ const GardenDetails = () => {
   }, []);
   console.log("gardens", gardens);
 
-  // let result = {};
-  // const displayController = () => {
-  //   const selectedGarden = gardens
-  //     .filter((garden) => {
-  //       return garden._id === paramsNumber;
-  //     })
-  //     .map((e) => {
-  //       result = e;
-  //     });
-  //   console.log("result", result);
-  //   return result;
-  // };
-
-  // const farmName = result.farmName;
-  // const availableOn = result.availableOn;
-  // const availableOnDate = (date) => new Date(date).toLocaleDateString();
-  // const neighborhood = result.neighborhood;
-  // const groupSize = result.groupSize;
-  // const experienceRequired = result.experienceRequired;
-  // const description = result.description;
-  // const image = result.image;
-  // const volunteers = result.volunteers;
-  // console.log("type of volunteers", typeof volunteers);
-  // const noOfVolunteers = (volunteers, groupsize) => {
-  //   number = 0
-  //   if (volunteers === 0) {
-  //     number = groupsize;
-  //   } else {
-  //     number = groupsize - volunteers;
-  //   } return number
-  // };
-
-  // useEffect(() => {
-  //   displayController();
-  // }, [gardens]);
-
   const redirectTo = useNavigate();
   const handleBackToBrowse = () => redirectTo("/browse");
 

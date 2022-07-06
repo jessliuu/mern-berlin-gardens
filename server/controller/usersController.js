@@ -43,6 +43,23 @@ const getProfileByUserId = async (req, res) => {
   // }
 };
 
+const deleteGarden = async (req, res) => {
+  // console.log("inside delete garden", req);
+  try {
+    const gardenToDelete = await gardensModel
+      .findByIdAndDelete({ _id: req.body.gardenid })
+      .exec();
+    console.log("gardenToDelete", gardenToDelete);
+    res.status(200).json({ gardenToDelete });
+  } catch (error) {
+    console.log("error with deleting this garden", error);
+    res.status(400).json({
+      error: error,
+      message: "error with deleting this garden",
+    });
+  }
+};
+
 const addGarden = async (req, res) => {
   console.log("addGarden req.body", req.body);
   const imageURL = await uploadUserPicture(req, res);
@@ -100,14 +117,33 @@ const addGarden = async (req, res) => {
 const volunteerForGarden = async (req, res) => {
   const idToFind = req.user._id;
   const gardenid = req.body._id;
-  let doc = await usersModel.findByIdAndUpdate(idToFind, {
-    // new:true
-    $push: { volunteeredgardens: gardenid },
-  });
+  let doc = await usersModel.findByIdAndUpdate(
+    idToFind,
+    {
+      $push: { volunteeredgardens: gardenid },
+    },
+    { new: true }
+  );
   let gardendoc = await gardensModel.findByIdAndUpdate(gardenid, {
     $push: { volunteers: idToFind },
   });
   // console.log("volunteerforgarden doc", doc);
+};
+
+const unvolunteerForGarden = async (req, res) => {
+  const idToFind = req.user._id;
+  const gardenid = req.body._id;
+  let userdoc = await usersModel.findOneAndUpdate(
+    { _id: idToFind },
+    { $pull: { volunteeredgardens: gardenid } }
+    // { new: true }
+  );
+  let gardendoc = await gardensModel.findOneAndUpdate(
+    { _id: gardenid },
+    { $pull: { volunteers: idToFind } }
+    // { new: true }
+  );
+  console.log("unvolunteerforgarden doc", userdoc);
 };
 
 const logIn = async (req, res) => {
@@ -218,7 +254,9 @@ export {
   signUp,
   logIn,
   // getProfile,
+  deleteGarden,
   addGarden,
   getProfileByUserId,
   volunteerForGarden,
+  unvolunteerForGarden,
 };
