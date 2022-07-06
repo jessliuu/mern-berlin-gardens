@@ -23,47 +23,48 @@ const GardenDetails = () => {
   }, []);
   console.log("gardens", gardens);
 
-  let result = {};
-  const displayController = () => {
-    const selectedGarden = gardens
-      .filter((garden) => {
-        return garden._id === paramsNumber;
-      })
-      .map((e) => {
-        result = e;
-      });
-    console.log("result", result);
-    return result;
-  };
+  // let result = {};
+  // const displayController = () => {
+  //   const selectedGarden = gardens
+  //     .filter((garden) => {
+  //       return garden._id === paramsNumber;
+  //     })
+  //     .map((e) => {
+  //       result = e;
+  //     });
+  //   console.log("result", result);
+  //   return result;
+  // };
 
-  const farmName = result.farmName;
-  const availableOn = result.availableOn;
-  const availableOnDate = (date) => new Date(date).toLocaleDateString();
-  const neighborhood = result.neighborhood;
-  const groupSize = result.groupSize;
-  const experienceRequired = result.experienceRequired;
-  const description = result.description;
-  const image = result.image;
-  const volunteers = result.volunteers;
-  console.log("type of volunteers", typeof volunteers);
-  const noOfVolunteers = (volunteers, groupsize) => {
-    if (volunteers === 0) {
-      noOfVolunteers = groupsize;
-    } else {
-      noOfVolunteers = groupsize - volunteers;
-    }
-  };
+  // const farmName = result.farmName;
+  // const availableOn = result.availableOn;
+  // const availableOnDate = (date) => new Date(date).toLocaleDateString();
+  // const neighborhood = result.neighborhood;
+  // const groupSize = result.groupSize;
+  // const experienceRequired = result.experienceRequired;
+  // const description = result.description;
+  // const image = result.image;
+  // const volunteers = result.volunteers;
+  // console.log("type of volunteers", typeof volunteers);
+  // const noOfVolunteers = (volunteers, groupsize) => {
+  //   number = 0
+  //   if (volunteers === 0) {
+  //     number = groupsize;
+  //   } else {
+  //     number = groupsize - volunteers;
+  //   } return number
+  // };
 
-  useEffect(() => {
-    displayController();
-  }, [gardens]);
+  // useEffect(() => {
+  //   displayController();
+  // }, [gardens]);
 
   const redirectTo = useNavigate();
   const handleBackToBrowse = () => redirectTo("/browse");
 
   return (
     <Container className="fluid mt-2">
-      <div>
+      {/* <div>
         <h2>
           {farmName} {availableOn}
         </h2>
@@ -73,16 +74,16 @@ const GardenDetails = () => {
           Looking for: &#160;{groupSize} &#160;volunteers in total.
           {/* {noOfVolunteers(e.volunteers.length, e.groupSize)} spots
                 available. */}
-        </p>
+      {/* </p>
         <p>Description: &#160;{description} &#160;</p>
         {experienceRequired ? (
           <p>Experience required</p>
         ) : (
           <p>Experience not required</p>
         )}
-      </div>
+      </div> */}
 
-      {/* {gardens &&
+      {gardens &&
         gardens
           .filter((garden) => {
             return garden._id === paramsNumber;
@@ -90,14 +91,14 @@ const GardenDetails = () => {
           .map((e) => (
             <div>
               <h2>
-                {e.farmName} {e.availableOn}
+                {e.farmName} {new Date(e.availableOn).toLocaleDateString()}
               </h2>
               <Card.Img variant="top" src={e.image} />
               <p>Neighborhood: &#160;{e.neighborhood} &#160;</p>
               <p>
-                Looking for: &#160;{e.groupSize} &#160;volunteers in total.
-                {noOfVolunteers(e.volunteers.length, e.groupSize)} spots
-                available.
+                Looking for:&#160;{e.groupSize} &#160;volunteers in total.
+                &#160;
+                {e.groupSize - e.volunteers.length} spots available.
               </p>
               <p>Description: &#160;{e.description} &#160;</p>
               {e.experienceRequired ? (
@@ -106,7 +107,7 @@ const GardenDetails = () => {
                 <p>Experience not required</p>
               )}
             </div>
-          ))} */}
+          ))}
 
       {/* Option 1: use redirectTo as a callback  */}
       {/* <Button

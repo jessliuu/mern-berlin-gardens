@@ -68,16 +68,21 @@ const Chat = (props) => {
         requestOptions
       );
       const results = await response.json();
-      console.log("results", results);
+      console.log("comment results", results);
+      if (comments.length === 0) {
+        setComments(results);
+      } else setComments([...comments, results]);
     } catch (error) {
       console.log("error posting this comment", error);
     }
-    setNewComment("");
+    // setNewComment("");
+    // fetchComments();
   };
 
-  // const messageDate = (date) => {
-  //   return new Date(date).toLocaleTimeString();
-  // };
+  const deleteFrontend = (commentID) => {
+    console.log(commentID);
+    // setComments()
+  };
 
   return (
     <div>
@@ -85,7 +90,7 @@ const Chat = (props) => {
       <ol className="messages">
         {comments &&
           comments.map((c) => {
-            return <ChatIndividual info={c} />;
+            return <ChatIndividual info={c} deleteFrontend={deleteFrontend} />;
           })}
       </ol>
 

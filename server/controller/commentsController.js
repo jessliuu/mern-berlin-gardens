@@ -16,7 +16,7 @@ const postComment = async (req, res) => {
       gardenid: savedComment.gardenid,
       commentText: savedComment.commentText,
       commentDate: savedComment.commentDate,
-      message: "Comment successfully added",
+      _id: savedComment._id,
     });
   } catch (error) {
     console.log("Error saving the comment");

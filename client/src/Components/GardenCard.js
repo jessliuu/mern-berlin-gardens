@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import { Grid } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -16,50 +16,64 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "../Styles/GardenCard.css";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
+import Modal from "./Modal";
 
 function GardenCard(props) {
-  console.log("props", props);
-  const info = props.info;
-  const farmName = info.farmName;
-  const neighborhood = info.neighborhood;
-  const hostName = info.userid.name;
-  const description = info.description;
-  const image = info.image;
-  const gardenid = info._id;
-  // const volunteers = info.volunteers;
-
-  const { getToken } = useContext(AuthContext);
+  const { getToken, userProfile } = useContext(AuthContext);
   const token = getToken();
-  const [isLiked, setIsLiked] = useState(false);
+  const [iVolunteered, setIVolunteered] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  // const initialIsFav = () => {
-  //   if (isLiked) {
-  //     setIsFav(true);
-  //   } else {
-  //     setIsFav(false);
-  //   }
-  // };
+  // console.log("props", props);
+
+  const farmName = props.farmName;
+  const neighborhood = props.neighborhood;
+  const hostName = props.name;
+  const description = props.description;
+  const image = props.image;
+  const gardenid = props.gardenid;
+  const volunteers = props.volunteers;
+
+  // console.log(volunteers);
+  const didIVolunteer = (volunteers) => {
+    const volunteerids = volunteers.map((v) => v._id);
+    console.log(volunteerids);
+    if (volunteerids.includes(userProfile.id)) {
+      console.log("true", userProfile.id);
+      setIVolunteered(true);
+    }
+  };
+
+  useEffect(() => {
+    didIVolunteer(volunteers);
+  }, []);
 
   const handleFavorite = async () => {
-    let urlencoded = new URLSearchParams({ _id: gardenid });
-    var requestOptions = {
-      method: "POST",
-      body: urlencoded,
-      headers: { Authorization: `Bearer ${token}` },
-    };
-
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/user/volunteerforgarden",
-        requestOptions
-      );
-      const result = await response.json();
-      console.log(result);
-      // redirectTo("/profile");
-      // isUserLoggedIn();
-    } catch (err) {
-      console.log("Error with signing up to volunteer for this garden", err);
+    if (iVolunteered) {
+      setIVolunteered(false);
+    } else {
+      setIVolunteered(true);
+      let urlencoded = new URLSearchParams({ _id: gardenid });
+      var requestOptions = {
+        method: "POST",
+        body: urlencoded,
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/user/volunteerforgarden",
+          requestOptions
+        );
+        const result = await response.json();
+        console.log(result);
+      } catch (err) {
+        console.log("Error with signing up to volunteer for this garden", err);
+      }
     }
+  };
+
+  const handleShare = () => {
+    setShowModal(true);
   };
 
   return (
@@ -94,9 +108,13 @@ function GardenCard(props) {
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites" onClick={handleFavorite}>
-            <FavoriteIcon />
+            {iVolunteered ? (
+              <FavoriteIcon color="primary" />
+            ) : (
+              <FavoriteIcon color="disabled" />
+            )}
           </IconButton>
-          <IconButton aria-label="share">
+          <IconButton aria-label="share" onClick={handleShare}>
             <ShareIcon />
           </IconButton>
         </CardActions>
@@ -109,6 +127,13 @@ function GardenCard(props) {
           </Typography>
         </CardContent>
       </Collapse> */}
+        {showModal && (
+          <Modal
+            farmName={farmName}
+            gardenid={gardenid}
+            setShowModal={setShowModal}
+          />
+        )}
       </Card>
     </Grid>
   );

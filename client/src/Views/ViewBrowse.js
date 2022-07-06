@@ -25,7 +25,22 @@ const ViewBrowse = () => {
       >
         {gardens &&
           gardens.map((garden) => {
-            return <GardenCard info={garden} key={garden._id} />;
+            {
+              console.log("my gardens>>>", garden.volunteers);
+            }
+            return (
+              <GardenCard
+                volunteers={garden.volunteers}
+                farmName={garden.farmName}
+                availableOn={garden.availableOn}
+                neighborhood={garden.neighborhood}
+                description={garden.description}
+                image={garden.image}
+                gardenid={garden._id}
+                key={garden._id}
+                hostName={garden.userid.name}
+              />
+            );
           })}
       </Grid>
     </div>

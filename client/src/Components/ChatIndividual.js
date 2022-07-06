@@ -7,6 +7,7 @@ import { IconButton } from "@mui/material";
 const ChatIndividual = (props) => {
   const { userProfile } = useContext(AuthContext);
   const { authorid, commentDate, commentText, _id } = props.info;
+  // const deleteFrontend = props.deleteFrontend;
   const handleEditComment = () => {
     console.log("message is edited");
   };
@@ -27,6 +28,7 @@ const ChatIndividual = (props) => {
       console.log("response", response);
       const deletedDoc = await response.json();
       console.log("deletedDoc", deletedDoc);
+      props.deleteFrontend(_id);
     } catch (error) {
       console.log(error);
     }
@@ -36,6 +38,8 @@ const ChatIndividual = (props) => {
     return new Date(date).toLocaleTimeString();
   };
 
+  console.log("authorid", authorid);
+  console.log("commentid", _id);
   return (
     <li>
       <div classname="message">
