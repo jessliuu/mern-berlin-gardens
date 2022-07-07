@@ -49,23 +49,33 @@ function GardenCard(props) {
   }, []);
 
   const handleFavorite = async () => {
+    let urlencoded = new URLSearchParams({ _id: gardenid });
+    var requestOptions = {
+      method: "POST",
+      body: urlencoded,
+      headers: { Authorization: `Bearer ${token}` },
+    };
     if (iVolunteered) {
       setIVolunteered(false);
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/user/unvolunteerforgarden",
+          requestOptions
+        );
+        const result = await response.json();
+        console.log("unvolunteering garden!", result);
+      } catch (err) {
+        console.log("Error with un-volunteering for this garden", err);
+      }
     } else {
       setIVolunteered(true);
-      let urlencoded = new URLSearchParams({ _id: gardenid });
-      var requestOptions = {
-        method: "POST",
-        body: urlencoded,
-        headers: { Authorization: `Bearer ${token}` },
-      };
       try {
         const response = await fetch(
           "http://localhost:5001/api/user/volunteerforgarden",
           requestOptions
         );
         const result = await response.json();
-        console.log(result);
+        console.log("volunteering garden!", result);
       } catch (err) {
         console.log("Error with signing up to volunteer for this garden", err);
       }

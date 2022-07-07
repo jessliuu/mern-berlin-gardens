@@ -50,6 +50,12 @@ const deleteGarden = async (req, res) => {
       .findByIdAndDelete({ _id: req.body.gardenid })
       .exec();
     console.log("gardenToDelete", gardenToDelete);
+    let userdoc = await usersModel
+      .findByIdAndUpdate(req.user._id, {
+        // new:true
+        $pull: { volunteeredgardens: req.body.gardenid },
+      })
+      .exec();
     res.status(200).json({ gardenToDelete });
   } catch (error) {
     console.log("error with deleting this garden", error);
@@ -133,16 +139,20 @@ const volunteerForGarden = async (req, res) => {
 const unvolunteerForGarden = async (req, res) => {
   const idToFind = req.user._id;
   const gardenid = req.body._id;
-  let userdoc = await usersModel.findOneAndUpdate(
-    { _id: idToFind },
-    { $pull: { volunteeredgardens: gardenid } }
-    // { new: true }
-  );
-  let gardendoc = await gardensModel.findOneAndUpdate(
-    { _id: gardenid },
-    { $pull: { volunteers: idToFind } }
-    // { new: true }
-  );
+  let userdoc = await usersModel
+    .findOneAndUpdate(
+      { _id: idToFind },
+      { $pull: { volunteeredgardens: gardenid } }
+      // { new: true }
+    )
+    .exec();
+  let gardendoc = await gardensModel
+    .findOneAndUpdate(
+      { _id: gardenid },
+      { $pull: { volunteers: idToFind } }
+      // { new: true }
+    )
+    .exec();
   console.log("unvolunteerforgarden doc", userdoc);
 };
 
