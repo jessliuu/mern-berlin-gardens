@@ -8,6 +8,7 @@ import ViewHome from "./Views/ViewHome";
 import ViewLogin from "./Views/ViewLogin";
 import ViewProfile from "./Views/ViewProfile";
 import ViewRegister from "./Views/ViewRegister";
+import ViewNoMatch from "./Views/ViewNoMatch";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
             <Route path="/browse/:gardenid" element={<ViewDetails />} />
             <Route path="/login" element={<ViewLogin />} />
             <Route path="/register" element={<ViewRegister />} />
-            {/* <Route path="*" element={<ViewNoMatch />} /> */}
+            <Route path="*" element={<ViewNoMatch />} />
           </Routes>
         </GardensContextProvider>
       </AuthContextProvider>
