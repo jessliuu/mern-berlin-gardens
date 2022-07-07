@@ -81,9 +81,14 @@ const Chat = (props) => {
 
   const deleteFrontend = (commentID) => {
     console.log(commentID);
-    // setComments()
+    setComments(
+      comments.filter(function (e) {
+        return e._id !== commentID;
+      })
+    );
   };
 
+  // var filteredArray = arr.filter(function(e) { return e !== 'seven' })
   return (
     <div>
       <h1 className="fs-1 fw-bold pt-5 text-center">Chat</h1>

@@ -31,7 +31,7 @@ const GardensPosted = () => {
 
   useEffect(() => {
     getMyGardens();
-  }, [loginStatus]);
+  }, []);
 
   const deletePostedGarden = async (gardenid) => {
     const token = getToken();

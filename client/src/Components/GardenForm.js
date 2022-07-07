@@ -21,7 +21,12 @@ const GardenForm = (props) => {
   // const role = props.userProfile.role;
   // console.log("role", role);
 
+  const redirectTo = useNavigate();
+  const { getToken, loginStatus, isUserLoggedIn } = useContext(AuthContext);
+  const token = getToken();
+  const [selectedFile, setSelectedFile] = useState(null);
   const [isFormShown, setIsFormShown] = useState(false);
+
   const handleShowForm = () => {
     if (!isFormShown) {
       setIsFormShown(true);
@@ -43,12 +48,6 @@ const GardenForm = (props) => {
     experienceRequired: false,
   });
 
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  const redirectTo = useNavigate();
-  const { getToken, loginStatus, isUserLoggedIn } = useContext(AuthContext);
-  const token = getToken();
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log("value", value);
@@ -62,28 +61,6 @@ const GardenForm = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // let urlencoded = new URLSearchParams({
-    //   farmName: formValues.farmName,
-    //   availableOn: formValues.availableOn,
-    //   description: formValues.description,
-    //   groupSize: formValues.groupSize,
-    //   neighborhood: formValues.neighborhood,
-    //   experienceRequired: formValues.experienceRequired,
-
-    // });
-
-    // let formdata = new FormData({
-
-    //   farmName: formValues.farmName,
-    //   availableOn: formValues.availableOn,
-    //   description: formValues.description,
-    //   groupSize: formValues.groupSize,
-    //   neighborhood: formValues.neighborhood,
-    //   experienceRequired: formValues.experienceRequired,
-    //   image: selectedFile,
-    // });
-
     let formdata = new FormData();
     formdata.append("image", selectedFile);
     formdata.append("farmName", formValues.farmName);
@@ -168,14 +145,6 @@ const GardenForm = (props) => {
             direction="row"
             spacing={3}
           >
-            {/* <Grid item xs={12}>
-              <IconButton
-                aria-label="show garden form"
-                onClick={handleCloseForm}
-              >
-                <RemoveCircleOutline />
-              </IconButton>
-            </Grid> */}
             <Grid item xs={6}>
               <FormLabel>Farm Name</FormLabel>
               <TextField
@@ -294,11 +263,6 @@ const GardenForm = (props) => {
                 </div>
               </FormControl>
             </Grid>
-
-            {/* <Button variant="contained" component="label">
-          Upload File
-          <input type="file" />
-        </Button> */}
 
             <Button
               variant="contained"

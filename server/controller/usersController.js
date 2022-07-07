@@ -1,5 +1,6 @@
 import usersModel from "../models/usersModel.js";
 import gardensModel from "../models/gardensModel.js";
+import commentsModel from "../models/commentsModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import { encryptPassword, verifyPassword } from "../utils/bcrypt.js";
 import { issueToken } from "../utils/jwt.js";
@@ -41,29 +42,6 @@ const getProfileByUserId = async (req, res) => {
   // } catch (err) {
   //   res.status(400).json({ message: "This user has not posted any garden." });
   // }
-};
-
-const deleteGarden = async (req, res) => {
-  // console.log("inside delete garden", req);
-  try {
-    const gardenToDelete = await gardensModel
-      .findByIdAndDelete({ _id: req.body.gardenid })
-      .exec();
-    console.log("gardenToDelete", gardenToDelete);
-    let userdoc = await usersModel
-      .findByIdAndUpdate(req.user._id, {
-        // new:true
-        $pull: { volunteeredgardens: req.body.gardenid },
-      })
-      .exec();
-    res.status(200).json({ gardenToDelete });
-  } catch (error) {
-    console.log("error with deleting this garden", error);
-    res.status(400).json({
-      error: error,
-      message: "error with deleting this garden",
-    });
-  }
 };
 
 const addGarden = async (req, res) => {
@@ -116,6 +94,33 @@ const addGarden = async (req, res) => {
     res.status(409).json({
       message: "error with adding garden",
       error: error,
+    });
+  }
+};
+
+const deleteGarden = async (req, res) => {
+  // console.log("inside delete garden", req);
+  try {
+    let userdoc = await usersModel
+      .findByIdAndUpdate(
+        req.user._id,
+        { $pull: { volunteeredgardens: req.body.gardenid } },
+        { new: true }
+      )
+      .exec();
+    const commentsToDelete = await commentsModel
+      .deleteMany({ gardenid: req.body.gardenid })
+      .exec();
+    const gardenToDelete = await gardensModel
+      .findByIdAndDelete({ _id: req.body.gardenid })
+      .exec();
+    console.log("gardenToDelete", gardenToDelete);
+    res.status(200).json({ gardenToDelete });
+  } catch (error) {
+    console.log("error with deleting this garden", error);
+    res.status(400).json({
+      error: error,
+      message: "error with deleting this garden",
     });
   }
 };
