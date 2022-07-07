@@ -37,6 +37,7 @@ export const AuthContextProvider = (props) => {
   const logOut = () => {
     localStorage.removeItem("token");
     setLoginStatus(false);
+    setUserProfile({});
     redirectTo("/login");
   };
 
@@ -94,6 +95,7 @@ export const AuthContextProvider = (props) => {
         getToken,
         userProfile,
         userProfileError,
+        getProfile,
       }}
     >
       {props.children}

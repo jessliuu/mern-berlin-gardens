@@ -1,7 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import { Link } from "react-router-dom";
-import { fontStyle } from "@mui/system";
+import "../Styles/GardenPosted&Volunteered.css";
+import InfoIcon from "@mui/icons-material/Info";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { IconButton } from "@mui/material";
 
 const GardensPosted = () => {
   const [myGardens, setMyGardens] = useState([]);
@@ -60,23 +63,36 @@ const GardensPosted = () => {
   return (
     <div>
       {loginStatus && (
-        <div>
-          <h3>Gardens posted:</h3>
+        <div className="garden-pv-container">
+          <h3 className="garden-pv-header">Gardens posted:</h3>
 
           {myGardens.map((g) => {
             return (
-              <div>
-                <p>{g.farmName}</p>
-                <img src={g.image} style={{ maxHeight: "200px" }} />
-                <Link to={`/browse/${g._id}`} className="p-2">
-                  View details
-                </Link>
-                <p
-                  style={{ color: "red", textDecoration: "underline" }}
-                  onClick={() => deletePostedGarden(g._id)}
-                >
-                  Delete
-                </p>
+              <div className="garden-pv">
+                <div className="garden-pv-left">
+                  <p>{g.farmName}</p>
+                  <img src={g.image} style={{ maxWidth: "60vw" }} />
+                </div>
+                <div className="garden-pv-right">
+                  <Link to={`/browse/${g._id}`}>
+                    <IconButton aria-label="view details">
+                      <InfoIcon />
+                    </IconButton>
+                  </Link>
+                  <IconButton
+                    aria-label="view details"
+                    onClick={() => deletePostedGarden(g._id)}
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
+
+                  {/* <p
+                    style={{ color: "red", textDecoration: "underline" }}
+                    onClick={() => deletePostedGarden(g._id)}
+                  >
+                    Delete
+                  </p> */}
+                </div>
               </div>
             );
           })}

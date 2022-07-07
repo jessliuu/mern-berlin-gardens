@@ -10,8 +10,15 @@ const postComment = async (req, res) => {
   console.log("newComment", newComment);
   try {
     const savedComment = await newComment.save();
+    // savedComment
+    //   .populate({
+    //     path: "authorid",
+    //     select: ["name", "email", "role"],
+    //   })
+    //   .execPopulate();
     console.log("savedComment", savedComment);
     res.status(201).json({
+      // savedComment,
       authorid: savedComment.authorid,
       gardenid: savedComment.gardenid,
       commentText: savedComment.commentText,
@@ -33,7 +40,7 @@ const getComments = async (req, res) => {
       .find({ gardenid: req.query.myGardenID })
       //   .find({})
       .populate({ path: "gardenid", select: ["farmName"] })
-      .populate({ path: "authorid", select: ["name", "email", "role"] })
+      .populate({ path: "authorid", select: ["_id", "name", "email", "role"] })
       .exec();
     console.log(comments[0].gardenid._id);
     res.status(200).json({ comments });

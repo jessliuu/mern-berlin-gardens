@@ -1,0 +1,30 @@
+.garden-pv-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.garden-pv-header {
+  padding-top: 5%;
+}
+.garden-pv {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding: 5%;
+}
+
+.garden-pv-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.garden-pv-left p {
+  margin-bottom: 0;
+}
+
+.garden-pv-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

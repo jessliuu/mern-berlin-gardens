@@ -16,6 +16,7 @@ const Chat = (props) => {
   console.log(paramsNumber);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState();
+  const [loading, setLoading] = useState(true);
 
   const { userProfile, getToken } = useContext(AuthContext);
   const token = getToken();
@@ -34,6 +35,7 @@ const Chat = (props) => {
       const cleandata = data.comments;
       console.log("comment data", cleandata);
       setComments(cleandata);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -49,6 +51,7 @@ const Chat = (props) => {
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const urlencoded = new URLSearchParams({
       authorid: userProfile.id,
       commentText: newComment,
@@ -72,6 +75,7 @@ const Chat = (props) => {
       if (comments.length === 0) {
         setComments(results);
       } else setComments([...comments, results]);
+      setLoading(false);
     } catch (error) {
       console.log("error posting this comment", error);
     }

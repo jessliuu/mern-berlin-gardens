@@ -9,7 +9,8 @@ function LoginForm() {
   const [error, setError] = useState(null);
   //   const { errorfromLogin } = useContext(AuthContext);
 
-  const { loginStatus, isUserLoggedIn, logOut } = useContext(AuthContext);
+  const { loginStatus, isUserLoggedIn, logOut, getProfile } =
+    useContext(AuthContext);
   console.log(loginStatus);
   // useEffect(() => {
   //   isUserLoggedIn();
@@ -46,6 +47,7 @@ function LoginForm() {
       console.log(user);
       if (token) {
         localStorage.setItem("token", token);
+        getProfile();
         redirectTo("/profile");
         isUserLoggedIn();
       } else {

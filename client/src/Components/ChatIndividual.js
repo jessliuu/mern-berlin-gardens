@@ -8,6 +8,8 @@ const ChatIndividual = (props) => {
   const { userProfile } = useContext(AuthContext);
   const { authorid, commentDate, commentText, _id } = props.info;
   // const deleteFrontend = props.deleteFrontend;
+  // console.log("userprofileid", typeof userProfile.id);
+  // console.log("authorid", typeof authorid._id);
   const handleEditComment = () => {
     console.log("message is edited");
   };
@@ -38,12 +40,19 @@ const ChatIndividual = (props) => {
     return new Date(date).toLocaleTimeString();
   };
 
-  console.log("authorid", authorid);
-  console.log("commentid", _id);
+  const getAuthorId = (id) => {
+    let authorID = "";
+    if (typeof id === "string") {
+      authorID = id;
+    } else {
+      authorID = id._id;
+    }
+    return authorID;
+  };
   return (
     <li>
       <div classname="message">
-        {authorid._id === userProfile.id ? (
+        {getAuthorId(authorid) === userProfile.id ? (
           <p>You wrote on {messageDate(commentDate)}:</p>
         ) : (
           <p>
@@ -52,7 +61,7 @@ const ChatIndividual = (props) => {
         )}
         <p>{commentText}</p>
 
-        {authorid._id === userProfile.id ? (
+        {getAuthorId(authorid) === userProfile.id ? (
           <div style={{ justifySelf: "flex-end" }}>
             <IconButton aria-label="edit comment" onClick={handleEditComment}>
               <EditIcon />

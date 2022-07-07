@@ -77,23 +77,28 @@ const Profile = () => {
   // };
 
   return (
-    <Container maxWidth="sm" style={{ marginTop: "5%" }}>
-      {userProfile && (
-        <h2
+    <Container style={{ marginTop: "5%" }}>
+      {!userProfileError && (
+        <div
           style={{
             backgroundColor: "lightpink",
             borderRadius: "16px",
             color: "grey",
+            padding: "4%",
+            margin: "5%",
           }}
         >
-          Dear{" "}
-          <h2 style={{ color: "green", margin: "2%" }}>{userProfile.name},</h2>
-          you are logged in as a{" "}
-          <h2 style={{ color: "green" }}>{userProfile.role}.</h2>
-        </h2>
+          <p style={{ fontSize: "x-large" }}>
+            Dear {userProfile.name}, you are logged in as a{" "}
+            <span style={{ color: "green", fontSize: "x-large" }}>
+              {userProfile.role}
+            </span>
+            .
+          </p>
+          {userProfile.role === "host" ? <GardenForm /> : null}
+        </div>
       )}
 
-      {userProfile.role === "host" ? <GardenForm /> : null}
       {userProfile.role === "host" ? <GardensPosted /> : null}
       <GardensVolunteered />
 
