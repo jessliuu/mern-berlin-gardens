@@ -10,11 +10,12 @@ const RegistrationForm = () => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
   };
 
-  const signUp = async () => {
+  const signUp = async (e) => {
     //verify all necessary fields are filled
     // verify email / password length and strength with Regex
 
     //check code in Postman to see how composes the object that is sent in request's body
+    e.preventDefault();
     let urlencoded = new URLSearchParams({
       name: newUser.name,
       email: newUser.email,

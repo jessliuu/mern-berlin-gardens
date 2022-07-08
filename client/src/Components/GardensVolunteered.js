@@ -57,35 +57,41 @@ const GardensVolunteered = () => {
 
   return (
     <div>
-      {loginStatus && (
-        <div className="garden-pv-container">
-          <h3 className="garden-pv-header">Gardens volunteered:</h3>
+      {loginStatus &&
+        (myGardens.length === 0 ? (
+          <div className="garden-pv-container">
+            <h3 className="garden-pv-header">Gardens volunteered:</h3>
+            <p>You currently have not signed up to volunteer for any garden.</p>
+          </div>
+        ) : (
+          <div className="garden-pv-container">
+            <h3 className="garden-pv-header">Gardens volunteered:</h3>
 
-          {myGardens.map((g) => {
-            return (
-              <div className="garden-pv">
-                <div className="garden-pv-left">
-                  <p>{g.farmName}</p>
-                  <img src={g.image} style={{ maxWidth: "60vw" }} />
-                </div>
-                <div className="garden-pv-right">
-                  <Link to={`/browse/${g._id}`}>
-                    <IconButton aria-label="view details">
-                      <InfoIcon />
+            {myGardens.map((g) => {
+              return (
+                <div className="garden-pv">
+                  <div className="garden-pv-left">
+                    <p>{g.farmName}</p>
+                    <img src={g.image} style={{ maxWidth: "60vw" }} />
+                  </div>
+                  <div className="garden-pv-right">
+                    <Link to={`/browse/${g._id}`}>
+                      <IconButton aria-label="view details">
+                        <InfoIcon />
+                      </IconButton>
+                    </Link>
+                    <IconButton
+                      aria-label="view details"
+                      onClick={() => deleteVolunteeredGarden(g._id)}
+                    >
+                      <DeleteForeverIcon />
                     </IconButton>
-                  </Link>
-                  <IconButton
-                    aria-label="view details"
-                    onClick={() => deleteVolunteeredGarden(g._id)}
-                  >
-                    <DeleteForeverIcon />
-                  </IconButton>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+              );
+            })}
+          </div>
+        ))}
     </div>
   );
 };

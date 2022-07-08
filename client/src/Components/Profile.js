@@ -95,7 +95,11 @@ const Profile = () => {
             </span>
             .
           </p>
-          {userProfile.role === "host" ? <GardenForm /> : null}
+          {userProfile.role === "host" ? (
+            <p>
+              You can add a garden. <GardenForm />{" "}
+            </p>
+          ) : null}
         </div>
       )}
 

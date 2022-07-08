@@ -98,6 +98,11 @@ const GardenForm = (props) => {
     console.log("submit working");
   };
 
+  // const useStyles = makeStyles({
+  //   input: {
+  //     color: "blue",
+  //   },
+  // });
   // const uploadPicture = async () => {
   //   // call  FormData object constructor to populate with pairs of key/values (in this case {image: "our file"} )
   //   const formData = new FormData();
@@ -148,7 +153,7 @@ const GardenForm = (props) => {
             <Grid item xs={12} md={6}>
               <FormLabel>Farm Name</FormLabel>
               <TextField
-                style={{ width: "50%" }}
+                className="input-style"
                 id="farmname-input"
                 name="farmName"
                 // label="Farm Name"
@@ -157,6 +162,7 @@ const GardenForm = (props) => {
                 onChange={handleInputChange}
                 variant="standard"
                 required
+                // inputProps={{ className: classes.input }}
               />
             </Grid>
 

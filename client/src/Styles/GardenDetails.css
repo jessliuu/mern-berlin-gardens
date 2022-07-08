@@ -1,0 +1,18 @@
+.garden-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.garden-details-header > h2 {
+  font-weight: 800;
+}
+
+.garden-details-image {
+  padding-bottom: 5%;
+}
+
+.spots-left {
+  color: green;
+}
