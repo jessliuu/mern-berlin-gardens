@@ -195,7 +195,7 @@ const signUp = async (req, res) => {
     console.log(req.body);
     const existingUser = await usersModel.findOne({ email: req.body.email });
     if (existingUser) {
-      res.status(409).json({ message: "user already exists" });
+      res.status(409).json({ message: "User already exists" });
     } else {
       const hashedPassword = await encryptPassword(req.body.password);
       console.log("hashedPassword:", hashedPassword);
@@ -215,7 +215,7 @@ const signUp = async (req, res) => {
           role: savedUser.role,
           picture: savedUser.picture,
           gardens: savedUser.gardens,
-          message: "user successfully registered",
+          message: "User successfully registered",
         });
       } catch (error) {
         res.status(409).json({

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const RegistrationForm = () => {
   const [newUser, setNewUser] = useState({});
+  const [registrationResult, setRegistrationResult] = useState("");
   const redirectTo = useNavigate();
 
   const handleChangeHandler = (e) => {
@@ -47,7 +48,8 @@ const RegistrationForm = () => {
       );
       const results = await response.json();
       console.log("results", results);
-      redirectTo("/login");
+      setRegistrationResult(results.message);
+      // else if (results.status === 409);
     } catch (error) {
       console.log("error fetching", error);
     }
@@ -117,6 +119,8 @@ const RegistrationForm = () => {
         <Button type="submit" variant="outline-dark" className="m-3">
           Sign me up!
         </Button>
+
+        {registrationResult && <p>{registrationResult}</p>}
       </Form>
     </div>
   );

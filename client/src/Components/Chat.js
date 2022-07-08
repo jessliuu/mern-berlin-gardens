@@ -30,10 +30,12 @@ const Chat = (props) => {
         options
       );
       console.log("response", response);
-      const data = await response.json();
-      const cleandata = data.comments;
-      console.log("comment data", cleandata);
-      setComments(cleandata);
+      if (response.status === 200) {
+        const data = await response.json();
+        const cleandata = data.comments;
+        console.log("comment data", cleandata);
+        setComments(cleandata);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -68,11 +70,12 @@ const Chat = (props) => {
         "http://localhost:5001/api/comment/postcomment",
         requestOptions
       );
+      console.log("comment response", response);
       const results = await response.json();
       console.log("comment results", results);
-      console.log("comments.length", comments.length);
+      // console.log("comments.length", comments.length);
       if (comments.length === 0) {
-        setComments(results);
+        setComments([results]);
       } else setComments([...comments, results]);
     } catch (error) {
       console.log("error posting this comment", error);
@@ -90,7 +93,6 @@ const Chat = (props) => {
     );
   };
 
-  // var filteredArray = arr.filter(function(e) { return e !== 'seven' })
   return (
     <div>
       <h1 className="fs-1 fw-bold pt-5 text-center">Chat</h1>
