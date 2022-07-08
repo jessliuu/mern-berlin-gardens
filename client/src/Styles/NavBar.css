@@ -1,6 +1,3 @@
-* {
-  font-family: Roboto Slab, serif !important;
-  /* display: flex;
-  align-items: flex-start;
-  justify-content: space-evenly !important; */
+.nav-options {
+  font-weight: 600;
 }

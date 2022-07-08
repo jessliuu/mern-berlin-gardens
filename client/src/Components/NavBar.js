@@ -28,18 +28,18 @@ function NavBar() {
           style={{ flexGrow: 0, marginRight: 20 }}
         >
           <Nav className="me-auto">
-            <Link to="/" className="p-2">
+            <Link to="/" className="p-2 nav-options">
               Home
             </Link>
-            <Link to="/browse" className="p-2">
+            <Link to="/browse" className="p-2 nav-options">
               Browse
             </Link>
             {loginStatus === false && (
-              <Link to="/login" className="p-2">
+              <Link to="/login" className="p-2 nav-options">
                 Login
               </Link>
             )}
-            <Link to="/profile" className="p-2">
+            <Link to="/profile" className="p-2 nav-options">
               Profile
             </Link>
             {loginStatus && (

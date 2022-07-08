@@ -132,7 +132,7 @@ const GardenForm = (props) => {
       ) : (
         <form
           onSubmit={handleSubmit}
-          style={{ backgroundColor: "lightgreen", padding: 20, margin: 20 }}
+          style={{ backgroundColor: "lightgreen", padding: 20 }}
         >
           <IconButton aria-label="show garden form" onClick={handleCloseForm}>
             <RemoveCircleOutlineIcon />
@@ -145,7 +145,7 @@ const GardenForm = (props) => {
             direction="row"
             spacing={3}
           >
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <FormLabel>Farm Name</FormLabel>
               <TextField
                 style={{ width: "50%" }}
@@ -160,8 +160,8 @@ const GardenForm = (props) => {
               />
             </Grid>
 
-            <Grid item xs={6}>
-              <FormLabel>Available on</FormLabel>
+            <Grid item xs={12} md={6}>
+              <FormLabel>Available on </FormLabel>
               <TextField
                 id="availableon-input"
                 name="availableOn"
@@ -185,9 +185,12 @@ const GardenForm = (props) => {
                 value={formValues.description}
                 onChange={handleInputChange}
                 variant="standard"
+                multiline
+                required
               />
             </Grid>
-            <Grid item xs={4}>
+
+            <Grid item xs={6} md={4}>
               <FormLabel>Group Size</FormLabel>
               <TextField
                 id="groupsize-input"
@@ -197,9 +200,37 @@ const GardenForm = (props) => {
                 value={formValues.groupSize}
                 onChange={handleInputChange}
                 variant="standard"
+                required
               />
             </Grid>
-            <Grid item xs={4}>
+
+            <Grid item xs={6} md={4}>
+              <FormControl>
+                <FormLabel id="neighborhood-select-label">
+                  Neighborhood
+                </FormLabel>
+                <Select
+                  labelId="neighborhood-select-label"
+                  name="neighborhood"
+                  value={formValues.neighborhood}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                  required
+                >
+                  <MenuItem key="mitte" value="mitte">
+                    Mitte
+                  </MenuItem>
+                  <MenuItem key="spandau" value="spandau">
+                    Spandau
+                  </MenuItem>
+                  <MenuItem key="pankow " value="pankow">
+                    Pankow
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12}>
               <FormControl>
                 <FormLabel>Experience</FormLabel>
                 <RadioGroup
@@ -208,6 +239,7 @@ const GardenForm = (props) => {
                   value={formValues.experienceRequired}
                   onChange={handleInputChange}
                   row
+                  required
                 >
                   <FormControlLabel
                     key="true"
@@ -224,31 +256,6 @@ const GardenForm = (props) => {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
-              <FormControl>
-                <FormLabel id="neighborhood-select-label">
-                  Neighborhood
-                </FormLabel>
-                <Select
-                  labelId="neighborhood-select-label"
-                  name="neighborhood"
-                  value={formValues.neighborhood}
-                  onChange={handleInputChange}
-                  variant="outlined"
-                >
-                  <MenuItem key="mitte" value="mitte">
-                    Mitte
-                  </MenuItem>
-                  <MenuItem key="spandau" value="spandau">
-                    Spandau
-                  </MenuItem>
-                  <MenuItem key="pankow " value="pankow">
-                    Pankow
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
             <Grid item xs={12} style={{ padding: 20 }}>
               <FormControl>
                 <div style={{ alignContent: "center" }}>

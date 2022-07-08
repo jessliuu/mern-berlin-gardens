@@ -15,14 +15,14 @@ const MainPic = () => {
     switch (loginStatus) {
       case false:
         return (
-          <Button variant="outline-light" onClick={handleLogIn}>
+          <Button variant="light" onClick={handleLogIn}>
             Log in
           </Button>
         );
         break;
       case true:
         return (
-          <Button variant="outline-light" onClick={handleViewProfile}>
+          <Button variant="light" onClick={handleViewProfile}>
             View Profile
           </Button>
         );
@@ -32,8 +32,8 @@ const MainPic = () => {
     }
   }
   return (
-    <div className="homeContainer">
-      <p style={{ color: "white" }}>
+    <div className="home-container">
+      <p className="home-p" style={{ color: "white" }}>
         The alloted gardens movement, in Germany and in Berlin specifically,
         contributes to a history as colorful and varied as a flower bed. During
         the Industrial Era and as a result of the spreading urbanisation, these
@@ -43,7 +43,7 @@ const MainPic = () => {
         platform, &#x7B;My Heart Beets&#x7d;, is here to connect a garden with a
         helper, or a helper with a garden.
       </p>
-      <Button variant="outline-light" onClick={handleStartBrowsing}>
+      <Button variant="light" onClick={handleStartBrowsing}>
         Start browsing
       </Button>
       <br />

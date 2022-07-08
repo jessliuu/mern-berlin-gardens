@@ -92,7 +92,7 @@ function LoginForm() {
               placeholder="required"
               onChange={handleChangeHandler}
             />
-            <Button type="submit" variant="outline-light" className="m-3">
+            <Button type="submit" variant="outline-dark" className="m-3">
               Log In
             </Button>
           </Form.Group>

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationForm = () => {
   const [newUser, setNewUser] = useState({});
+  const redirectTo = useNavigate();
 
   const handleChangeHandler = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
@@ -44,6 +46,7 @@ const RegistrationForm = () => {
       );
       const results = await response.json();
       console.log("results", results);
+      redirectTo("/login");
     } catch (error) {
       console.log("error fetching", error);
     }
@@ -69,6 +72,7 @@ const RegistrationForm = () => {
             type="name"
             name="name"
             id="exampleName"
+            placeholder="John"
             onChange={handleChangeHandler}
             value={newUser.name ? newUser.name : ""}
           />
@@ -80,7 +84,7 @@ const RegistrationForm = () => {
             type="password"
             name="password"
             id="examplePassword"
-            placeholder="required"
+            placeholder="must contain at least 6 characters"
             onChange={handleChangeHandler}
             value={newUser.password ? newUser.password : ""}
           />
@@ -96,7 +100,7 @@ const RegistrationForm = () => {
             value="host"
             id="host"
           />
-          <label for="host">Host </label>
+          <label for="host">Host &#160; &#160;</label>
           <input
             // inline
             label="volunteer"
@@ -109,7 +113,7 @@ const RegistrationForm = () => {
           <label for="volunteer">Volunteer</label>
         </div>
 
-        <Button type="submit" variant="outline-light" className="m-3">
+        <Button type="submit" variant="outline-dark" className="m-3">
           Sign me up!
         </Button>
       </Form>

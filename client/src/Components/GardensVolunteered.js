@@ -9,9 +9,9 @@ import { IconButton } from "@mui/material";
 const GardensVolunteered = () => {
   const [myGardens, setMyGardens] = useState([]);
   const { getToken, loginStatus } = useContext(AuthContext);
+  const token = getToken();
 
   const getMyGardens = async () => {
-    const token = getToken();
     const myHeader = new Headers({
       Authorization: `Bearer ${token}`,
     });
@@ -36,6 +36,25 @@ const GardensVolunteered = () => {
     getMyGardens();
   }, [loginStatus]);
 
+  const deleteVolunteeredGarden = async (gardenid) => {
+    let urlencoded = new URLSearchParams({ _id: gardenid });
+    var requestOptions = {
+      method: "POST",
+      body: urlencoded,
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/user/unvolunteerforgarden",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("unvolunteering garden!", result);
+    } catch (err) {
+      console.log("Error with un-volunteering for this garden", err);
+    }
+  };
+
   return (
     <div>
       {loginStatus && (
@@ -57,7 +76,7 @@ const GardensVolunteered = () => {
                   </Link>
                   <IconButton
                     aria-label="view details"
-                    // onClick={() => deletePostedGarden(g._id)}
+                    onClick={() => deleteVolunteeredGarden(g._id)}
                   >
                     <DeleteForeverIcon />
                   </IconButton>
