@@ -1,13 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { IconButton } from "@mui/material";
 import "../Styles/Chat.css";
+import AlertConfirm from "./AlertConfirm";
 
 const ChatIndividual = (props) => {
   const { userProfile } = useContext(AuthContext);
   const { authorid, commentDate, commentText, _id } = props.info;
+  const [showAlertConfirm, setShowAlertConfirm] = useState(false);
   // const deleteFrontend = props.deleteFrontend;
   // console.log("userprofileid", typeof userProfile.id);
   // console.log("authorid", typeof authorid._id);
@@ -87,12 +89,22 @@ const ChatIndividual = (props) => {
               <IconButton
                 style={{ padding: "0" }}
                 aria-label="delete comment"
-                onClick={handleDeleteComment}
+                onClick={() => setShowAlertConfirm(true)}
               >
                 <DeleteIcon fontSize="small" />
               </IconButton>
             </div>
           ) : null}
+
+          {showAlertConfirm && (
+            <AlertConfirm
+              setShowAlertConfirm={setShowAlertConfirm}
+              message="Are you sure you want to delete this message?"
+              button1="Yes, delete this message"
+              button2="No, keept this message"
+              handleDelete={handleDeleteComment}
+            />
+          )}
         </div>
       </div>
     </li>

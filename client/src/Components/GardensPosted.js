@@ -5,10 +5,12 @@ import "../Styles/GardenPosted&Volunteered.css";
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { IconButton } from "@mui/material";
+import AlertConfirm from "./AlertConfirm";
 
 const GardensPosted = () => {
   const [myGardens, setMyGardens] = useState([]);
   const { getToken, loginStatus } = useContext(AuthContext);
+  const [showAlertConfirm, setShowAlertConfirm] = useState(false);
 
   const getMyGardens = async () => {
     const token = getToken();
@@ -55,6 +57,7 @@ const GardensPosted = () => {
       const result = await response.json();
       console.log("deletedgarden", result);
       getMyGardens();
+      setShowAlertConfirm(false);
     } catch (err) {
       console.log("error deleting this garden", err);
     }
@@ -80,9 +83,21 @@ const GardensPosted = () => {
                     </IconButton>
                   </Link>
                   <IconButton
-                    aria-label="view details"
-                    onClick={() => deletePostedGarden(g._id)}
+                    aria-label="delete garden"
+                    // onClick={() => deletePostedGarden(g._id)}
+                    onClick={() => setShowAlertConfirm(true)}
                   >
+                    {showAlertConfirm && (
+                      <AlertConfirm
+                        setShowAlertConfirm={setShowAlertConfirm}
+                        handleDelete={deletePostedGarden}
+                        id={g._id}
+                        message="Are you sure you want to delete this garden?"
+                        button1="Yes, delete this garden"
+                        button2="No, keep this garden"
+                      />
+                    )}
+
                     <DeleteForeverIcon />
                   </IconButton>
 

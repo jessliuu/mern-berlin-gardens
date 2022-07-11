@@ -17,12 +17,15 @@ import "../Styles/GardenCard.css";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
 import Modal from "./Modal";
+import AlertSignIn from "./AlertSignIn";
 
 function GardenCard(props) {
   const { getToken, userProfile } = useContext(AuthContext);
   const token = getToken();
   const [iVolunteered, setIVolunteered] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [errorHandleFavorite, setErrorHandleFavorite] = useState("");
+  const [showAlertSignIn, setShowAlertSignIn] = useState(false);
 
   // console.log("props", props);
 
@@ -49,36 +52,44 @@ function GardenCard(props) {
   }, []);
 
   const handleFavorite = async () => {
-    let urlencoded = new URLSearchParams({ _id: gardenid });
-    var requestOptions = {
-      method: "POST",
-      body: urlencoded,
-      headers: { Authorization: `Bearer ${token}` },
-    };
-    if (iVolunteered) {
-      setIVolunteered(false);
-      try {
-        const response = await fetch(
-          "http://localhost:5001/api/user/unvolunteerforgarden",
-          requestOptions
-        );
-        const result = await response.json();
-        console.log("unvolunteering garden!", result);
-      } catch (err) {
-        console.log("Error with un-volunteering for this garden", err);
+    if (token) {
+      let urlencoded = new URLSearchParams({ _id: gardenid });
+      var requestOptions = {
+        method: "POST",
+        body: urlencoded,
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      if (iVolunteered) {
+        setIVolunteered(false);
+        try {
+          const response = await fetch(
+            "http://localhost:5001/api/user/unvolunteerforgarden",
+            requestOptions
+          );
+          const result = await response.json();
+          console.log("unvolunteering garden!", result);
+        } catch (err) {
+          console.log("Error with un-volunteering for this garden", err);
+        }
+      } else {
+        setIVolunteered(true);
+        try {
+          const response = await fetch(
+            "http://localhost:5001/api/user/volunteerforgarden",
+            requestOptions
+          );
+          const result = await response.json();
+          console.log("volunteering garden!", result);
+        } catch (err) {
+          console.log(
+            "Error with signing up to volunteer for this garden",
+            err
+          );
+        }
       }
     } else {
-      setIVolunteered(true);
-      try {
-        const response = await fetch(
-          "http://localhost:5001/api/user/volunteerforgarden",
-          requestOptions
-        );
-        const result = await response.json();
-        console.log("volunteering garden!", result);
-      } catch (err) {
-        console.log("Error with signing up to volunteer for this garden", err);
-      }
+      setErrorHandleFavorite("Please log in to sign up for volunteering");
+      setShowAlertSignIn(true);
     }
   };
 
@@ -128,20 +139,19 @@ function GardenCard(props) {
             <ShareIcon />
           </IconButton>
         </CardActions>
-        {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and
-            set aside for 10 minutes.
-          </Typography>
-        </CardContent>
-      </Collapse> */}
+
         {showModal && (
           <Modal
             farmName={farmName}
             gardenid={gardenid}
             setShowModal={setShowModal}
+          />
+        )}
+
+        {showAlertSignIn && (
+          <AlertSignIn
+            message={errorHandleFavorite}
+            setShowAlertSignIn={setShowAlertSignIn}
           />
         )}
       </Card>
