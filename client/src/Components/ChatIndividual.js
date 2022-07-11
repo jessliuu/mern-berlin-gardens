@@ -3,6 +3,7 @@ import { AuthContext } from "../Contexts/AuthContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { IconButton } from "@mui/material";
+import "../Styles/Chat.css";
 
 const ChatIndividual = (props) => {
   const { userProfile } = useContext(AuthContext);
@@ -50,30 +51,49 @@ const ChatIndividual = (props) => {
     return authorID;
   };
   return (
-    <li>
+    <li
+      className={getAuthorId(authorid) === userProfile.id ? "mine" : ""}
+      key={getAuthorId(authorid)}
+    >
       <div classname="message">
-        {getAuthorId(authorid) === userProfile.id ? (
-          <p>You wrote on {messageDate(commentDate)}:</p>
-        ) : (
-          <p>
-            {authorid.name} wrote on {messageDate(commentDate)}:
+        <div className="text">
+          {getAuthorId(authorid) === userProfile.id ? (
+            <p className="author-me bold">
+              You wrote on {messageDate(commentDate)}:
+            </p>
+          ) : (
+            <p className="author-other bold">
+              {authorid.name} wrote on {messageDate(commentDate)}:
+            </p>
+          )}
+          <p
+            className={
+              getAuthorId(authorid) === userProfile.id
+                ? "author-me"
+                : "author-other"
+            }
+          >
+            {commentText}
           </p>
-        )}
-        <p>{commentText}</p>
-
-        {getAuthorId(authorid) === userProfile.id ? (
-          <div style={{ justifySelf: "flex-end" }}>
-            <IconButton aria-label="edit comment" onClick={handleEditComment}>
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              aria-label="delete comment"
-              onClick={handleDeleteComment}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </div>
-        ) : null}
+          {getAuthorId(authorid) === userProfile.id ? (
+            <div>
+              <IconButton
+                style={{ padding: "0" }}
+                aria-label="edit comment"
+                onClick={handleEditComment}
+              >
+                <EditIcon fontSize="small" />
+              </IconButton>
+              <IconButton
+                style={{ padding: "0" }}
+                aria-label="delete comment"
+                onClick={handleDeleteComment}
+              >
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </div>
+          ) : null}
+        </div>
       </div>
     </li>
   );

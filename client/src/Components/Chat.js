@@ -95,7 +95,7 @@ const Chat = (props) => {
 
   return (
     <div>
-      <h1 className="fs-1 fw-bold pt-5 text-center">Chat</h1>
+      <h1 className="fs-1 fw-bold text-center">Chat</h1>
       <ol className="messages">
         {comments &&
           comments.map((c) => {
