@@ -6,11 +6,12 @@ import { AuthContext } from "../Contexts/AuthContext";
 
 const AlertDeleteGarden = (props) => {
   const setShowAlertDeleteGarden = props.setShowAlertDeleteGarden;
-
+  const deleteFrontend = props.deleteFrontend;
   const message = props.message;
   const button1 = props.button1;
   const button2 = props.button2;
   const id = props.id;
+
   const { getToken } = useContext(AuthContext);
 
   const deletePostedGarden = async (gardenid) => {
@@ -30,6 +31,10 @@ const AlertDeleteGarden = (props) => {
         requestOptions
       );
       const result = await response.json();
+
+      if (response.status === 200) {
+        deleteFrontend(gardenid);
+      }
       console.log("deletedgarden", result);
       //  getMyGardens();
       setShowAlertDeleteGarden(false);
@@ -37,12 +42,6 @@ const AlertDeleteGarden = (props) => {
       console.log("error deleting this garden", err);
     }
   };
-
-  // const handleDelete = async (id) => {
-  //   console.log("typeof", typeof id);
-  //   console.log("id", id);
-  //   deletePostedGarden(id);
-  // };
 
   return (
     <div

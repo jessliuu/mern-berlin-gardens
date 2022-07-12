@@ -115,12 +115,18 @@ const deleteGarden = async (req, res) => {
       .findByIdAndDelete({ _id: req.body.gardenid })
       .exec();
     console.log("gardenToDelete", gardenToDelete);
-    res.status(200).json({ gardenToDelete });
+    res
+      .status(200)
+      .json({
+        gardenToDelete,
+        message:
+          "You have successfully deleted the garden. Refresh page to view the updated list.",
+      });
   } catch (error) {
     console.log("error with deleting this garden", error);
     res.status(400).json({
       error: error,
-      message: "error with deleting this garden",
+      message: "Error with deleting this garden",
     });
   }
 };

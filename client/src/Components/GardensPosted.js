@@ -12,7 +12,7 @@ const GardensPosted = () => {
   const [myGardens, setMyGardens] = useState([]);
   const [loader, setLoader] = useState(true);
   const { getToken, loginStatus } = useContext(AuthContext);
-  // const [showAlertConfirm, setShowAlertConfirm] = useState(false);
+  const [postingResult, setPostingResult] = useState("");
 
   const getMyGardens = async () => {
     const token = getToken();
@@ -41,78 +41,25 @@ const GardensPosted = () => {
     getMyGardens();
   }, []);
 
-  const deletePostedGarden = async (gardenid) => {
-    const token = getToken();
-    const myHeader = new Headers({
-      Authorization: `Bearer ${token}`,
-    });
-
-    var requestOptions = {
-      method: "DELETE",
-      headers: myHeader,
-      body: new URLSearchParams({ gardenid: gardenid }),
-    };
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/user/deletegarden",
-        requestOptions
-      );
-      const result = await response.json();
-      console.log("deletedgarden", result);
-      getMyGardens();
-      // setShowAlertConfirm(false);
-    } catch (err) {
-      console.log("error deleting this garden", err);
-    }
+  const deleteFrontend = (id) => {
+    setPostingResult("You have successfully deleted the garden.");
+    setMyGardens(
+      myGardens.filter(function (g) {
+        return g._id !== id;
+      })
+    );
   };
 
   return (
     <div>
       {loader && <p>loading...</p>}
+
       {loginStatus && !loader ? (
         <div className="garden-pv-container">
           <h3 className="garden-pv-header">Gardens posted:</h3>
-
+          {postingResult && <p>{postingResult}</p>}
           {myGardens.map((g) => {
-            return (
-              <GardenPosted
-                info={g}
-                // deletePostedGarden={deletePostedGarden}
-                // setShowAlertConfirm={setShowAlertConfirm}
-              />
-              // <div className="garden-pv">
-              //   <div className="garden-pv-left">
-              //     <p>{g.farmName}</p>
-              //     <img src={g.image} style={{ maxWidth: "60vw" }} />
-              //   </div>
-              //   <div className="garden-pv-right">
-              //     <Link to={`/browse/${g._id}`}>
-              //       <IconButton aria-label="view details">
-              //         <InfoIcon />
-              //       </IconButton>
-              //     </Link>
-              //     <IconButton
-              //       aria-label="delete garden"
-              //       // onClick={() => deletePostedGarden(g._id)}
-              //       onClick={() => setShowAlertConfirm(true)}
-              //     >
-              //       {showAlertConfirm && (
-              //         <AlertConfirm
-              //           setShowAlertConfirm={setShowAlertConfirm}
-              //           handleDelete={deletePostedGarden}
-              //           id={g._id}
-              //           message="Are you sure you want to delete this garden?"
-              //           button1="Yes, delete this garden"
-              //           button2="No, keep this garden"
-              //         />
-              //       )}
-
-              //       <DeleteForeverIcon />
-              //     </IconButton>
-
-              //   </div>
-              // </div>
-            );
+            return <GardenPosted info={g} deleteFrontend={deleteFrontend} />;
           })}
         </div>
       ) : null}
