@@ -8,7 +8,7 @@ const ViewRegister = () => {
     <div>
       <Header />
       <NavBar />
-      <h2>Register here to get started!</h2>
+      <h2 style={{ textAlign: "left" }}>Register here to get started!</h2>
       <RegistrationForm />
     </div>
   );

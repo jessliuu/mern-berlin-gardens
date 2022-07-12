@@ -6,11 +6,13 @@ import InfoIcon from "@mui/icons-material/Info";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { IconButton } from "@mui/material";
 import AlertConfirm from "./AlertConfirm";
+import GardenPosted from "./GardenPosted";
 
 const GardensPosted = () => {
   const [myGardens, setMyGardens] = useState([]);
+  const [loader, setLoader] = useState(true);
   const { getToken, loginStatus } = useContext(AuthContext);
-  const [showAlertConfirm, setShowAlertConfirm] = useState(false);
+  // const [showAlertConfirm, setShowAlertConfirm] = useState(false);
 
   const getMyGardens = async () => {
     const token = getToken();
@@ -29,6 +31,7 @@ const GardensPosted = () => {
       const result = await response.json();
       console.log(result);
       setMyGardens(result.gardens);
+      setLoader(false);
     } catch (err) {
       console.log("error getting gardens", err);
     }
@@ -57,7 +60,7 @@ const GardensPosted = () => {
       const result = await response.json();
       console.log("deletedgarden", result);
       getMyGardens();
-      setShowAlertConfirm(false);
+      // setShowAlertConfirm(false);
     } catch (err) {
       console.log("error deleting this garden", err);
     }
@@ -65,54 +68,54 @@ const GardensPosted = () => {
 
   return (
     <div>
-      {loginStatus && (
+      {loader && <p>loading...</p>}
+      {loginStatus && !loader ? (
         <div className="garden-pv-container">
           <h3 className="garden-pv-header">Gardens posted:</h3>
 
           {myGardens.map((g) => {
             return (
-              <div className="garden-pv">
-                <div className="garden-pv-left">
-                  <p>{g.farmName}</p>
-                  <img src={g.image} style={{ maxWidth: "60vw" }} />
-                </div>
-                <div className="garden-pv-right">
-                  <Link to={`/browse/${g._id}`}>
-                    <IconButton aria-label="view details">
-                      <InfoIcon />
-                    </IconButton>
-                  </Link>
-                  <IconButton
-                    aria-label="delete garden"
-                    // onClick={() => deletePostedGarden(g._id)}
-                    onClick={() => setShowAlertConfirm(true)}
-                  >
-                    {showAlertConfirm && (
-                      <AlertConfirm
-                        setShowAlertConfirm={setShowAlertConfirm}
-                        handleDelete={deletePostedGarden}
-                        id={g._id}
-                        message="Are you sure you want to delete this garden?"
-                        button1="Yes, delete this garden"
-                        button2="No, keep this garden"
-                      />
-                    )}
+              <GardenPosted
+                info={g}
+                // deletePostedGarden={deletePostedGarden}
+                // setShowAlertConfirm={setShowAlertConfirm}
+              />
+              // <div className="garden-pv">
+              //   <div className="garden-pv-left">
+              //     <p>{g.farmName}</p>
+              //     <img src={g.image} style={{ maxWidth: "60vw" }} />
+              //   </div>
+              //   <div className="garden-pv-right">
+              //     <Link to={`/browse/${g._id}`}>
+              //       <IconButton aria-label="view details">
+              //         <InfoIcon />
+              //       </IconButton>
+              //     </Link>
+              //     <IconButton
+              //       aria-label="delete garden"
+              //       // onClick={() => deletePostedGarden(g._id)}
+              //       onClick={() => setShowAlertConfirm(true)}
+              //     >
+              //       {showAlertConfirm && (
+              //         <AlertConfirm
+              //           setShowAlertConfirm={setShowAlertConfirm}
+              //           handleDelete={deletePostedGarden}
+              //           id={g._id}
+              //           message="Are you sure you want to delete this garden?"
+              //           button1="Yes, delete this garden"
+              //           button2="No, keep this garden"
+              //         />
+              //       )}
 
-                    <DeleteForeverIcon />
-                  </IconButton>
+              //       <DeleteForeverIcon />
+              //     </IconButton>
 
-                  {/* <p
-                    style={{ color: "red", textDecoration: "underline" }}
-                    onClick={() => deletePostedGarden(g._id)}
-                  >
-                    Delete
-                  </p> */}
-                </div>
-              </div>
+              //   </div>
+              // </div>
             );
           })}
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

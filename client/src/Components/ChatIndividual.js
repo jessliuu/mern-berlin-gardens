@@ -101,8 +101,9 @@ const ChatIndividual = (props) => {
               setShowAlertConfirm={setShowAlertConfirm}
               message="Are you sure you want to delete this message?"
               button1="Yes, delete this message"
-              button2="No, keept this message"
+              button2="No, keep this message"
               handleDelete={handleDeleteComment}
+              id={_id}
             />
           )}
         </div>

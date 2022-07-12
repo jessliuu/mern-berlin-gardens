@@ -7,6 +7,7 @@ export const AuthContext = createContext();
 export const AuthContextProvider = (props) => {
   const [loginStatus, setLoginStatus] = useState(false);
   const redirectTo = useNavigate();
+  const [loader, setLoader] = useState(true);
 
   const getToken = () => {
     const token = localStorage.getItem("token");
@@ -47,7 +48,7 @@ export const AuthContextProvider = (props) => {
   );
 
   const getProfile = async () => {
-    console.log("getProflie");
+    // console.log("getProflie");
     const token = getToken();
     const myHeader = new Headers({
       Authorization: `Bearer ${token}`,
@@ -63,7 +64,7 @@ export const AuthContextProvider = (props) => {
         requestOptions
       );
       const result = await response.json();
-      console.log("results", result);
+      // console.log("results", result);
 
       setUserProfile({
         name: result.name,
@@ -74,7 +75,7 @@ export const AuthContextProvider = (props) => {
         volunteeredgardens: result.volunteeredgardens,
       });
 
-      console.log("userProfile2", userProfile);
+      setLoader(false);
       setUserProfileError(null);
     } catch (err) {
       console.log("error getting profile", err.message);
@@ -96,6 +97,7 @@ export const AuthContextProvider = (props) => {
         userProfile,
         userProfileError,
         getProfile,
+        loader,
       }}
     >
       {props.children}

@@ -1,7 +1,15 @@
 .home-container {
   width: 100vw;
   /* height: 800px; */
-  background-image: url(https://images.unsplash.com/photo-1591879994664-b5fc4b023294?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80);
+  background:
+        /* top, transparent black, faked with gradient */ linear-gradient(
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)
+    ),
+    /* bottom, image */
+      url(https://images.unsplash.com/photo-1591879994664-b5fc4b023294?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80);
+
+  /* background-image: url(https://images.unsplash.com/photo-1591879994664-b5fc4b023294?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80); */
   opacity: 80%;
   background-repeat: no-repeat;
   background-size: cover;

@@ -104,7 +104,7 @@ const deleteGarden = async (req, res) => {
     let userdoc = await usersModel
       .findByIdAndUpdate(
         req.user._id,
-        { $pull: { volunteeredgardens: req.body.gardenid } },
+        { $pull: { gardens: req.body.gardenid } },
         { new: true }
       )
       .exec();

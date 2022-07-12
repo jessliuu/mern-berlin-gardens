@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 function LoginForm() {
   const [logInUser, setLogInUser] = useState("");
   const [error, setError] = useState(null);
-
+  // const [loader, setLoader] = useState(true);
   const { loginStatus, isUserLoggedIn, logOut, getProfile } =
     useContext(AuthContext);
   console.log(loginStatus);
@@ -20,43 +20,44 @@ function LoginForm() {
   };
 
   const logIn = async (e) => {
-    // console.log(logInUser.email, logInUser.password);
     e.preventDefault();
-    let urlencoded = new URLSearchParams({
-      email: logInUser.email,
-      password: logInUser.password,
-    });
+    if (logInUser.password.length < 6) {
+      setError("Your password must contain at least 6 characters.");
+    } else {
+      let urlencoded = new URLSearchParams({
+        email: logInUser.email,
+        password: logInUser.password,
+      });
 
-    var requestOptions = {
-      method: "POST",
-      body: urlencoded,
-    };
+      var requestOptions = {
+        method: "POST",
+        body: urlencoded,
+      };
 
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/user/login",
-        requestOptions
-      );
-
-      const result = await response.json();
-      const token = result.token;
-      console.log("token in Login Form", token);
-      const user = result.user;
-      console.log(user);
-      if (token) {
-        localStorage.setItem("token", token);
-        getProfile();
-        redirectTo("/profile");
-        isUserLoggedIn();
-      } else {
-        isUserLoggedIn();
-        console.log("Error setting token");
-        // return <p>Error setting token</p>
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/user/login",
+          requestOptions
+        );
+        const result = await response.json();
+        const token = result.token;
+        console.log("token in Login Form", token);
+        const user = result.user;
+        console.log(user);
+        if (token) {
+          localStorage.setItem("token", token);
+          getProfile();
+          redirectTo("/profile");
+          isUserLoggedIn();
+        } else {
+          isUserLoggedIn();
+          console.log("Error setting token");
+          setError("Incorrect email address or password");
+        }
+      } catch (err) {
+        console.log("Error with logging in", err);
         setError("Incorrect email address or password");
       }
-    } catch (err) {
-      console.log("Error with logging in", err);
-      setError("Incorrect email address or password");
     }
   };
 
@@ -76,6 +77,7 @@ function LoginForm() {
               value={logInUser.email ? logInUser.email : ""}
               placeholder="john.smith@mail.com"
               onChange={handleChangeHandler}
+              required
             />
           </Form.Group>
           <Form.Group className="m-3">
@@ -89,6 +91,7 @@ function LoginForm() {
               value={logInUser.password ? logInUser.password : ""}
               placeholder="required"
               onChange={handleChangeHandler}
+              required
             />
             <Button type="submit" variant="outline-dark" className="m-3">
               Log In

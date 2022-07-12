@@ -3,7 +3,6 @@ import { GardensContext } from "../Contexts/GardensContext";
 import { Grid } from "@mui/material";
 import GardenCard from "../Components/GardenCard";
 import Header from "../Components/Header";
-import MainPic from "../Components/MainPic";
 import NavBar from "../Components/NavBar";
 
 const ViewBrowse = () => {
@@ -17,6 +16,7 @@ const ViewBrowse = () => {
     <div>
       <Header />
       <NavBar />
+      {loader && <p>loading...</p>}
       <Grid
         container
         spacing={4}
