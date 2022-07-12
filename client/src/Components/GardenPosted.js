@@ -6,47 +6,43 @@ import InfoIcon from "@mui/icons-material/Info";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { IconButton } from "@mui/material";
 import { AuthContext } from "../Contexts/AuthContext";
+import AlertDeleteGarden from "./AlertDeleteGarden";
 
 const GardenPosted = (props) => {
-  const { getToken, loginStatus } = useContext(AuthContext);
-  const { farmName, image, _id } = props.info;
-  console.log("garden singular");
+  const { farmName, image } = props.info;
+  const id = props.info._id;
+  console.log("garden singular", id);
   //   const deletePostedGarden = props.deletePostedGarden;
-  const [showAlertConfirm, setShowAlertConfirm] = useState(false);
+  const [showAlertDeleteGarden, setShowAlertDeleteGarden] = useState(false);
   //   const closeAlert = () => {
   //     setShowAlertConfirm(false);
   //   };
-  console.log("show alert confirm", showAlertConfirm);
+  console.log("show alert confirm", showAlertDeleteGarden);
 
-  const deletePostedGarden = async (gardenid) => {
-    const token = getToken();
-    const myHeader = new Headers({
-      Authorization: `Bearer ${token}`,
-    });
+  //   const deletePostedGarden = async (gardenid) => {
+  //     const token = getToken();
+  //     const myHeader = new Headers({
+  //       Authorization: `Bearer ${token}`,
+  //     });
 
-    var requestOptions = {
-      method: "DELETE",
-      headers: myHeader,
-      body: new URLSearchParams({ gardenid: gardenid }),
-    };
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/user/deletegarden",
-        requestOptions
-      );
-      const result = await response.json();
-      console.log("deletedgarden", result);
-      //  getMyGardens();
-      setShowAlertConfirm(false);
-    } catch (err) {
-      console.log("error deleting this garden", err);
-    }
-  };
-
-  const handleDelete = (id) => {
-    setShowAlertConfirm(false);
-    deletePostedGarden(id);
-  };
+  //     var requestOptions = {
+  //       method: "DELETE",
+  //       headers: myHeader,
+  //       body: new URLSearchParams({ gardenid: gardenid }),
+  //     };
+  //     try {
+  //       const response = await fetch(
+  //         "http://localhost:5001/api/user/deletegarden",
+  //         requestOptions
+  //       );
+  //       const result = await response.json();
+  //       console.log("deletedgarden", result);
+  //       //  getMyGardens();
+  //       setShowAlertDeleteGarden(false);
+  //     } catch (err) {
+  //       console.log("error deleting this garden", err);
+  //     }
+  //   };
 
   return (
     <div className="garden-pv">
@@ -55,30 +51,40 @@ const GardenPosted = (props) => {
         <img src={image} style={{ maxWidth: "60vw" }} />
       </div>
       <div className="garden-pv-right">
-        <Link to={`/browse/${_id}`}>
+        <Link to={`/browse/${id}`}>
           <IconButton aria-label="view details">
             <InfoIcon />
           </IconButton>
         </Link>
         <IconButton
           aria-label="delete garden"
-          onClick={() => deletePostedGarden(_id)}
+          onClick={() => setShowAlertDeleteGarden(true)}
+
           //   onClick={() => setShowAlertConfirm(true)}
         >
-          {/* {showAlertConfirm && (
-            <AlertConfirm
-              setShowAlertConfirm={setShowAlertConfirm}
-              handleDelete={handleDelete}
-              id={_id}
-              message="Are you sure you want to delete this garden?"
-              button1="Yes, delete this garden"
-              button2="No, keep this garden"
-            />
-          )} */}
-
           <DeleteForeverIcon />
         </IconButton>
 
+        {/* {showAlertDeleteGarden && (
+          <AlertConfirm
+            setShowAlertConfirm={setShowAlertDeleteGarden}
+            handleDelete={deletePostedGarden}
+            id={_id}
+            message="Are you sure you want to delete this garden?"
+            button1="Yes, delete this garden"
+            button2="No, keep this garden"
+          />
+        )} */}
+        {showAlertDeleteGarden && (
+          <AlertDeleteGarden
+            setShowAlertDeleteGarden={setShowAlertDeleteGarden}
+            // deletePostedGarden={deletePostedGarden(id)}
+            id={id}
+            message="Are you sure you want to delete this garden?"
+            button1="Yes, delete this garden"
+            button2="No, keep this garden"
+          />
+        )}
         {/* <p
                     style={{ color: "red", textDecoration: "underline" }}
                     onClick={() => deletePostedGarden(g._id)}
