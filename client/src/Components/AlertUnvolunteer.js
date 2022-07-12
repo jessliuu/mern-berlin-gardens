@@ -3,7 +3,7 @@ import "../Styles/Modal.css";
 import { Button } from "@mui/material";
 import { AuthContext } from "../Contexts/AuthContext";
 
-const AlertDeleteGarden = (props) => {
+const AlertUnvolunteer = (props) => {
   const setShowAlertDeleteGarden = props.setShowAlertDeleteGarden;
   const deleteFrontend = props.deleteFrontend;
   const message = props.message;
@@ -13,32 +13,27 @@ const AlertDeleteGarden = (props) => {
 
   const { getToken } = useContext(AuthContext);
 
-  const deletePostedGarden = async (gardenid) => {
+  const deleteVolunteeredGarden = async (gardenid) => {
     const token = getToken();
-    const myHeader = new Headers({
-      Authorization: `Bearer ${token}`,
-    });
-
+    let urlencoded = new URLSearchParams({ _id: gardenid });
     var requestOptions = {
-      method: "DELETE",
-      headers: myHeader,
-      body: new URLSearchParams({ gardenid: gardenid }),
+      method: "POST",
+      body: urlencoded,
+      headers: { Authorization: `Bearer ${token}` },
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/user/deletegarden",
+        "http://localhost:5001/api/user/unvolunteerforgarden",
         requestOptions
       );
       const result = await response.json();
-
       if (response.status === 200) {
         deleteFrontend(gardenid);
       }
-      console.log("deletedgarden", result);
-
       setShowAlertDeleteGarden(false);
+      console.log("unvolunteering garden!", result);
     } catch (err) {
-      console.log("error deleting this garden", err);
+      console.log("Error with un-volunteering for this garden", err);
     }
   };
 
@@ -53,7 +48,7 @@ const AlertDeleteGarden = (props) => {
         </div>
         <h4>{message}</h4>
         <div>
-          <Button onClick={() => deletePostedGarden(id)}>{button1}</Button>
+          <Button onClick={() => deleteVolunteeredGarden(id)}>{button1}</Button>
           <Button onClick={() => setShowAlertDeleteGarden(false)}>
             {button2}
           </Button>
@@ -63,4 +58,4 @@ const AlertDeleteGarden = (props) => {
   );
 };
 
-export default AlertDeleteGarden;
+export default AlertUnvolunteer;

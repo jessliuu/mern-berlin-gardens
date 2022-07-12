@@ -79,7 +79,7 @@ const Profile = () => {
 
   return (
     <Container style={{ marginTop: "5%" }}>
-      {loader && <p>loading...</p>}
+      {/* {loader && <p>loading...</p>} */}
       {!loader && (
         <div>
           {!userProfileError && !loader ? (

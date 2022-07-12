@@ -52,8 +52,6 @@ const GardensPosted = () => {
 
   return (
     <div>
-      {loader && <p>loading...</p>}
-
       {loginStatus && !loader ? (
         <div className="garden-pv-container">
           <h3 className="garden-pv-header">Gardens posted:</h3>
