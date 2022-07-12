@@ -17,41 +17,40 @@ const RegistrationForm = () => {
 
     //check code in Postman to see how composes the object that is sent in request's body
     e.preventDefault();
-    let urlencoded = new URLSearchParams({
-      name: newUser.name,
-      email: newUser.email,
-      password: newUser.password,
-      role: newUser.role,
-      picture: newUser.picture
-        ? newUser.picture
-        : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
-    });
-    // urlencoded.append("name", newUser.name);
-    // urlencoded.append("email", newUser.email);
-    // urlencoded.append("password", newUser.password);
-    // urlencoded.append("role", newUser.role);
-    // urlencoded.append(
-    // "picture",
-    // newUser.picture
-    //   ? newUser.picture
-    //   : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
-    // );
-    var requestOptions = {
-      method: "POST",
-      body: urlencoded,
-    };
-
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/user/signup",
-        requestOptions
+    if (newUser.password.length < 6) {
+      setRegistrationResult(
+        "Your password must contain at least 6 characters."
       );
-      const results = await response.json();
-      console.log("results", results);
-      setRegistrationResult(results.message);
-      // else if (results.status === 409);
-    } catch (error) {
-      console.log("error fetching", error);
+    } else if (!newUser.role) {
+      setRegistrationResult("You must select a role.");
+    } else {
+      let urlencoded = new URLSearchParams({
+        name: newUser.name,
+        email: newUser.email,
+        password: newUser.password,
+        role: newUser.role,
+        picture: newUser.picture
+          ? newUser.picture
+          : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
+      });
+
+      var requestOptions = {
+        method: "POST",
+        body: urlencoded,
+      };
+
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/user/signup",
+          requestOptions
+        );
+        const results = await response.json();
+        console.log("results", results);
+        setRegistrationResult(results.message);
+        // else if (results.status === 409);
+      } catch (error) {
+        console.log("error fetching", error);
+      }
     }
   };
   return (
@@ -66,6 +65,7 @@ const RegistrationForm = () => {
             placeholder="john.smith@mail.com"
             onChange={handleChangeHandler}
             value={newUser.email ? newUser.email : ""}
+            required
           />
         </Form.Group>
 
@@ -78,6 +78,7 @@ const RegistrationForm = () => {
             placeholder="John"
             onChange={handleChangeHandler}
             value={newUser.name ? newUser.name : ""}
+            required
           />
         </Form.Group>
 
@@ -90,6 +91,7 @@ const RegistrationForm = () => {
             placeholder="must contain at least 6 characters"
             onChange={handleChangeHandler}
             value={newUser.password ? newUser.password : ""}
+            required
           />
         </Form.Group>
 

@@ -219,7 +219,8 @@ const signUp = async (req, res) => {
         });
       } catch (error) {
         res.status(409).json({
-          message: "error with saving user",
+          message:
+            "Error with registration. Please make sure all fields are filled out.",
           error: error,
         });
       }
