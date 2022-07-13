@@ -5,7 +5,7 @@ import { AuthContext } from "../Contexts/AuthContext";
 
 const AlertUnvolunteer = (props) => {
   const setShowAlertDeleteGarden = props.setShowAlertDeleteGarden;
-  const deleteFrontend = props.deleteFrontend;
+  const deleteFrontendV = props.deleteFrontendV;
   const message = props.message;
   const button1 = props.button1;
   const button2 = props.button2;
@@ -14,6 +14,7 @@ const AlertUnvolunteer = (props) => {
   const { getToken } = useContext(AuthContext);
 
   const deleteVolunteeredGarden = async (gardenid) => {
+    console.log("gardenid", gardenid);
     const token = getToken();
     let urlencoded = new URLSearchParams({ _id: gardenid });
     var requestOptions = {
@@ -26,10 +27,11 @@ const AlertUnvolunteer = (props) => {
         "http://localhost:5001/api/user/unvolunteerforgarden",
         requestOptions
       );
+      console.log("alert volunteer", response);
       const result = await response.json();
-      if (response.status === 200) {
-        deleteFrontend(gardenid);
-      }
+
+      deleteFrontendV(gardenid);
+
       setShowAlertDeleteGarden(false);
       console.log("unvolunteering garden!", result);
     } catch (err) {

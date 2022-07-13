@@ -10,8 +10,6 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { border, borderColor } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
@@ -26,6 +24,7 @@ const GardenForm = (props) => {
   const token = getToken();
   const [selectedFile, setSelectedFile] = useState(null);
   const [isFormShown, setIsFormShown] = useState(false);
+  const [postingResult, setPostingResult] = useState("");
 
   const handleShowForm = () => {
     if (!isFormShown) {
@@ -86,6 +85,17 @@ const GardenForm = (props) => {
       redirectTo("/profile");
       isUserLoggedIn();
       setIsFormShown(false);
+      setFormValues({
+        farmName: "",
+        availableOn: "",
+        description: "",
+        groupSize: "",
+        neighborhood: "",
+        experienceRequired: false,
+      });
+      setPostingResult(
+        "You have successfully added this garden. Refresh page to view updated list."
+      );
     } catch (err) {
       console.log("Error with adding garden", err);
     }
@@ -131,13 +141,19 @@ const GardenForm = (props) => {
   return (
     <div>
       {!isFormShown ? (
-        <IconButton aria-label="show garden form" onClick={handleShowForm}>
-          <AddCircleOutline />
-        </IconButton>
+        <div>
+          <IconButton aria-label="show garden form" onClick={handleShowForm}>
+            <AddCircleOutline />
+          </IconButton>
+          {postingResult && <p>{postingResult}</p>}{" "}
+        </div>
       ) : (
         <form
           onSubmit={handleSubmit}
-          style={{ backgroundColor: "lightgreen", padding: 20 }}
+          style={{
+            backgroundColor: "lightgreen",
+            padding: 20,
+          }}
         >
           <IconButton aria-label="show garden form" onClick={handleCloseForm}>
             <RemoveCircleOutlineIcon />
@@ -153,7 +169,6 @@ const GardenForm = (props) => {
             <Grid item xs={12} md={6}>
               <FormLabel>Farm Name</FormLabel>
               <TextField
-                className="input-style"
                 id="farmname-input"
                 name="farmName"
                 // label="Farm Name"
@@ -210,7 +225,7 @@ const GardenForm = (props) => {
               />
             </Grid>
 
-            <Grid item xs={6} md={4}>
+            <Grid item xs={12} md={4}>
               <FormControl>
                 <FormLabel id="neighborhood-select-label">
                   Neighborhood
@@ -222,15 +237,47 @@ const GardenForm = (props) => {
                   onChange={handleInputChange}
                   variant="outlined"
                   required
+                  MenuProps={{
+                    anchorOrigin: {
+                      vertical: "bottom",
+                      horizontal: "left",
+                    },
+                    transformOrigin: {
+                      vertical: "top",
+                      horizontal: "left",
+                    },
+                    getContentAnchorEl: null,
+                  }}
                 >
-                  <MenuItem key="mitte" value="mitte">
+                  <MenuItem key="Charlottenburg" value="Charlottenburg">
+                    Charlottenburg
+                  </MenuItem>
+                  <MenuItem
+                    key="Friedrichshain-Kreuzberg"
+                    value="Friedrichshain-Kreuzberg"
+                  >
+                    Friedrichshain-Kreuzberg
+                  </MenuItem>
+                  <MenuItem key="Lichtenberg " value="Lichtenberg">
+                    Lichtenberg
+                  </MenuItem>
+                  <MenuItem key="Mitte" value="Mitte">
                     Mitte
                   </MenuItem>
-                  <MenuItem key="spandau" value="spandau">
+                  <MenuItem key="Neukölln" value="Neukölln">
+                    Neukölln
+                  </MenuItem>
+                  <MenuItem key="Pankow" value="Pankow">
+                    Pankow
+                  </MenuItem>
+                  <MenuItem key="Schöneberg" value="Schöneberg">
+                    Schöneberg
+                  </MenuItem>
+                  <MenuItem key="Spandau" value="Spandau">
                     Spandau
                   </MenuItem>
-                  <MenuItem key="pankow " value="pankow">
-                    Pankow
+                  <MenuItem key="Other" value="Other">
+                    Other
                   </MenuItem>
                 </Select>
               </FormControl>
@@ -265,7 +312,7 @@ const GardenForm = (props) => {
             <Grid item xs={12} style={{ padding: 20 }}>
               <FormControl>
                 <div style={{ alignContent: "center" }}>
-                  <input type="file" onChange={attachFileHandler} />
+                  <input type="file" onChange={attachFileHandler} required />
                   {/* <Button
                     onClick={uploadPicture}
                     variant="contained"

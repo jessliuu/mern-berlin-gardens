@@ -4,7 +4,7 @@ import GardensPosted from "../Components/GardensPosted";
 import GardensVolunteered from "../Components/GardensVolunteered";
 import Header from "../Components/Header";
 import NavBar from "../Components/NavBar";
-// import Profile from "../Components/Profile";
+import Profile from "../Components/Profile";
 
 const ViewProfile = () => {
   // const timeOut = () => {
@@ -18,10 +18,10 @@ const ViewProfile = () => {
     <div>
       <Header />
       <NavBar />
-      {/* <Profile /> */}
-      <Suspense fallback={<div>...loading </div>}>
+      <Profile />
+      {/* <Suspense fallback={<div>...loading </div>}>
         <ProfilePage />
-      </Suspense>
+      </Suspense> */}
 
       {/* <GardensPosted /> */}
       {/* <GardenForm /> */}

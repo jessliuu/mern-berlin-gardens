@@ -7,7 +7,7 @@ import "../Styles/Chat.css";
 import AlertConfirm from "./AlertConfirm";
 
 const ChatIndividual = (props) => {
-  const { userProfile } = useContext(AuthContext);
+  const { userProfile, loginStatus } = useContext(AuthContext);
   const { authorid, commentDate, commentText, _id } = props.info;
   const [showAlertConfirm, setShowAlertConfirm] = useState(false);
   // const deleteFrontend = props.deleteFrontend;
@@ -54,12 +54,14 @@ const ChatIndividual = (props) => {
   };
   return (
     <li
-      className={getAuthorId(authorid) === userProfile.id ? "mine" : ""}
-      key={getAuthorId(authorid)}
+      className={
+        authorid && getAuthorId(authorid) === userProfile.id ? "mine" : ""
+      }
+      // key={getAuthorId(authorid)}
     >
       <div classname="message">
         <div className="text">
-          {getAuthorId(authorid) === userProfile.id ? (
+          {authorid && getAuthorId(authorid) === userProfile.id ? (
             <p className="author-me bold">
               You wrote on {messageDate(commentDate)}:
             </p>
@@ -70,14 +72,14 @@ const ChatIndividual = (props) => {
           )}
           <p
             className={
-              getAuthorId(authorid) === userProfile.id
+              authorid && getAuthorId(authorid) === userProfile.id
                 ? "author-me"
                 : "author-other"
             }
           >
             {commentText}
           </p>
-          {getAuthorId(authorid) === userProfile.id ? (
+          {authorid && getAuthorId(authorid) === userProfile.id ? (
             <div>
               <IconButton
                 style={{ padding: "0" }}

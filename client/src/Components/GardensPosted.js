@@ -56,9 +56,13 @@ const GardensPosted = () => {
         <div className="garden-pv-container">
           <h3 className="garden-pv-header">Gardens posted:</h3>
           {postingResult && <p>{postingResult}</p>}
-          {myGardens.map((g) => {
-            return <GardenPosted info={g} deleteFrontend={deleteFrontend} />;
-          })}
+          {myGardens.length === 0 ? (
+            <p>You currently have not posted any garden.</p>
+          ) : (
+            myGardens.map((g) => {
+              return <GardenPosted info={g} deleteFrontend={deleteFrontend} />;
+            })
+          )}
         </div>
       ) : null}
     </div>

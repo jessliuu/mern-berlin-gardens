@@ -4,11 +4,11 @@ import "../Styles/GardenPosted&Volunteered.css";
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { IconButton } from "@mui/material";
-import AlertDeleteGarden from "./AlertDeleteGarden";
+import AlertUnvolunteer from "./AlertUnvolunteer";
 
 const GardenVolunteered = (props) => {
   const { farmName, image, _id } = props.info;
-  const deleteFrontend = props.deleteFrontend;
+  const deleteFrontendV = props.deleteFrontendV;
   const [showAlertDeleteGarden, setShowAlertDeleteGarden] = useState(false);
 
   return (
@@ -31,14 +31,14 @@ const GardenVolunteered = (props) => {
         </IconButton>
 
         {showAlertDeleteGarden && (
-          <AlertDeleteGarden
+          <AlertUnvolunteer
             setShowAlertDeleteGarden={setShowAlertDeleteGarden}
             id={_id}
             message="Are you sure you no longer want to volunteer for this garden?"
             button1="Yes, I am sure"
             button2="No, I changed my mind"
             // setPostingResult={setPostingResult}
-            deleteFrontend={deleteFrontend}
+            deleteFrontendV={deleteFrontendV}
           />
         )}
       </div>

@@ -110,7 +110,7 @@ const Profile = () => {
           {userProfile.role === "host" && !loader ? <GardensPosted /> : null}
           {!loader ? <GardensVolunteered /> : null}
 
-          {userProfileError && !loader ? <p>{userProfileError}</p> : null}
+          {userProfileError ? <p>{userProfileError}</p> : null}
         </div>
       )}
     </Container>
