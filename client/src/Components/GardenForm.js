@@ -14,13 +14,17 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { Box } from "@mui/system";
+import { Typography } from "@mui/material";
+import TextInputProfileChange from "./TextInputProfileChange";
 
 const GardenForm = (props) => {
   // const role = props.userProfile.role;
   // console.log("role", role);
 
   const redirectTo = useNavigate();
-  const { getToken, loginStatus, isUserLoggedIn } = useContext(AuthContext);
+  const { getToken, loginStatus, isUserLoggedIn, userProfile } =
+    useContext(AuthContext);
   const token = getToken();
   const [selectedFile, setSelectedFile] = useState(null);
   const [isFormShown, setIsFormShown] = useState(false);
@@ -140,202 +144,462 @@ const GardenForm = (props) => {
 
   return (
     <div>
-      {!isFormShown ? (
-        <div>
-          <IconButton aria-label="show garden form" onClick={handleShowForm}>
-            <AddCircleOutline />
-          </IconButton>
-          {postingResult && <p>{postingResult}</p>}{" "}
-        </div>
-      ) : (
+      {postingResult && (
+        <p style={{ fontSize: 15, color: "green" }}>{postingResult}</p>
+      )}
+      {userProfile.role === "host" && !postingResult ? (
         <form
           onSubmit={handleSubmit}
           style={{
+            // borderColor: "lightgreen",
+            // border: "solid 0.5px",
             backgroundColor: "lightgreen",
+            borderRadius: "16px",
             padding: 20,
           }}
         >
-          <IconButton aria-label="show garden form" onClick={handleCloseForm}>
-            <RemoveCircleOutlineIcon />
-          </IconButton>
+          <div>
+            You can post a garden.{" "}
+            {!isFormShown ? (
+              <IconButton
+                aria-label="show garden form"
+                onClick={handleShowForm}
+              >
+                <AddCircleOutline />
+              </IconButton>
+            ) : (
+              <IconButton
+                aria-label="remove garden form"
+                onClick={handleCloseForm}
+              >
+                <RemoveCircleOutlineIcon />
+              </IconButton>
+            )}
+          </div>
 
-          <Grid
+          {isFormShown ? (
+            // <Box component="form">
+            <div>
+              {/* <Typography
+            gutterBottom
+            variant="h6"
+            component="div"
+            textAlign={"left"}
+            color="primary"
+          >
+            About you
+          </Typography> */}
+
+              {/* <Typography variant="body1" color="text.primary"></Typography>
+          <Typography variant="body2" color="text.secondary"></Typography> */}
+
+              {/* <Grid
+            pb={0.5}
+            container
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="center"
+            spacing={1}
+            wrap="nowrap"
+          >
+            <Grid item xs={4} md={3}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                textAlign={"left"}
+              >
+                belayme nickname
+              </Typography>
+            </Grid>
+
+            <Grid item xs>
+              <TextInputProfileChange
+                handler={handleInputChange}
+                name="nickname"
+              />
+            </Grid>
+          </Grid> */}
+
+              {/* <Grid
             container
             alignItems="flex-start"
             justifyContent="space-evenly"
             direction="row"
             spacing={3}
+          > */}
+              {/* <Grid
+            pb={0.5}
+            container
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="center"
+            spacing={1}
+            wrap="nowrap"
           >
-            <Grid item xs={12} md={6}>
-              <FormLabel>Farm Name</FormLabel>
-              <TextField
-                id="farmname-input"
-                name="farmName"
-                // label="Farm Name"
-                type="text"
-                value={formValues.farmName}
-                onChange={handleInputChange}
-                variant="standard"
-                required
-                // inputProps={{ className: classes.input }}
+            <Grid item xs={4} md={3}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                textAlign={"left"}
+              >
+                belayme nickname
+              </Typography>
+            </Grid>
+            <Grid item xs>
+              <TextInputProfileChange
+                handler={handleInputChange}
+                name="nickname"
               />
             </Grid>
+          </Grid> */}
 
-            <Grid item xs={12} md={6}>
-              <FormLabel>Available on </FormLabel>
-              <TextField
-                id="availableon-input"
-                name="availableOn"
-                // label="Available On"
-                type="date"
-                value={formValues.availableOn}
-                onChange={handleInputChange}
-                variant="standard"
-                required
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormLabel>Description</FormLabel>
-              <TextField
-                style={{ width: "80%" }}
-                id="description-input"
-                name="description"
-                // label="Description"
-                type="text"
-                value={formValues.description}
-                onChange={handleInputChange}
-                variant="standard"
-                multiline
-                required
-              />
-            </Grid>
-
-            <Grid item xs={6} md={4}>
-              <FormLabel>Group Size</FormLabel>
-              <TextField
-                id="groupsize-input"
-                name="groupSize"
-                // label="Group Size"
-                type="number"
-                value={formValues.groupSize}
-                onChange={handleInputChange}
-                variant="standard"
-                required
-              />
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <FormControl>
-                <FormLabel id="neighborhood-select-label">
-                  Neighborhood
-                </FormLabel>
-                <Select
-                  labelId="neighborhood-select-label"
-                  name="neighborhood"
-                  value={formValues.neighborhood}
-                  onChange={handleInputChange}
-                  variant="outlined"
-                  required
-                  MenuProps={{
-                    anchorOrigin: {
-                      vertical: "bottom",
-                      horizontal: "left",
-                    },
-                    transformOrigin: {
-                      vertical: "top",
-                      horizontal: "left",
-                    },
-                    getContentAnchorEl: null,
-                  }}
-                >
-                  <MenuItem key="Charlottenburg" value="Charlottenburg">
-                    Charlottenburg
-                  </MenuItem>
-                  <MenuItem
-                    key="Friedrichshain-Kreuzberg"
-                    value="Friedrichshain-Kreuzberg"
+              <Grid
+                pb={1}
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+                spacing={1}
+                wrap="nowrap"
+              >
+                <Grid item xs={4} md={3}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    textAlign={"left"}
                   >
-                    Friedrichshain-Kreuzberg
-                  </MenuItem>
-                  <MenuItem key="Lichtenberg " value="Lichtenberg">
-                    Lichtenberg
-                  </MenuItem>
-                  <MenuItem key="Mitte" value="Mitte">
-                    Mitte
-                  </MenuItem>
-                  <MenuItem key="Neukölln" value="Neukölln">
-                    Neukölln
-                  </MenuItem>
-                  <MenuItem key="Pankow" value="Pankow">
-                    Pankow
-                  </MenuItem>
-                  <MenuItem key="Schöneberg" value="Schöneberg">
-                    Schöneberg
-                  </MenuItem>
-                  <MenuItem key="Spandau" value="Spandau">
-                    Spandau
-                  </MenuItem>
-                  <MenuItem key="Other" value="Other">
-                    Other
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
+                    farm name
+                  </Typography>
+                </Grid>
+                <Grid item xs>
+                  <TextField
+                    id="farmname-input"
+                    name="farmName"
+                    // label="Farm Name"
+                    type="text"
+                    value={formValues.farmName}
+                    onChange={handleInputChange}
+                    variant="standard"
+                    required
+                    fullWidth
+                    inputProps={{ maxLength: 120 }}
+                    size="small"
+                  />
+                </Grid>
+              </Grid>
 
-            <Grid item xs={12}>
-              <FormControl>
-                <FormLabel>Experience</FormLabel>
-                <RadioGroup
-                  name="experienceRequired"
-                  defaultValue={false}
-                  value={formValues.experienceRequired}
-                  onChange={handleInputChange}
-                  row
-                  required
-                >
-                  <FormControlLabel
-                    key="true"
-                    value={true}
-                    control={<Radio size="small" />}
-                    label="Required"
+              {/* <Grid item xs={12} md={6}>
+            <FormLabel>Farm Name</FormLabel>
+            <TextField
+              id="farmname-input"
+              name="farmName"
+              // label="Farm Name"
+              type="text"
+              value={formValues.farmName}
+              onChange={handleInputChange}
+              variant="standard"
+              required
+              // inputProps={{ className: classes.input }}
+            />
+          </Grid> */}
+
+              <Grid
+                pb={1}
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+                spacing={1}
+                wrap="nowrap"
+              >
+                <Grid item xs={4} md={3}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    textAlign={"left"}
+                  >
+                    available on
+                  </Typography>
+                </Grid>
+                <Grid item xs>
+                  <TextField
+                    id="availableon-input"
+                    name="availableOn"
+                    // label="Available On"
+                    type="date"
+                    value={formValues.availableOn}
+                    onChange={handleInputChange}
+                    variant="standard"
+                    required
+                    fullWidth
+                    inputProps={{ maxLength: 120 }}
+                    size="small"
                   />
-                  <FormControlLabel
-                    key="false"
-                    value={false}
-                    control={<Radio size="small" />}
-                    label="Not Required"
+                </Grid>
+              </Grid>
+
+              {/* <Grid item xs={12} md={6}>
+            <FormLabel>Available on </FormLabel>
+            <TextField
+              id="availableon-input"
+              name="availableOn"
+              // label="Available On"
+              type="date"
+              value={formValues.availableOn}
+              onChange={handleInputChange}
+              variant="standard"
+              required
+            />
+          </Grid> */}
+
+              <Grid
+                pb={1}
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+                spacing={1}
+                wrap="nowrap"
+              >
+                <Grid item xs={4} md={3}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    textAlign={"left"}
+                  >
+                    description
+                  </Typography>
+                </Grid>
+                <Grid item xs>
+                  <TextField
+                    id="description-input"
+                    name="description"
+                    // label="Description"
+                    type="text"
+                    value={formValues.description}
+                    onChange={handleInputChange}
+                    variant="standard"
+                    multiline
+                    required
+                    fullWidth
+                    inputProps={{ maxLength: 120 }}
+                    size="small"
                   />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} style={{ padding: 20 }}>
-              <FormControl>
-                <div style={{ alignContent: "center" }}>
-                  <input type="file" onChange={attachFileHandler} required />
-                  {/* <Button
+                </Grid>
+              </Grid>
+
+              {/* <Grid item xs={12}>
+            <FormLabel>Description</FormLabel>
+            <TextField
+              style={{ width: "80%" }}
+              id="description-input"
+              name="description"
+              // label="Description"
+              type="text"
+              value={formValues.description}
+              onChange={handleInputChange}
+              variant="standard"
+              multiline
+              required
+            />
+          </Grid> */}
+
+              <Grid
+                pb={1}
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+                spacing={1}
+                wrap="nowrap"
+              >
+                <Grid item xs={4} md={3}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    textAlign={"left"}
+                  >
+                    group size
+                  </Typography>
+                </Grid>
+                <Grid item xs>
+                  <TextField
+                    id="groupsize-input"
+                    name="groupSize"
+                    // label="Group Size"
+                    type="number"
+                    value={formValues.groupSize}
+                    onChange={handleInputChange}
+                    variant="standard"
+                    required
+                    fullWidth
+                    inputProps={{ maxLength: 120 }}
+                    size="small"
+                  />
+                </Grid>
+              </Grid>
+              {/* <Grid item xs={6} md={4}>
+            <FormLabel>Group Size</FormLabel>
+            <TextField
+              id="groupsize-input"
+              name="groupSize"
+              // label="Group Size"
+              type="number"
+              value={formValues.groupSize}
+              onChange={handleInputChange}
+              variant="standard"
+              required
+            />
+          </Grid> */}
+
+              <Grid
+                pb={1}
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+                spacing={1}
+                wrap="nowrap"
+              >
+                <Grid item xs={4} md={3}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    textAlign={"left"}
+                  >
+                    neighborhood
+                  </Typography>
+                </Grid>
+                <Grid item xs>
+                  <Select
+                    labelId="neighborhood-select-label"
+                    name="neighborhood"
+                    value={formValues.neighborhood}
+                    onChange={handleInputChange}
+                    variant="outlined"
+                    required
+                    MenuProps={{
+                      anchorOrigin: {
+                        vertical: "bottom",
+                        horizontal: "left",
+                      },
+                      transformOrigin: {
+                        vertical: "top",
+                        horizontal: "left",
+                      },
+                      getContentAnchorEl: null,
+                    }}
+                    fullWidth
+                    inputProps={{ maxLength: 120 }}
+                    size="small"
+                  >
+                    <MenuItem key="Charlottenburg" value="Charlottenburg">
+                      Charlottenburg
+                    </MenuItem>
+                    <MenuItem
+                      key="Friedrichshain-Kreuzberg"
+                      value="Friedrichshain-Kreuzberg"
+                    >
+                      Friedrichshain-Kreuzberg
+                    </MenuItem>
+                    <MenuItem key="Lichtenberg " value="Lichtenberg">
+                      Lichtenberg
+                    </MenuItem>
+                    <MenuItem key="Mitte" value="Mitte">
+                      Mitte
+                    </MenuItem>
+                    <MenuItem key="Neukölln" value="Neukölln">
+                      Neukölln
+                    </MenuItem>
+                    <MenuItem key="Pankow" value="Pankow">
+                      Pankow
+                    </MenuItem>
+                    <MenuItem key="Schöneberg" value="Schöneberg">
+                      Schöneberg
+                    </MenuItem>
+                    <MenuItem key="Spandau" value="Spandau">
+                      Spandau
+                    </MenuItem>
+                    <MenuItem key="Other" value="Other">
+                      Other
+                    </MenuItem>
+                  </Select>
+                </Grid>
+              </Grid>
+
+              <Grid
+                pb={1}
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+                spacing={1}
+                wrap="nowrap"
+              >
+                <Grid item xs={4} md={3}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    textAlign={"left"}
+                  >
+                    experience
+                  </Typography>
+                </Grid>
+
+                <Grid item xs>
+                  <RadioGroup
+                    name="experienceRequired"
+                    defaultValue={false}
+                    value={formValues.experienceRequired}
+                    onChange={handleInputChange}
+                    row
+                    required
+                  >
+                    <FormControlLabel
+                      key="true"
+                      value={true}
+                      control={<Radio size="extra-small" />}
+                      label="required"
+                    />
+                    <FormControlLabel
+                      key="false"
+                      value={false}
+                      control={<Radio size="extra-small" />}
+                      label="not required"
+                    />
+                  </RadioGroup>
+                </Grid>
+              </Grid>
+
+              <Grid item xs={12} style={{ padding: 20 }}>
+                <FormControl>
+                  <div style={{ alignContent: "center" }}>
+                    <input type="file" onChange={attachFileHandler} required />
+                    {/* <Button
                     onClick={uploadPicture}
                     variant="contained"
                     color="inherit"
                   >
                     <AttachFileIcon />
                   </Button> */}
-                </div>
-              </FormControl>
-            </Grid>
+                  </div>
+                </FormControl>
+              </Grid>
 
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              item
-              xs={12}
-            >
-              Submit
-            </Button>
-          </Grid>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                item
+                xs={12}
+              >
+                Submit
+              </Button>
+              {/* </Grid> */}
+            </div>
+          ) : null}
         </form>
-      )}
+      ) : null}
     </div>
   );
 };

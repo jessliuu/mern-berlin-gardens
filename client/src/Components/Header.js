@@ -11,7 +11,7 @@ const Header = () => {
         <h1>
           My Heart <img src={beetImageUrl} style={{ maxWidth: "60px" }} />
         </h1>
-        <h5>for community gardens in the city of Berlin</h5>
+        <h5>for community gardens in Berlin</h5>
       </div>
     </div>
   );

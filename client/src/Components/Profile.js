@@ -85,10 +85,10 @@ const Profile = () => {
           {!userProfileError && !loader ? (
             <div
               style={{
-                backgroundColor: "lightpink",
+                backgroundColor: "white",
                 borderRadius: "16px",
                 color: "grey",
-                padding: "4%",
+                // padding: "4%",
                 margin: "5%",
               }}
             >
@@ -99,11 +99,7 @@ const Profile = () => {
                 </span>
                 .
               </p>
-              {userProfile.role === "host" ? (
-                <p>
-                  You can add a garden. <GardenForm />{" "}
-                </p>
-              ) : null}
+              {userProfile.role === "host" ? <GardenForm /> : null}
             </div>
           ) : null}
 

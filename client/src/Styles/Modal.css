@@ -24,6 +24,11 @@
   padding: 25px;
 }
 
+.centered-text {
+  align-self: center !important;
+  justify-self: center;
+}
+
 .modalContainer .title {
   display: inline-block;
   text-align: center;

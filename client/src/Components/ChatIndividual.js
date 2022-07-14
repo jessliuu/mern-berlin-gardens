@@ -39,8 +39,16 @@ const ChatIndividual = (props) => {
     }
   };
 
-  const messageDate = (date) => {
-    return new Date(date).toLocaleTimeString();
+  const messageDate = (time) => {
+    let date = new Date(time);
+    return date.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
   };
 
   const getAuthorId = (id) => {

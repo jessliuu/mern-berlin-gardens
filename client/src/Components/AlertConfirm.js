@@ -16,7 +16,7 @@ const AlertConfirm = (props) => {
       onClick={() => props.setShowAlertConfirm(false)}
       className="modalBackground"
     >
-      <div className="modalContainer">
+      <div className="modalContainer centered-text">
         <div className="titleCloseBtn">
           <Button onClick={() => props.setShowAlertConfirm(false)}>X</Button>
         </div>
