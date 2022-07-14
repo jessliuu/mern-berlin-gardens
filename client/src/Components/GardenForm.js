@@ -3,7 +3,6 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import Select from "@mui/material/Select";
@@ -16,7 +15,6 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
-import TextInputProfileChange from "./TextInputProfileChange";
 
 const GardenForm = (props) => {
   // const role = props.userProfile.role;

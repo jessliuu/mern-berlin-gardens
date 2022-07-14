@@ -1,6 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
-// import getToken from "../Utils/getToken.js";
 
 export const AuthContext = createContext();
 
@@ -8,10 +7,10 @@ export const AuthContextProvider = (props) => {
   const [loginStatus, setLoginStatus] = useState(false);
   const redirectTo = useNavigate();
   const [loader, setLoader] = useState(true);
+  const [userProfile, setUserProfile] = useState({});
 
   const getToken = () => {
     const token = localStorage.getItem("token");
-    // console.log(token);
     if (token) {
       return token;
     } else {
@@ -27,7 +26,6 @@ export const AuthContextProvider = (props) => {
     } else {
       setLoginStatus(false);
       console.log("User is not logged in");
-      // console.log(loginStatus);
     }
   };
 
@@ -42,13 +40,7 @@ export const AuthContextProvider = (props) => {
     redirectTo("/login");
   };
 
-  const [userProfile, setUserProfile] = useState({});
-  const [userProfileError, setUserProfileError] = useState(
-    "Please log in first"
-  );
-
   const getProfile = async () => {
-    // console.log("getProflie");
     const token = getToken();
     const myHeader = new Headers({
       Authorization: `Bearer ${token}`,
@@ -64,7 +56,6 @@ export const AuthContextProvider = (props) => {
         requestOptions
       );
       const result = await response.json();
-      // console.log("results", result);
 
       setUserProfile({
         name: result.name,
@@ -76,10 +67,8 @@ export const AuthContextProvider = (props) => {
       });
 
       setLoader(false);
-      setUserProfileError(null);
     } catch (err) {
       console.log("error getting profile", err.message);
-      setUserProfileError("Please log in first");
     }
   };
 
@@ -95,7 +84,6 @@ export const AuthContextProvider = (props) => {
         logOut,
         getToken,
         userProfile,
-        userProfileError,
         getProfile,
         loader,
       }}
