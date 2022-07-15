@@ -9,6 +9,7 @@ import {
 import "../Styles/Chat.css";
 import { AuthContext } from "../Contexts/AuthContext";
 import ChatIndividual from "./ChatIndividual";
+import { serverURL } from "../config";
 
 const Chat = (props) => {
   const params = props.params;
@@ -26,7 +27,7 @@ const Chat = (props) => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5001/api/comment/getcomments?myGardenID=${paramsNumber}`,
+        `${serverURL}/api/comment/getcomments?myGardenID=${paramsNumber}`,
         options
       );
       console.log("response", response);
@@ -67,7 +68,7 @@ const Chat = (props) => {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/comment/postcomment",
+        `${serverURL}/api/comment/postcomment`,
         requestOptions
       );
       console.log("comment response", response);

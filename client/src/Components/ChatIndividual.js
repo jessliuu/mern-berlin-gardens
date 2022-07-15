@@ -5,6 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { IconButton } from "@mui/material";
 import "../Styles/Chat.css";
 import AlertConfirm from "./AlertConfirm";
+import { serverURL } from "../config";
 
 const ChatIndividual = (props) => {
   const { userProfile, loginStatus } = useContext(AuthContext);
@@ -27,7 +28,7 @@ const ChatIndividual = (props) => {
     };
     try {
       const response = await fetch(
-        `http://localhost:5001/api/comment/deletecomment/${_id}`,
+        `${serverURL}/api/comment/deletecomment/${_id}`,
         options
       );
       console.log("response", response);

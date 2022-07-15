@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import "../Styles/Modal.css";
 import { Button } from "@mui/material";
 import { AuthContext } from "../Contexts/AuthContext";
+import { serverURL } from "../config";
 
 const AlertDeleteGarden = (props) => {
   const setShowAlertDeleteGarden = props.setShowAlertDeleteGarden;
@@ -26,7 +27,7 @@ const AlertDeleteGarden = (props) => {
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/user/deletegarden",
+        `${serverURL}/api/user/deletegarden`,
         requestOptions
       );
       const result = await response.json();

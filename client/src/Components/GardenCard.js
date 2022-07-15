@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
 import Modal from "./Modal";
 import AlertSignIn from "./AlertSignIn";
+import { serverURL } from "../config";
 
 function GardenCard(props) {
   const { getToken, userProfile } = useContext(AuthContext);
@@ -63,7 +64,7 @@ function GardenCard(props) {
         setIVolunteered(false);
         try {
           const response = await fetch(
-            "http://localhost:5001/api/user/unvolunteerforgarden",
+            `${serverURL}/api/user/unvolunteerforgarden`,
             requestOptions
           );
           const result = await response.json();
@@ -75,7 +76,7 @@ function GardenCard(props) {
         setIVolunteered(true);
         try {
           const response = await fetch(
-            "http://localhost:5001/api/user/volunteerforgarden",
+            `${serverURL}/api/user/volunteerforgarden`,
             requestOptions
           );
           const result = await response.json();

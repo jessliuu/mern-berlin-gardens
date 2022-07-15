@@ -1,12 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
-import { Link } from "react-router-dom";
 import "../Styles/GardenPosted&Volunteered.css";
-import InfoIcon from "@mui/icons-material/Info";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { IconButton } from "@mui/material";
-import AlertConfirm from "./AlertConfirm";
 import GardenPosted from "./GardenPosted";
+import { serverURL } from "../config";
 
 const GardensPosted = () => {
   const [myGardens, setMyGardens] = useState([]);
@@ -25,7 +21,7 @@ const GardensPosted = () => {
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/user/getpostedgardens",
+        `${serverURL}/api/user/getpostedgardens`,
         requestOptions
       );
       const result = await response.json();

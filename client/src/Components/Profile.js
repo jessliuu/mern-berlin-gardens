@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import { Container } from "@mui/material";
-import { Button } from "react-bootstrap";
 import GardenForm from "./GardenForm";
 import GardensPosted from "./GardensPosted";
 import GardensVolunteered from "./GardensVolunteered";

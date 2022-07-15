@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { serverURL } from "../config";
 
 const RegistrationForm = () => {
   const [newUser, setNewUser] = useState({});
@@ -37,7 +38,7 @@ const RegistrationForm = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/user/signup",
+          `${serverURL}/api/user/signup`,
           requestOptions
         );
         const results = await response.json();

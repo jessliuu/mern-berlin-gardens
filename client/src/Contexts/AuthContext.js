@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { serverURL } from "../config";
 
 export const AuthContext = createContext();
 
@@ -52,7 +53,7 @@ export const AuthContextProvider = (props) => {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/user/profile",
+        `${serverURL}/api/user/profile`,
         requestOptions
       );
       const result = await response.json();

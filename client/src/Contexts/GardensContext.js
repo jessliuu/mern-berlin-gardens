@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { serverURL } from "../config";
 
 export const GardensContext = createContext();
 
@@ -10,10 +11,7 @@ export const GardensContextProvider = (props) => {
 
   const fetchGardens = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:5001/api/garden/browse",
-        options
-      );
+      const response = await fetch(`${serverURL}/api/garden/browse`, options);
       console.log("response", response);
       const data = await response.json();
       const cleandata = data.allGardens;

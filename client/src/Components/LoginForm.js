@@ -2,17 +2,14 @@ import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import { Form, Row, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { serverURL } from "../config";
 
 function LoginForm() {
   const [logInUser, setLogInUser] = useState("");
   const [error, setError] = useState(null);
-  // const [loader, setLoader] = useState(true);
   const { loginStatus, isUserLoggedIn, logOut, getProfile } =
     useContext(AuthContext);
   console.log(loginStatus);
-  // useEffect(() => {
-  //   isUserLoggedIn();
-  // }, [loginStatus]);
   const redirectTo = useNavigate();
 
   const handleChangeHandler = (e) => {
@@ -36,7 +33,7 @@ function LoginForm() {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/user/login",
+          `${serverURL}/api/user/login`,
           requestOptions
         );
         const result = await response.json();

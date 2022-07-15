@@ -15,11 +15,9 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
+import { serverURL } from "../config";
 
 const GardenForm = (props) => {
-  // const role = props.userProfile.role;
-  // console.log("role", role);
-
   const redirectTo = useNavigate();
   const { getToken, loginStatus, isUserLoggedIn, userProfile } =
     useContext(AuthContext);
@@ -79,7 +77,7 @@ const GardenForm = (props) => {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/user/addgarden",
+        `${serverURL}/api/user/addgarden`,
         requestOptions
       );
       const result = await response.json();
@@ -176,81 +174,7 @@ const GardenForm = (props) => {
           </div>
 
           {isFormShown ? (
-            // <Box component="form">
             <div>
-              {/* <Typography
-            gutterBottom
-            variant="h6"
-            component="div"
-            textAlign={"left"}
-            color="primary"
-          >
-            About you
-          </Typography> */}
-
-              {/* <Typography variant="body1" color="text.primary"></Typography>
-          <Typography variant="body2" color="text.secondary"></Typography> */}
-
-              {/* <Grid
-            pb={0.5}
-            container
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="center"
-            spacing={1}
-            wrap="nowrap"
-          >
-            <Grid item xs={4} md={3}>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                textAlign={"left"}
-              >
-                belayme nickname
-              </Typography>
-            </Grid>
-
-            <Grid item xs>
-              <TextInputProfileChange
-                handler={handleInputChange}
-                name="nickname"
-              />
-            </Grid>
-          </Grid> */}
-
-              {/* <Grid
-            container
-            alignItems="flex-start"
-            justifyContent="space-evenly"
-            direction="row"
-            spacing={3}
-          > */}
-              {/* <Grid
-            pb={0.5}
-            container
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="center"
-            spacing={1}
-            wrap="nowrap"
-          >
-            <Grid item xs={4} md={3}>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                textAlign={"left"}
-              >
-                belayme nickname
-              </Typography>
-            </Grid>
-            <Grid item xs>
-              <TextInputProfileChange
-                handler={handleInputChange}
-                name="nickname"
-              />
-            </Grid>
-          </Grid> */}
-
               <Grid
                 pb={1}
                 container
@@ -286,21 +210,6 @@ const GardenForm = (props) => {
                 </Grid>
               </Grid>
 
-              {/* <Grid item xs={12} md={6}>
-            <FormLabel>Farm Name</FormLabel>
-            <TextField
-              id="farmname-input"
-              name="farmName"
-              // label="Farm Name"
-              type="text"
-              value={formValues.farmName}
-              onChange={handleInputChange}
-              variant="standard"
-              required
-              // inputProps={{ className: classes.input }}
-            />
-          </Grid> */}
-
               <Grid
                 pb={1}
                 container
@@ -335,20 +244,6 @@ const GardenForm = (props) => {
                   />
                 </Grid>
               </Grid>
-
-              {/* <Grid item xs={12} md={6}>
-            <FormLabel>Available on </FormLabel>
-            <TextField
-              id="availableon-input"
-              name="availableOn"
-              // label="Available On"
-              type="date"
-              value={formValues.availableOn}
-              onChange={handleInputChange}
-              variant="standard"
-              required
-            />
-          </Grid> */}
 
               <Grid
                 pb={1}
@@ -386,22 +281,6 @@ const GardenForm = (props) => {
                 </Grid>
               </Grid>
 
-              {/* <Grid item xs={12}>
-            <FormLabel>Description</FormLabel>
-            <TextField
-              style={{ width: "80%" }}
-              id="description-input"
-              name="description"
-              // label="Description"
-              type="text"
-              value={formValues.description}
-              onChange={handleInputChange}
-              variant="standard"
-              multiline
-              required
-            />
-          </Grid> */}
-
               <Grid
                 pb={1}
                 container
@@ -436,19 +315,6 @@ const GardenForm = (props) => {
                   />
                 </Grid>
               </Grid>
-              {/* <Grid item xs={6} md={4}>
-            <FormLabel>Group Size</FormLabel>
-            <TextField
-              id="groupsize-input"
-              name="groupSize"
-              // label="Group Size"
-              type="number"
-              value={formValues.groupSize}
-              onChange={handleInputChange}
-              variant="standard"
-              required
-            />
-          </Grid> */}
 
               <Grid
                 pb={1}
@@ -573,13 +439,6 @@ const GardenForm = (props) => {
                 <FormControl>
                   <div style={{ alignContent: "center" }}>
                     <input type="file" onChange={attachFileHandler} required />
-                    {/* <Button
-                    onClick={uploadPicture}
-                    variant="contained"
-                    color="inherit"
-                  >
-                    <AttachFileIcon />
-                  </Button> */}
                   </div>
                 </FormControl>
               </Grid>
@@ -593,7 +452,6 @@ const GardenForm = (props) => {
               >
                 Submit
               </Button>
-              {/* </Grid> */}
             </div>
           ) : null}
         </form>

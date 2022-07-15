@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import "../Styles/Modal.css";
 import { Button } from "@mui/material";
 import { AuthContext } from "../Contexts/AuthContext";
+import { serverURL } from "../config";
 
 const AlertUnvolunteer = (props) => {
   const setShowAlertDeleteGarden = props.setShowAlertDeleteGarden;
@@ -24,7 +25,7 @@ const AlertUnvolunteer = (props) => {
     };
     try {
       const response = await fetch(
-        "http://localhost:5001/api/user/unvolunteerforgarden",
+        `${serverURL}/api/user/unvolunteerforgarden`,
         requestOptions
       );
       console.log("alert volunteer", response);
