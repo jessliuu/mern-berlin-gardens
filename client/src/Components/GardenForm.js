@@ -184,7 +184,7 @@ const GardenForm = (props) => {
                 spacing={1}
                 wrap="nowrap"
               >
-                <Grid item xs={4} md={3}>
+                <Grid item xs={5} md={3}>
                   <Typography
                     variant="body2"
                     color="text.secondary"
@@ -219,7 +219,7 @@ const GardenForm = (props) => {
                 spacing={1}
                 wrap="nowrap"
               >
-                <Grid item xs={4} md={3}>
+                <Grid item xs={5} md={3}>
                   <Typography
                     variant="body2"
                     color="text.secondary"
@@ -254,7 +254,7 @@ const GardenForm = (props) => {
                 spacing={1}
                 wrap="nowrap"
               >
-                <Grid item xs={4} md={3}>
+                <Grid item xs={5} md={3}>
                   <Typography
                     variant="body2"
                     color="text.secondary"
@@ -290,7 +290,7 @@ const GardenForm = (props) => {
                 spacing={1}
                 wrap="nowrap"
               >
-                <Grid item xs={4} md={3}>
+                <Grid item xs={5} md={3}>
                   <Typography
                     variant="body2"
                     color="text.secondary"
@@ -325,7 +325,7 @@ const GardenForm = (props) => {
                 spacing={1}
                 wrap="nowrap"
               >
-                <Grid item xs={4} md={3}>
+                <Grid item xs={5} md={3}>
                   <Typography
                     variant="body2"
                     color="text.secondary"
@@ -343,48 +343,83 @@ const GardenForm = (props) => {
                     variant="outlined"
                     required
                     MenuProps={{
-                      anchorOrigin: {
-                        vertical: "bottom",
-                        horizontal: "left",
-                      },
-                      transformOrigin: {
-                        vertical: "top",
-                        horizontal: "left",
-                      },
-                      getContentAnchorEl: null,
+                      // anchorOrigin: {
+                      //   vertical: "bottom",
+                      //   horizontal: "left",
+                      // },
+                      // transformOrigin: {
+                      //   vertical: "top",
+                      //   horizontal: "left",
+                      // },
+                      // getContentAnchorEl: null,
+                      disableScrollLock: true,
                     }}
-                    fullWidth
                     inputProps={{ maxLength: 120 }}
                     size="small"
+                    fullWidth
+                    sx={{ fontSize: "12px" }}
                   >
-                    <MenuItem key="Charlottenburg" value="Charlottenburg">
+                    <MenuItem
+                      key="Charlottenburg"
+                      value="Charlottenburg"
+                      sx={{ fontSize: "12px", padding: 1 }}
+                    >
                       Charlottenburg
                     </MenuItem>
                     <MenuItem
                       key="Friedrichshain-Kreuzberg"
                       value="Friedrichshain-Kreuzberg"
+                      sx={{ fontSize: "12px", padding: 1 }}
                     >
                       Friedrichshain-Kreuzberg
                     </MenuItem>
-                    <MenuItem key="Lichtenberg " value="Lichtenberg">
+                    <MenuItem
+                      key="Lichtenberg "
+                      value="Lichtenberg"
+                      sx={{ fontSize: "12px", padding: 1 }}
+                    >
                       Lichtenberg
                     </MenuItem>
-                    <MenuItem key="Mitte" value="Mitte">
+                    <MenuItem
+                      key="Mitte"
+                      value="Mitte"
+                      sx={{ fontSize: "12px", padding: 1 }}
+                    >
                       Mitte
                     </MenuItem>
-                    <MenuItem key="Neukölln" value="Neukölln">
+                    <MenuItem
+                      key="Neukölln"
+                      value="Neukölln"
+                      sx={{ fontSize: "12px", padding: 1 }}
+                    >
                       Neukölln
                     </MenuItem>
-                    <MenuItem key="Pankow" value="Pankow">
+                    <MenuItem
+                      key="Pankow"
+                      value="Pankow"
+                      sx={{ fontSize: "12px", padding: 1 }}
+                    >
                       Pankow
                     </MenuItem>
-                    <MenuItem key="Schöneberg" value="Schöneberg">
+                    <MenuItem
+                      key="Schöneberg"
+                      value="Schöneberg"
+                      sx={{ fontSize: "12px", padding: 1 }}
+                    >
                       Schöneberg
                     </MenuItem>
-                    <MenuItem key="Spandau" value="Spandau">
+                    <MenuItem
+                      key="Spandau"
+                      value="Spandau"
+                      sx={{ fontSize: "12px", padding: 1 }}
+                    >
                       Spandau
                     </MenuItem>
-                    <MenuItem key="Other" value="Other">
+                    <MenuItem
+                      key="Other"
+                      value="Other"
+                      sx={{ fontSize: "12px", padding: 1 }}
+                    >
                       Other
                     </MenuItem>
                   </Select>
@@ -400,7 +435,7 @@ const GardenForm = (props) => {
                 spacing={1}
                 wrap="nowrap"
               >
-                <Grid item xs={4} md={3}>
+                <Grid item xs={5} md={3}>
                   <Typography
                     variant="body2"
                     color="text.secondary"
@@ -418,18 +453,31 @@ const GardenForm = (props) => {
                     onChange={handleInputChange}
                     row
                     required
+                    sx={{
+                      "& .MuiSvgIcon-root": {
+                        fontSize: "12px",
+                      },
+                    }}
                   >
                     <FormControlLabel
                       key="true"
                       value={true}
                       control={<Radio size="extra-small" />}
-                      label="required"
+                      label={
+                        <Typography style={{ fontSize: "15px" }}>
+                          Required
+                        </Typography>
+                      }
                     />
                     <FormControlLabel
                       key="false"
                       value={false}
                       control={<Radio size="extra-small" />}
-                      label="not required"
+                      label={
+                        <Typography style={{ fontSize: "15px" }}>
+                          Not required
+                        </Typography>
+                      }
                     />
                   </RadioGroup>
                 </Grid>
