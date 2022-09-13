@@ -33,6 +33,12 @@ const usersSchema = new mongoose.Schema({
       ref: "garden",
     },
   ],
+  likedgardens: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "garden",
+    },
+  ],
 });
 
 const usersModel = mongoose.model("user", usersSchema);

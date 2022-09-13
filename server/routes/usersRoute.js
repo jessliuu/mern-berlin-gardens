@@ -10,6 +10,8 @@ import {
   volunteerForGarden,
   unvolunteerForGarden,
   deleteGarden,
+  likeGarden,
+  unlikeGarden,
 } from "../controller/usersController.js";
 import jwtAuth from "../middlewares/jwtAuth.js";
 import { multerUploads } from "../middlewares/multer.js";
@@ -29,5 +31,7 @@ router.get("/getpostedgardens", jwtAuth, getProfileByUserId);
 router.post("/volunteerforgarden", jwtAuth, volunteerForGarden);
 router.post("/unvolunteerforgarden", jwtAuth, unvolunteerForGarden);
 router.get("/getvolunteeredgardens", jwtAuth, getProfileByUserId);
+router.post("/likegarden", jwtAuth, likeGarden);
+router.post("/unlikegarden", jwtAuth, likeGarden);
 
 export default router;

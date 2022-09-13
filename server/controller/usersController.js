@@ -169,6 +169,38 @@ const unvolunteerForGarden = async (req, res) => {
   console.log("unvolunteerforgarden doc", userdoc);
 };
 
+const likeGarden = async (req, res) => {
+  const idToFind = req.user._id;
+  const gardenid = req.body._id;
+  let doc = await usersModel
+    .findByIdAndUpdate(
+      idToFind,
+      {
+        $push: { likedgardens: gardenid },
+      },
+      { new: true }
+    )
+    .exec();
+  res.status(200).json({
+    message: "You have successfully liked this garden.",
+  });
+  console.log("likedgarden doc", doc);
+};
+
+const unlikeGarden = async (req, res) => {
+  const idToFind = req.user._id;
+  const gardenid = req.body._id;
+  let doc = await usersModel
+    .findByIdAndUpdate(idToFind, {
+      $pull: { likedgardens: gardenid },
+    })
+    .exec();
+  res.status(200).json({
+    message: "You have successfully un-liked this garden.",
+  });
+  console.log("unlikedgarden doc", doc);
+};
+
 const logIn = async (req, res) => {
   console.log("req.body", req.body);
   const existingUser = await usersModel.findOne({ email: req.body.email });
@@ -283,4 +315,6 @@ export {
   getProfileByUserId,
   volunteerForGarden,
   unvolunteerForGarden,
+  likeGarden,
+  unlikeGarden,
 };

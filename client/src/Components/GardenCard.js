@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { purple } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import AddIcon from "@mui/icons-material/Add";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "../Styles/GardenCard.css";
@@ -27,6 +28,7 @@ function GardenCard(props) {
   const [showModal, setShowModal] = useState(false);
   const [errorHandleFavorite, setErrorHandleFavorite] = useState("");
   const [showAlertSignIn, setShowAlertSignIn] = useState(false);
+  const [iLiked, setILiked] = useState(false);
 
   // console.log("props", props);
 
@@ -53,6 +55,45 @@ function GardenCard(props) {
   }, []);
 
   const handleFavorite = async () => {
+    if (token) {
+      let urlencoded = new URLSearchParams({ _id: gardenid });
+      var requestOptions = {
+        method: "POST",
+        body: urlencoded,
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      if (iLiked) {
+        setILiked(false);
+        try {
+          const response = await fetch(
+            `${serverURL}/api/user/unlikegarden`,
+            requestOptions
+          );
+          const result = await response.json();
+          console.log("unliking garden!", result);
+        } catch (err) {
+          console.log("Error with un-liking this garden", err);
+        }
+      } else {
+        setILiked(true);
+        try {
+          const response = await fetch(
+            `${serverURL}/api/user/likegarden`,
+            requestOptions
+          );
+          const result = await response.json();
+          console.log("liking garden!", result);
+        } catch (err) {
+          console.log("Error with liking this garden", err);
+        }
+      }
+    } else {
+      setErrorHandleFavorite("Please log in to sign up for this action");
+      setShowAlertSignIn(true);
+    }
+  };
+
+  const handleVolunteering = async () => {
     if (token) {
       let urlencoded = new URLSearchParams({ _id: gardenid });
       var requestOptions = {
@@ -129,8 +170,18 @@ function GardenCard(props) {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites" onClick={handleFavorite}>
+          <IconButton
+            aria-label="add to favorites"
+            onClick={handleVolunteering}
+          >
             {iVolunteered ? (
+              <AddIcon color="primary" />
+            ) : (
+              <AddIcon color="disabled" />
+            )}
+          </IconButton>
+          <IconButton aria-label="add to favorites" onClick={handleFavorite}>
+            {iLiked ? (
               <FavoriteIcon color="primary" />
             ) : (
               <FavoriteIcon color="disabled" />
