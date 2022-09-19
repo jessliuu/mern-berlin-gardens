@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import AlertConfirm from "./AlertConfirm";
 import { Link } from "react-router-dom";
 import "../Styles/GardenPosted&Volunteered.css";
 import InfoIcon from "@mui/icons-material/Info";
@@ -7,9 +6,10 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { IconButton } from "@mui/material";
 import { AuthContext } from "../Contexts/AuthContext";
 import AlertDeleteGarden from "./AlertDeleteGarden";
+import Volunteers from "./Volunteers";
 
 const GardenPosted = (props) => {
-  const { farmName, image, _id } = props.info;
+  const { farmName, image, _id, volunteers } = props.info;
   const deleteFrontend = props.deleteFrontend;
   const [showAlertDeleteGarden, setShowAlertDeleteGarden] = useState(false);
 
@@ -18,6 +18,8 @@ const GardenPosted = (props) => {
     <div className="garden-pv">
       <div className="garden-pv-left">
         <p>{farmName}</p>
+        <Volunteers volunteers={volunteers} />
+
         <img src={image} style={{ maxWidth: "60vw" }} />
       </div>
       <div className="garden-pv-right">

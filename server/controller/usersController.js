@@ -12,7 +12,8 @@ const getProfileByUserId = async (req, res) => {
       .findOne({ _id: req.user._id })
       .populate({
         path: "gardens",
-        select: ["neighborhood", "farmName", "image"],
+        select: ["neighborhood", "farmName", "image", "volunteers"],
+        populate: { path: "volunteers", select: ["name", "email"] },
       })
       .populate({
         path: "volunteeredgardens",
@@ -27,12 +28,16 @@ const getProfileByUserId = async (req, res) => {
       name: user.name,
       email: user.email,
       gardens: user.gardens,
+      // foo: user.gardens.volunteers,
       volunteeredgardens: user.volunteeredgardens,
       id: user._id,
     });
   } catch (err) {
     console.log("err", err);
-    res.status(400).json({ message: "No user is found." });
+    res.status(400).json({
+      error: err,
+      message: "No user is found.",
+    });
   }
   // try {
   //   const selectedGardenByUserId = await gardensModel
@@ -132,6 +137,7 @@ const deleteGarden = async (req, res) => {
 const volunteerForGarden = async (req, res) => {
   const idToFind = req.user._id;
   const gardenid = req.body._id;
+  const volunteerEmail = idToFind.email;
   let doc = await usersModel.findByIdAndUpdate(
     idToFind,
     {
@@ -139,9 +145,12 @@ const volunteerForGarden = async (req, res) => {
     },
     { new: true }
   );
-  let gardendoc = await gardensModel.findByIdAndUpdate(gardenid, {
-    $push: { volunteers: idToFind },
-  });
+  let gardendoc = await gardensModel
+    .findByIdAndUpdate(gardenid, {
+      $push: { volunteers: idToFind },
+      // $push: { volunteers: { id: idToFind, email: volunteerEmail } },
+    })
+    .exec();
   // console.log("volunteerforgarden doc", doc);
 };
 

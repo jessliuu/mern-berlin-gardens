@@ -32,6 +32,6 @@ router.post("/volunteerforgarden", jwtAuth, volunteerForGarden);
 router.post("/unvolunteerforgarden", jwtAuth, unvolunteerForGarden);
 router.get("/getvolunteeredgardens", jwtAuth, getProfileByUserId);
 router.post("/likegarden", jwtAuth, likeGarden);
-router.post("/unlikegarden", jwtAuth, likeGarden);
+router.post("/unlikegarden", jwtAuth, unlikeGarden);
 
 export default router;

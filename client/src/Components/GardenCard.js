@@ -88,7 +88,7 @@ function GardenCard(props) {
         }
       }
     } else {
-      setErrorHandleFavorite("Please log in to sign up for this action");
+      setErrorHandleFavorite("Please log in to like this garden.");
       setShowAlertSignIn(true);
     }
   };
