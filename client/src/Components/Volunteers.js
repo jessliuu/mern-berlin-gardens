@@ -9,28 +9,43 @@ const Volunteers = (props) => {
     if (!showEmail) {
       setShowEmail(true);
     } else setShowEmail(false);
-    console.log(showEmail);
   };
   return (
     <div>
       {volunteers.length > 0 ? (
         <p>
-          <IconButton
-            aria-label="view volunteers"
+          {volunteers.length} volunteer(s)
+          <span
+            style={{
+              // fontSize: "small",
+              color: "blue",
+            }}
             onClick={() => handleEmail()}
           >
-            <MailOutlineIcon />
-          </IconButton>{" "}
-          {volunteers.length} volunteer(s)
+            {showEmail ? (
+              <span>&#32;View &#8963;</span>
+            ) : (
+              <span>&#32;&#32;&#32;View &#8964;</span>
+            )}
+          </span>
         </p>
       ) : null}
 
       {showEmail &&
         volunteers.map((v) => (
-          <div>
-            <p>{v.name}</p>
-            <p>{v.email}</p>
-          </div>
+          <ol>
+            <li>
+              <p onClick={() => (window.location = `mailto:${v.email}`)}>
+                <IconButton
+                  aria-label="send email"
+                  onClick={() => (window.location = `mailto:${v.email}`)}
+                >
+                  <MailOutlineIcon />
+                </IconButton>
+                {v.name}
+              </p>
+            </li>
+          </ol>
         ))}
     </div>
   );
